@@ -1,0 +1,32 @@
+#include <Adafruit_GFX.h>    // Core graphics library
+#include <Adafruit_TFTLCD.h> // Hardware-specific library
+#include <TouchScreen.h>
+
+#if defined(__SAM3X8E__)
+    #undef __FlashStringHelper::F(string_literal)
+    #define F(string_literal) string_literal
+#endif
+
+#define YP A3  // must be an analog pin, use "An" notation!
+#define XM A2  // must be an analog pin, use "An" notation!
+#define YM 9   // can be a digital pin
+#define XP 8   // can be a digital pin
+
+#define TS_MINX 920
+#define TS_MINY 80
+#define TS_MAXX 135
+#define TS_MAXY 915
+
+// For better pressure precision, we need to know the resistance
+// between X+ and X- Use any multimeter to read it
+// For the one we're using, its 300 ohms across the X plate
+TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
+
+#define LCD_CS A3
+#define LCD_CD A2
+#define LCD_WR A1
+#define LCD_RD A0
+// optional
+#define LCD_RESET A4
+
+Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
