@@ -38,6 +38,7 @@ TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 #define WHITE 0xFFFF
 #define DARKCYAN 0x0472
 
+// Menü makrók
 #define MARGIN_V 4  // Vertical margin
 #define MARGIN_H 8  // Horizonatal margin
 #define ICONSIZE 64 // Base Iconsize for buttons
@@ -51,15 +52,47 @@ TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
 Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 
+using namespace std;
+
 // == Objects and global variables ==
+class MyButton 
+{
+  uint16_t backColor;
+  uint16_t borderColor;
+  uint16_t fontColor;
 
+  uint16_t activebackColor;
+  uint16_t activeborderColor;
+  uint16_t activeFontColor;
 
+  char text[50];
+  short fontSize;
+  short x, y, width, height;
+  short radius = 0;
+
+  Mybutton(char text[], short fontSize, short x, short y, short width, short height){
+    
+    this->fontSize = fontSize;
+  }
+
+  Mybutton(char text[], short fontSize, short x, short y, short width, short height, short radius)
+  {
+  }
+
+};
+
+Adafruit_GFX_Button button1;
 
 // == Functions ==
 
-void DrawMainScreen()
+void
+DrawMainScreen()
 {
   tft.fillScreen(DARKCYAN);
+
+  button1.initButton(&tft, 0,0,50,50, WHITE, YELLOW, WHITE, "Gomb", 2); // GOMB ?????
+  button1.drawButton();
+
 
   tft.drawRoundRect(MARGIN_H, MARGIN_V, ICONSIZE, ICONSIZE, 5, CYAN);                    // Bal felső ikon
   tft.drawRoundRect(MARGIN_H * 3 + ICONSIZE, MARGIN_V, ICONSIZE, ICONSIZE, 5, CYAN);     // Bal fent közép ikon
@@ -137,11 +170,16 @@ void setup(void)
 
   // Get LCD driver name
   uint16_t identifier = tft.readID();
-  if (identifier == 0x9325) Serial.println(F("Found ILI9325 LCD driver"));
-  else if (identifier == 0x9328) Serial.println(F("Found ILI9328 LCD driver"));
-  else if (identifier == 0x7575) Serial.println(F("Found HX8347G LCD driver"));
-  else if (identifier == 0x9341) Serial.println(F("Found ILI9341 LCD driver"));
-  else if (identifier == 0x8357) Serial.println(F("Found HX8357D LCD driver"));
+  if (identifier == 0x9325)
+    Serial.println(F("Found ILI9325 LCD driver"));
+  else if (identifier == 0x9328)
+    Serial.println(F("Found ILI9328 LCD driver"));
+  else if (identifier == 0x7575)
+    Serial.println(F("Found HX8347G LCD driver"));
+  else if (identifier == 0x9341)
+    Serial.println(F("Found ILI9341 LCD driver"));
+  else if (identifier == 0x8357)
+    Serial.println(F("Found HX8357D LCD driver"));
   else
   {
     Serial.print(F("Unknown LCD driver chip: "));
@@ -165,6 +203,8 @@ void setup(void)
 
   DrawMainScreen();
   // DrawPeriodsMenu();
+
+  
 }
 
 #define MINPRESSURE 10
