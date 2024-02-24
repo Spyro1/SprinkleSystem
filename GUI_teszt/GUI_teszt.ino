@@ -1,5 +1,5 @@
-#include <Adafruit_GFX.h>     // Core graphics library
-#include <Adafruit_TFTLCD.h>  // Hardware-specific library
+#include <Adafruit_GFX.h>    // Core graphics library
+#include <Adafruit_TFTLCD.h> // Hardware-specific library
 #include <TouchScreen.h>
 
 #if defined(__SAM3X8E__)
@@ -7,10 +7,10 @@
 #define F(string_literal) string_literal
 #endif
 
-#define YP A3  // must be an analog pin, use "An" notation!
-#define XM A2  // must be an analog pin, use "An" notation!
-#define YM 9   // can be a digital pin
-#define XP 8   // can be a digital pin
+#define YP A3 // must be an analog pin, use "An" notation!
+#define XM A2 // must be an analog pin, use "An" notation!
+#define YM 9  // can be a digital pin
+#define XP 8  // can be a digital pin
 
 #define TS_MINX 920
 #define TS_MINY 80
@@ -38,78 +38,98 @@ TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 #define WHITE 0xFFFF
 #define DARKCYAN 0x0472
 
-#define MARGIN_V 4 // Vertical margin
-#define MARGIN_H 8 // Horizonatal margin
+#define MARGIN_V 4  // Vertical margin
+#define MARGIN_H 8  // Horizonatal margin
 #define ICONSIZE 64 // Base Iconsize for buttons
 #define OPTIONSIZE 61
 #define FONT_1_H 7
-#define FONT_2_H FONT_1_H*2
-#define FONT_3_H FONT_1_H*3
+#define FONT_2_H FONT_1_H * 2
+#define FONT_3_H FONT_1_H * 3
 #define FONT_1_V 5
-#define FONT_2_V FONT_1_V*2 
-#define FONT_3_V FONT_1_V*3
+#define FONT_2_V FONT_1_V * 2
+#define FONT_3_V FONT_1_V * 3
 
 Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 
+// == Objects and global variables ==
 
-void DrawMainScreen() {
+
+
+// == Functions ==
+
+void DrawMainScreen()
+{
   tft.fillScreen(DARKCYAN);
 
-  tft.drawRoundRect(MARGIN_H, MARGIN_V, ICONSIZE, ICONSIZE, 5, CYAN); // Bal felső ikon
-  tft.drawRoundRect(MARGIN_H*3+ICONSIZE, MARGIN_V,ICONSIZE,ICONSIZE,5,CYAN); // Bal fent közép ikon
-  tft.drawRoundRect(MARGIN_H*5+ICONSIZE*2, MARGIN_V,ICONSIZE,ICONSIZE,5,CYAN); // Jobb fent közép ikon
-  tft.drawRoundRect(MARGIN_H*7+ICONSIZE*3, MARGIN_V,ICONSIZE,ICONSIZE,5,CYAN); // Jobb fent ikon
+  tft.drawRoundRect(MARGIN_H, MARGIN_V, ICONSIZE, ICONSIZE, 5, CYAN);                    // Bal felső ikon
+  tft.drawRoundRect(MARGIN_H * 3 + ICONSIZE, MARGIN_V, ICONSIZE, ICONSIZE, 5, CYAN);     // Bal fent közép ikon
+  tft.drawRoundRect(MARGIN_H * 5 + ICONSIZE * 2, MARGIN_V, ICONSIZE, ICONSIZE, 5, CYAN); // Jobb fent közép ikon
+  tft.drawRoundRect(MARGIN_H * 7 + ICONSIZE * 3, MARGIN_V, ICONSIZE, ICONSIZE, 5, CYAN); // Jobb fent ikon
 
-  tft.setCursor(17, MARGIN_V*2+ICONSIZE); tft.setTextColor(WHITE); tft.setTextSize(1);
+  tft.setCursor(17, MARGIN_V * 2 + ICONSIZE);
+  tft.setTextColor(WHITE);
+  tft.setTextSize(1);
   tft.print("Locsolas      Sorban      Teszteles     Idozito");
 
-  tft.setCursor(26, MARGIN_V*6+ICONSIZE+FONT_1_V); tft.setTextColor(CYAN); tft.setTextSize(3);
+  tft.setCursor(26, MARGIN_V * 6 + ICONSIZE + FONT_1_V);
+  tft.setTextColor(CYAN);
+  tft.setTextSize(3);
   tft.print("Locsolorendszer");
-  
-  tft.drawFastHLine(20, MARGIN_V*9+ICONSIZE+FONT_1_V+FONT_3_V, 280, WHITE);
-  tft.drawFastHLine(20, MARGIN_V*9+ICONSIZE+FONT_1_V+FONT_3_V+1, 280, WHITE);
-  
-  tft.setCursor(113, MARGIN_V*11+ICONSIZE+FONT_1_V+FONT_3_V); tft.setTextColor(CYAN); tft.setTextSize(2);
+
+  tft.drawFastHLine(20, MARGIN_V * 9 + ICONSIZE + FONT_1_V + FONT_3_V, 280, WHITE);
+  tft.drawFastHLine(20, MARGIN_V * 9 + ICONSIZE + FONT_1_V + FONT_3_V + 1, 280, WHITE);
+
+  tft.setCursor(113, MARGIN_V * 11 + ICONSIZE + FONT_1_V + FONT_3_V);
+  tft.setTextColor(CYAN);
+  tft.setTextSize(2);
   tft.print("12:02:16"); // Valós óra
 
-  tft.drawRoundRect(48, 154,ICONSIZE,ICONSIZE,5,CYAN); // Bal alsó ikon
-  tft.drawRoundRect(128, 154,ICONSIZE,ICONSIZE,5,CYAN); // Közép alsó ikon
-  tft.drawRoundRect(208, 154,ICONSIZE,ICONSIZE,5,CYAN); // Jobb alsó ikon
+  tft.drawRoundRect(48, 154, ICONSIZE, ICONSIZE, 5, CYAN);  // Bal alsó ikon
+  tft.drawRoundRect(128, 154, ICONSIZE, ICONSIZE, 5, CYAN); // Közép alsó ikon
+  tft.drawRoundRect(208, 154, ICONSIZE, ICONSIZE, 5, CYAN); // Jobb alsó ikon
 
-  tft.setCursor(56, 222); tft.setTextColor(WHITE); tft.setTextSize(1);
+  tft.setCursor(56, 222);
+  tft.setTextColor(WHITE);
+  tft.setTextSize(1);
   tft.print("Idozites        Be           Ido");
 }
-void DrawPeriodsMenu(){
+void DrawPeriodsMenu()
+{
   tft.fillScreen(DARKCYAN);
 
-  tft.drawRoundRect(MARGIN_H, MARGIN_V/2, ICONSIZE/2, ICONSIZE/2, 5, CYAN); // x32-es settings ikon
-  tft.drawRoundRect(320-MARGIN_H-ICONSIZE/2, MARGIN_V/2, ICONSIZE/2, ICONSIZE/2, 5, CYAN); // x32-es home ikon
+  tft.drawRoundRect(MARGIN_H, MARGIN_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN);                      // x32-es settings ikon
+  tft.drawRoundRect(320 - MARGIN_H - ICONSIZE / 2, MARGIN_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN); // x32-es home ikon
 
-  tft.setCursor(tft.width()-(10*FONT_3_H+9*3), MARGIN_V*2); tft.setTextColor(WHITE); tft.setTextSize(3);
+  tft.setCursor(tft.width() - (10 * FONT_3_H + 9 * 3), MARGIN_V * 2);
+  tft.setTextColor(WHITE);
+  tft.setTextSize(3);
   tft.print("Idozitesek");
 
-  tft.drawFastHLine(10, MARGIN_V+ICONSIZE/2, 300, CYAN); // Dupla vonal
-  tft.drawFastHLine(10, MARGIN_V+ICONSIZE/2+1, 300, CYAN); // Dupla vonal
+  tft.drawFastHLine(10, MARGIN_V + ICONSIZE / 2, 300, CYAN);     // Dupla vonal
+  tft.drawFastHLine(10, MARGIN_V + ICONSIZE / 2 + 1, 300, CYAN); // Dupla vonal
 
-  tft.drawRoundRect(10, MARGIN_V*7+FONT_3_V, 300, OPTIONSIZE, 5, CYAN); // 1. időszak háttere
-  tft.drawRoundRect(10, MARGIN_V*8+FONT_3_V+OPTIONSIZE, 300, OPTIONSIZE, 5, CYAN); // 2. időszak háttere
-  tft.drawRoundRect(10, MARGIN_V*9+FONT_3_V+OPTIONSIZE*2, 300, OPTIONSIZE, 5, CYAN); // 3. időszak háttere
-
+  tft.drawRoundRect(10, MARGIN_V * 7 + FONT_3_V, 300, OPTIONSIZE, 5, CYAN);                  // 1. időszak háttere
+  tft.drawRoundRect(10, MARGIN_V * 8 + FONT_3_V + OPTIONSIZE, 300, OPTIONSIZE, 5, CYAN);     // 2. időszak háttere
+  tft.drawRoundRect(10, MARGIN_V * 9 + FONT_3_V + OPTIONSIZE * 2, 300, OPTIONSIZE, 5, CYAN); // 3. időszak háttere
 }
-void DrawTestMenu(){
+void DrawTestMenu()
+{
   tft.fillScreen(DARKCYAN);
 
-  tft.drawRoundRect(MARGIN_H, MARGIN_V/2, ICONSIZE/2, ICONSIZE/2, 5, CYAN); // x32-es settings ikon
-  tft.drawRoundRect(320-MARGIN_H-ICONSIZE/2, MARGIN_V/2, ICONSIZE/2, ICONSIZE/2, 5, CYAN); // x32-es home ikon
+  tft.drawRoundRect(MARGIN_H, MARGIN_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN);                      // x32-es settings ikon
+  tft.drawRoundRect(320 - MARGIN_H - ICONSIZE / 2, MARGIN_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN); // x32-es home ikon
 
-  tft.setCursor(tft.width()-(9*FONT_3_H+8*3), MARGIN_V*2); tft.setTextColor(WHITE); tft.setTextSize(3);
+  tft.setCursor(tft.width() - (9 * FONT_3_H + 8 * 3), MARGIN_V * 2);
+  tft.setTextColor(WHITE);
+  tft.setTextSize(3);
   tft.print("Teszteles");
 
-  tft.drawFastHLine(10, MARGIN_V+ICONSIZE/2, 300, CYAN); // Dupla vonal
-  tft.drawFastHLine(10, MARGIN_V+ICONSIZE/2+1, 300, CYAN); // Dupla vonal
+  tft.drawFastHLine(10, MARGIN_V + ICONSIZE / 2, 300, CYAN);     // Dupla vonal
+  tft.drawFastHLine(10, MARGIN_V + ICONSIZE / 2 + 1, 300, CYAN); // Dupla vonal
 }
 
-void setup(void) {
+void setup(void)
+{
   Serial.begin(9600);
   Serial.println(F("Paint!"));
 
@@ -117,18 +137,13 @@ void setup(void) {
 
   // Get LCD driver name
   uint16_t identifier = tft.readID();
-
-  if (identifier == 0x9325) {
-    Serial.println(F("Found ILI9325 LCD driver"));
-  } else if (identifier == 0x9328) {
-    Serial.println(F("Found ILI9328 LCD driver"));
-  } else if (identifier == 0x7575) {
-    Serial.println(F("Found HX8347G LCD driver"));
-  } else if (identifier == 0x9341) {
-    Serial.println(F("Found ILI9341 LCD driver"));
-  } else if (identifier == 0x8357) {
-    Serial.println(F("Found HX8357D LCD driver"));
-  } else {
+  if (identifier == 0x9325) Serial.println(F("Found ILI9325 LCD driver"));
+  else if (identifier == 0x9328) Serial.println(F("Found ILI9328 LCD driver"));
+  else if (identifier == 0x7575) Serial.println(F("Found HX8347G LCD driver"));
+  else if (identifier == 0x9341) Serial.println(F("Found ILI9341 LCD driver"));
+  else if (identifier == 0x8357) Serial.println(F("Found HX8357D LCD driver"));
+  else
+  {
     Serial.print(F("Unknown LCD driver chip: "));
     Serial.println(identifier, HEX);
     Serial.println(F("If using the Adafruit 2.8\" TFT Arduino shield, the line:"));
@@ -147,30 +162,31 @@ void setup(void) {
   tft.setRotation(3);
 
   tft.fillScreen(DARKCYAN);
-  
-  DrawMainScreen();
-  //DrawPeriodsMenu();
 
+  DrawMainScreen();
+  // DrawPeriodsMenu();
 }
 
 #define MINPRESSURE 10
 #define MAXPRESSURE 1000
 
-void loop() {
+void loop()
+{
   digitalWrite(13, HIGH);
   TSPoint p = ts.getPoint();
   digitalWrite(13, LOW);
 
   // if sharing pins, you'll need to fix the directions of the touchscreen pins
-  //pinMode(XP, OUTPUT);
+  // pinMode(XP, OUTPUT);
   pinMode(XM, OUTPUT);
   pinMode(YP, OUTPUT);
-  //pinMode(YM, OUTPUT);
+  // pinMode(YM, OUTPUT);
 
   // we have some minimum pressure we consider 'valid'
   // pressure of 0 means no pressing!
 
-  if (p.z > MINPRESSURE && p.z < MAXPRESSURE) {
+  if (p.z > MINPRESSURE && p.z < MAXPRESSURE)
+  {
     Serial.print("X = ");
     Serial.print(p.x);
     Serial.print("\tY = ");
