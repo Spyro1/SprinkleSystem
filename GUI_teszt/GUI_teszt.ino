@@ -28,9 +28,12 @@ TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 #define LCD_CD A2
 #define LCD_WR A1
 #define LCD_RD A0
-#define SD_CS 10     // Set the chip select line to whatever you use (10 doesnt conflict with the library)
-// optional
-#define LCD_RESET A4
+#define SD_CS 10
+#define LCD_RESET A4 // optional
+
+#define MINPRESSURE 10
+#define MAXPRESSURE 1000
+
 // 16 bites szinek
 #define BLACK 0x0000
 #define BLUE 0x001F
@@ -54,6 +57,7 @@ TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 #define FONT_2_V FONT_1_V * 2
 #define FONT_3_V FONT_1_V * 3
 
+// Make TFT Display 
 Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 
 // == Objects and global variables ==
@@ -83,6 +87,15 @@ Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 
 };*/
 
+class ImageButton {
+  char *filename;
+  
+  public:
+  ImageButton(char *filename, int x, int y, int boxwidth, int boxheight) {
+
+  }
+};
+
 Adafruit_GFX_Button button1;
 
 /*SdFat                SD;         // SD card filesystem
@@ -90,28 +103,14 @@ Adafruit_ImageReader reader(SD); // Image-reader object, pass in SD filesys
 */
 // == Functions ==
 
-void DrawMainScreen()
+void DrawMainScreen() // Főképernyő
 {
-  tft.fillScreen(DARKCYAN);
-
-
+  tft.fillScreen(BLACK);
 
   //button1.initButton(&tft, 0,0,50,50, WHITE, YELLOW, WHITE, "Gomb", 2); // GOMB ?????
   //button1.drawButton();
 
-  /////
-  
-  /*uint8_t  sdbuffer[3*20];
-  if ((bmpFile = SD.open(filename)) == NULL) {
-    Serial.println(F("File not found"));
-    return;
-  }
-  bmpFile.read(sdbuffer, sizeof(sdbuffer));
-  tft.drawBitmap(MARGIN_H, MARGIN_V, sdbuffer, ICONSIZE, ICONSIZE, BLACK);*/
-  //=====reader.drawBMP("/settings.bmp", tft, 0, 0);
-  //////
-  //tft.drawBitmap();
-  bmpDraw("on-sprinkler.bmp", MARGIN_H, MARGIN_V);
+  bmpDraw("on-sprk.bmp", MARGIN_H, MARGIN_V);
   bmpDraw("chain.bmp", MARGIN_H * 3 + ICONSIZE, MARGIN_V);
   bmpDraw("on-off.bmp", MARGIN_H * 5 + ICONSIZE * 2, MARGIN_V);
   bmpDraw("humidity.bmp", MARGIN_H * 7 + ICONSIZE * 3, MARGIN_V);
@@ -123,7 +122,7 @@ void DrawMainScreen()
   tft.setCursor(17, MARGIN_V * 2 + ICONSIZE);
   tft.setTextColor(WHITE);
   tft.setTextSize(1);
-  tft.print("Locsolas      Sorban      Teszteles     Nedvesseg");
+  tft.print("Locsolas      Sorban      Teszteles    Nedvesseg");
 
   tft.setCursor(26, MARGIN_V * 6 + ICONSIZE + FONT_1_V);
   tft.setTextColor(CYAN);
@@ -139,12 +138,12 @@ void DrawMainScreen()
   tft.print("12:02:16"); // Valós óra
 
   
-  bmpDraw("settings.bmp", 48, 154);
-  bmpDraw("on-button.bmp", 128, 154);
-  bmpDraw("clock.bmp", 208, 154);
-  //tft.drawRoundRect(48, 154, ICONSIZE, ICONSIZE, 5, CYAN);  // Bal alsó ikon
-  //tft.drawRoundRect(128, 154, ICONSIZE, ICONSIZE, 5, CYAN); // Közép alsó ikon
-  //tft.drawRoundRect(208, 154, ICONSIZE, ICONSIZE, 5, CYAN); // Jobb alsó ikon
+  bmpDraw("settings.bmp", 48, 154);  //tft.drawRoundRect(48, 154, ICONSIZE, ICONSIZE, 5, CYAN);  // Bal alsó ikon
+  bmpDraw("on-btn.bmp", 128, 154);  //tft.drawRoundRect(128, 154, ICONSIZE, ICONSIZE, 5, CYAN); // Közép alsó ikon
+  bmpDraw("clock.bmp", 208, 154);  //tft.drawRoundRect(208, 154, ICONSIZE, ICONSIZE, 5, CYAN); // Jobb alsó ikon
+  
+  
+  
 
   tft.setCursor(56, 222);
   tft.setTextColor(WHITE);
@@ -193,38 +192,12 @@ void setup(void)
 
   tft.reset();
   uint16_t identifier = tft.readID();
-  /*
-  // Get LCD driver name
-  if (identifier == 0x9325)
-    Serial.println(F("Found ILI9325 LCD driver"));
-  else if (identifier == 0x9328)
-    Serial.println(F("Found ILI9328 LCD driver"));
-  else if (identifier == 0x7575)
-    Serial.println(F("Found HX8347G LCD driver"));
-  else if (identifier == 0x9341)
-    Serial.println(F("Found ILI9341 LCD driver"));
-  else if (identifier == 0x8357)
-    Serial.println(F("Found HX8357D LCD driver"));
-  else
-  {
-    Serial.print(F("Unknown LCD driver chip: "));
-    Serial.println(identifier, HEX);
-    Serial.println(F("If using the Adafruit 2.8\" TFT Arduino shield, the line:"));
-    Serial.println(F("  #define USE_ADAFRUIT_SHIELD_PINOUT"));
-    Serial.println(F("should appear in the library header (Adafruit_TFT.h)."));
-    Serial.println(F("If using the breakout board, it should NOT be #defined!"));
-    Serial.println(F("Also if using the breakout, double-check that all wiring"));
-    Serial.println(F("matches the tutorial."));
-    return;
-  }
-  */
 
   // Set tft panel
   tft.begin(identifier);
   pinMode(13, OUTPUT);
   tft.setRotation(3);
-  tft.fillScreen(DARKCYAN);
-  //tft.fillScreen(BLACK);
+  tft.fillScreen(BLACK);
 
 
   // Setup SD card
@@ -235,16 +208,18 @@ void setup(void)
   }
   Serial.println(F("OK!"));
 
-  //bmpDraw("clock.bmp", 0, 0);
+  //listSD();
 
   DrawMainScreen();
   // DrawPeriodsMenu();
-
+  delay(2000);
+  digitalWrite(5, LOW);
+  delay(2000);
+  digitalWrite(5, HIGH);
   
 }
 
-#define MINPRESSURE 10
-#define MAXPRESSURE 1000
+
 
 void loop()
 {
@@ -283,7 +258,29 @@ void loop()
 }
 
 
+
+
 // Helper functions
+
+File root;
+void listSD()  {
+    root = SD.open("/");
+    printDirectory(root);
+}
+void printDirectory(File dir) {
+    while(true) {
+        File entry =  dir.openNextFile();
+        if (! entry) {
+            dir.rewindDirectory();
+            break;
+        }
+        Serial.println(entry.name());
+   }
+   dir.rewindDirectory();
+}
+
+
+
 #define BUFFPIXEL 20
 void bmpDraw(char *filename, int x, int y) {
 
@@ -327,14 +324,14 @@ void bmpDraw(char *filename, int x, int y) {
     bmpHeight = read32(bmpFile);
     if(read16(bmpFile) == 1) { // # planes -- must be '1'
       bmpDepth = read16(bmpFile); // bits per pixel
-      Serial.print(F("Bit Depth: ")); Serial.println(bmpDepth);
+      //Serial.print(F("Bit Depth: ")); Serial.println(bmpDepth);
       if((bmpDepth == 24) && (read32(bmpFile) == 0)) { // 0 = uncompressed
 
         goodBmp = true; // Supported BMP format -- proceed!
-        Serial.print(F("Image size: "));
-        Serial.print(bmpWidth);
-        Serial.print('x');
-        Serial.println(bmpHeight);
+        //Serial.print(F("Image size: "));
+        //Serial.print(bmpWidth);
+        //Serial.print('x');
+        //Serial.println(bmpHeight);
 
         // BMP rows are padded (if needed) to 4-byte boundary
         rowSize = (bmpWidth * 3 + 3) & ~3;
