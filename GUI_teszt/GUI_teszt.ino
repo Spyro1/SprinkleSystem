@@ -46,16 +46,27 @@ TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 #define DARKCYAN 0x032D //0472
 
 // Menü makrók
-#define MARGIN_V 4  // Vertical margin
-#define MARGIN_H 8  // Horizonatal margin
-#define ICONSIZE 64 // Base Iconsize for buttons
-#define OPTIONSIZE 61
+#define MARGIN_V 4    // Vertical margin
+#define MARGIN_H 8    // Horizonatal margin
+#define ICONSIZE 64   // Base Iconsize for buttons
+#define OPTIONSIZE 61 // Timing long button height
 #define FONT_1_H 7
 #define FONT_2_H FONT_1_H * 2
 #define FONT_3_H FONT_1_H * 3
 #define FONT_1_V 5
 #define FONT_2_V FONT_1_V * 2
 #define FONT_3_V FONT_1_V * 3
+
+// String konstansok
+const char* strMainTitle = "Locsolorendszer";
+const char* strBtnLeftTop = "Locsolas"; // Locsolás 
+const char* strBtnLeftCenter = "Sorban"; // Sorban locsoolás
+const char* strBtnRightCenter = "Teszteles"; // Tesztelés
+const char* strBtnRightTop = "Nedvesseg"; // Nedvesség
+const char* strBtnLeftBottom = "Beallitasok"; // Beállítások
+const char* strBtnCenterBottom1 = "Be"; // Kikapcsolt állapot
+const char* strBtnCenterBottom2 = "Ki"; // Bekapcsolt állapot
+const char* strBtnRightBottom = "Ido"; // Idő beállítás
 
 // Make TFT Display 
 Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
@@ -122,12 +133,15 @@ void DrawMainScreen() // Főképernyő
   tft.setCursor(17, MARGIN_V * 2 + ICONSIZE);
   tft.setTextColor(WHITE);
   tft.setTextSize(1);
-  tft.print("Locsolas      Sorban      Teszteles    Nedvesseg");
+  char temp[50];
+  sprintf(temp, "%s      %s      %s    %s", strBtnLeftTop, strBtnLeftCenter, strBtnRightCenter, strBtnRightTop); // Locsolas      Sorban      Teszteles    Nedvesseg
+  tft.print(temp);
+  //tft.print("Locsolas      Sorban      Teszteles    Nedvesseg");
 
   tft.setCursor(26, MARGIN_V * 6 + ICONSIZE + FONT_1_V);
   tft.setTextColor(CYAN);
   tft.setTextSize(3);
-  tft.print("Locsolorendszer");
+  tft.print(strMainTitle); // Locsolórendzser
 
   tft.drawFastHLine(20, MARGIN_V * 9 + ICONSIZE + FONT_1_V + FONT_3_V, 280, WHITE);
   tft.drawFastHLine(20, MARGIN_V * 9 + ICONSIZE + FONT_1_V + FONT_3_V + 1, 280, WHITE);
@@ -137,25 +151,28 @@ void DrawMainScreen() // Főképernyő
   tft.setTextSize(2);
   tft.print("12:02:16"); // Valós óra
 
-  
-  bmpDraw("settings.bmp", 48, 154);  //tft.drawRoundRect(48, 154, ICONSIZE, ICONSIZE, 5, CYAN);  // Bal alsó ikon
-  bmpDraw("on-btn.bmp", 128, 154);  //tft.drawRoundRect(128, 154, ICONSIZE, ICONSIZE, 5, CYAN); // Közép alsó ikon
-  bmpDraw("clock.bmp", 208, 154);  //tft.drawRoundRect(208, 154, ICONSIZE, ICONSIZE, 5, CYAN); // Jobb alsó ikon
-  
-  
-  
+  //tft.drawRoundRect(48, 154, ICONSIZE, ICONSIZE, 5, CYAN);  // Bal alsó ikon
+  //tft.drawRoundRect(128, 154, ICONSIZE, ICONSIZE, 5, CYAN); // Közép alsó ikon
+  //tft.drawRoundRect(208, 154, ICONSIZE, ICONSIZE, 5, CYAN); // Jobb alsó ikon
+  bmpDraw("settings.bmp", 48, 154);  
+  bmpDraw("on-btn.bmp", 128, 154);  
+  bmpDraw("clock.bmp", 208, 154);    
 
   tft.setCursor(56, 222);
   tft.setTextColor(WHITE);
   tft.setTextSize(1);
-  tft.print("Idozites        Be           Ido");
+  sprintf(temp, "%        %s           %s", strBtnLeftBottom, strBtnCenterBottom2, strBtnRightBottom);
+  tft.print(temp);
+  //tft.print("Idozites        Be           Ido");
 }
 void DrawPeriodsMenu()
 {
-  tft.fillScreen(DARKCYAN);
+  tft.fillScreen(BLACK);
 
-  tft.drawRoundRect(MARGIN_H, MARGIN_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN);                      // x32-es settings ikon
-  tft.drawRoundRect(320 - MARGIN_H - ICONSIZE / 2, MARGIN_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN); // x32-es home ikon
+  //tft.drawRoundRect(MARGIN_H, MARGIN_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN);                      // x32-es settings ikon
+  //tft.drawRoundRect(320 - MARGIN_H - ICONSIZE / 2, MARGIN_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN); // x32-es home ikon
+  bmpDraw("settings32.bmp", MARGIN_H, MARGIN_V / 2);                // x32-es settings ikon
+  bmpDraw("home32.bmp", 320-MARGIN_H - ICONSIZE / 2, MARGIN_V / 2); // x32-es home ikon
 
   tft.setCursor(tft.width() - (10 * FONT_3_H + 9 * 3), MARGIN_V * 2);
   tft.setTextColor(WHITE);
