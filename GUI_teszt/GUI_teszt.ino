@@ -25,7 +25,7 @@
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
 #define LCD_CS A3
-#define LCD_CD A2
+#define LCD_CD A2 // LCD_RS
 #define LCD_WR A1
 #define LCD_RD A0
 #define SD_CS 10
@@ -209,7 +209,7 @@ void setup(void)
 
   tft.reset();
   uint16_t identifier = tft.readID();
-
+  // Found ILI9341 LCD driver
   // Set tft panel
   tft.begin(identifier);
   pinMode(13, OUTPUT);
@@ -223,7 +223,7 @@ void setup(void)
     Serial.println(F("Failed!"));
     //return;
   }
-  Serial.println(F("OK!"));
+  else Serial.println(F("OK!"));
 
   //listSD();
 
