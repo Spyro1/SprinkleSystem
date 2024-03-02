@@ -1,6 +1,3 @@
-/*#include <SPI.h>
-#include <Adafruit_ILI9341.h>
-#include <Adafruit_ImageReader.h>*/
 #include <SD.h>
 #include <Adafruit_GFX.h>    // Core graphics library
 #include <Adafruit_TFTLCD.h> // Hardware-specific library
@@ -34,7 +31,7 @@ TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 #define MINPRESSURE 10
 #define MAXPRESSURE 1000
 
-// 16 bites szinek
+// 16 bites szinekCYAN
 #define BLACK 0x0000
 #define BLUE 0x001F
 #define RED 0xF800
@@ -72,47 +69,9 @@ const char *strBtnRightBottom = "Ido";        // Idő beállítás
 Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 
 // == Objects and global variables ==
-/*class MyButton
-{
-  uint16_t backColor;
-  uint16_t borderColor;
-  uint16_t fontColor;
 
-  uint16_t activebackColor;
-  uint16_t activeborderColor;
-  uint16_t activeFontColor;
+// Adafruit_GFX_Button button1;
 
-  char text[50];
-  short fontSize;
-  short x, y, width, height;
-  short radius = 0;
-
-  Mybutton(char text[], short fontSize, short x, short y, short width, short height){
-
-    this->fontSize = fontSize;
-  }
-
-  Mybutton(char text[], short fontSize, short x, short y, short width, short height, short radius)
-  {
-  }
-
-};*/
-
-class ImageButton
-{
-  char *filename;
-
-public:
-  ImageButton(char *filename, int x, int y, int boxwidth, int boxheight)
-  {
-  }
-};
-
-Adafruit_GFX_Button button1;
-
-/*SdFat                SD;         // SD card filesystem
-Adafruit_ImageReader reader(SD); // Image-reader object, pass in SD filesys
-*/
 // == Functions ==
 
 void DrawMainScreen() // Főképernyő
@@ -140,15 +99,15 @@ void DrawMainScreen() // Főképernyő
   // tft.print("Locsolas      Sorban      Teszteles    Nedvesseg");
 
   tft.setCursor(26, MARGIN_V * 6 + ICONSIZE + FONT_1_V);
-  tft.setTextColor(CYAN);
+  tft.setTextColor(WHITE);
   tft.setTextSize(3);
   tft.print(strMainTitle); // Locsolórendzser
 
-  tft.drawFastHLine(20, MARGIN_V * 9 + ICONSIZE + FONT_1_V + FONT_3_V, 280, WHITE);
-  tft.drawFastHLine(20, MARGIN_V * 9 + ICONSIZE + FONT_1_V + FONT_3_V + 1, 280, WHITE);
+  tft.drawFastHLine(20, MARGIN_V * 9 + ICONSIZE + FONT_1_V + FONT_3_V, 280, CYAN);
+  tft.drawFastHLine(20, MARGIN_V * 9 + ICONSIZE + FONT_1_V + FONT_3_V + 1, 280, CYAN);
 
   tft.setCursor(113, MARGIN_V * 11 + ICONSIZE + FONT_1_V + FONT_3_V);
-  tft.setTextColor(CYAN);
+  tft.setTextColor(WHITE);
   tft.setTextSize(2);
   tft.print("12:02:16"); // Valós óra
 
@@ -162,7 +121,7 @@ void DrawMainScreen() // Főképernyő
   tft.setCursor(56, 222);
   tft.setTextColor(WHITE);
   tft.setTextSize(1);
-  sprintf(temp, "%        %s           %s", strBtnLeftBottom, strBtnCenterBottom2, strBtnRightBottom);
+  sprintf(temp, "%s        %s           %s", strBtnLeftBottom, strBtnCenterBottom2, strBtnRightBottom);
   tft.print(temp);
   // tft.print("Idozites        Be           Ido");
 }

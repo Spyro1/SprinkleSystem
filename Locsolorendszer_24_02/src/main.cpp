@@ -1,47 +1,6 @@
 #include <Arduino.h>
-/*#include <SPI.h>
-#include <Adafruit_ILI9341.h>
-#include <Adafruit_ImageReader.h>*/
 #include <SD.h>
-
 #include "display.h"
-
-// == Objects and global variables ==
-/*class MyButton
-{
-  uint16_t backColor;
-  uint16_t borderColor;
-  uint16_t fontColor;
-
-  uint16_t activebackColor;
-  uint16_t activeborderColor;
-  uint16_t activeFontColor;
-
-  char text[50];
-  short fontSize;
-  short x, y, width, height;
-  short radius = 0;
-
-  Mybutton(char text[], short fontSize, short x, short y, short width, short height){
-
-    this->fontSize = fontSize;
-  }
-
-  Mybutton(char text[], short fontSize, short x, short y, short width, short height, short radius)
-  {
-  }
-
-};*/
-/*
-class ImageButton
-{
-  char *filename;
-
-public:
-  ImageButton(char *filename, int x, int y, int boxwidth, int boxheight)
-  {
-  }
-};*/
 
 // == Functions ==
 
@@ -50,11 +9,11 @@ void setup(void)
   Serial.begin(9600);
   Serial.println(F("Paint!"));
 
-  tft.reset();
-  uint16_t identifier = tft.readID();
+  // tft.reset();
+  // uint16_t identifier = tft.readID();
   // Found ILI9341 LCD driver
   // Set tft panel
-  tft.begin(identifier);
+  // tft.begin(identifier);
   pinMode(13, OUTPUT);
   tft.setRotation(3);
   tft.fillScreen(BLACK);

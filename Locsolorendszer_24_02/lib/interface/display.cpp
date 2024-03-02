@@ -1,54 +1,62 @@
+// ---- display.cpp ----
+
 #include <Arduino.h>
 #include <SD.h>
-#include <Adafruit_GFX.h>    // Core graphics library
-#include <Adafruit_TFTLCD.h> // Hardware-specific library
-#include <TouchScreen.h>
+// #include <Adafruit_GFX.h> // Core graphics library
 
 #include "display.h"
+
+void PrintRTCToMainScreen()
+{
+    tft.setCursor(113, M_V * 11 + ICONSIZE + FONT_1_V + FONT_3_V);
+    tft.setTextColor(WHITE);
+    tft.setTextSize(2);
+    tft.print("12:02:16"); // Valós óra
+}
 
 void DrawMainScreen() // Főképernyő
 {
     tft.fillScreen(BLACK);
-
+    // ImageReturnCode stat;
+    // stat = reader.drawBMP("/settings.bmp", tft, 120, 120);
+    // reader.printStatus(stat);
     // button1.initButton(&tft, 0,0,50,50, WHITE, YELLOW, WHITE, "Gomb", 2); // GOMB ?????
     // button1.drawButton();
 
-    bmpDraw("on-sprk.bmp", MARGIN_H, MARGIN_V);
-    bmpDraw("chain.bmp", MARGIN_H * 3 + ICONSIZE, MARGIN_V);
-    bmpDraw("on-off.bmp", MARGIN_H * 5 + ICONSIZE * 2, MARGIN_V);
-    bmpDraw("humidity.bmp", MARGIN_H * 7 + ICONSIZE * 3, MARGIN_V);
-    // tft.drawRoundRect(MARGIN_H, MARGIN_V, ICONSIZE, ICONSIZE, 5, CYAN);                    // Bal felső ikon
-    // tft.drawRoundRect(MARGIN_H * 3 + ICONSIZE, MARGIN_V, ICONSIZE, ICONSIZE, 5, CYAN);     // Bal fent közép ikon
-    // tft.drawRoundRect(MARGIN_H * 5 + ICONSIZE * 2, MARGIN_V, ICONSIZE, ICONSIZE, 5, CYAN); // Jobb fent közép ikon
-    // tft.drawRoundRect(MARGIN_H * 7 + ICONSIZE * 3, MARGIN_V, ICONSIZE, ICONSIZE, 5, CYAN); // Jobb fent ikon
+    if (!bmpDraw("on-sprk.bmp", M_H, M_V))
+        tft.drawRoundRect(M_H, M_V, ICONSIZE, ICONSIZE, 5, CYAN); // Bal felső ikon
+    if (!bmpDraw("chain.bmp", M_H * 3 + ICONSIZE, M_V))
+        tft.drawRoundRect(M_H * 3 + ICONSIZE, M_V, ICONSIZE, ICONSIZE, 5, CYAN); // Bal fent közép ikon
+    if (!bmpDraw("on-off.bmp", M_H * 5 + ICONSIZE * 2, M_V))
+        tft.drawRoundRect(M_H * 5 + ICONSIZE * 2, M_V, ICONSIZE, ICONSIZE, 5, CYAN); // Jobb fent közép ikon
+    if (!bmpDraw("humidity.bmp", M_H * 7 + ICONSIZE * 3, M_V))
+        tft.drawRoundRect(M_H * 7 + ICONSIZE * 3, M_V, ICONSIZE, ICONSIZE, 5, CYAN); // Jobb fent ikon
 
-    tft.setCursor(17, MARGIN_V * 2 + ICONSIZE);
+    tft.setCursor(17, M_V * 2 + ICONSIZE);
     tft.setTextColor(WHITE);
     tft.setTextSize(1);
-    char temp[50];
-    sprintf(temp, "%s      %s      %s    %s", strBtnLeftTop, strBtnLeftCenter, strBtnRightCenter, strBtnRightTop); // Locsolas      Sorban      Teszteles    Nedvesseg
+    char *temp = new char[50]; // Memóriafoglalás temp-nek
+    // Locsolas      Sorban      Teszteles    Nedvesseg
+    sprintf(temp, "%s      %s      %s    %s", strBtnLeftTop, strBtnLeftCenter, strBtnRightCenter, strBtnRightTop);
     tft.print(temp);
     // tft.print("Locsolas      Sorban      Teszteles    Nedvesseg");
 
-    tft.setCursor(26, MARGIN_V * 6 + ICONSIZE + FONT_1_V);
-    tft.setTextColor(CYAN);
+    tft.setCursor(26, M_V * 6 + ICONSIZE + FONT_1_V);
+    tft.setTextColor(WHITE);
     tft.setTextSize(3);
     tft.print(strMainTitle); // Locsolórendzser
 
-    tft.drawFastHLine(20, MARGIN_V * 9 + ICONSIZE + FONT_1_V + FONT_3_V, 280, WHITE);
-    tft.drawFastHLine(20, MARGIN_V * 9 + ICONSIZE + FONT_1_V + FONT_3_V + 1, 280, WHITE);
+    tft.drawFastHLine(20, M_V * 9 + ICONSIZE + FONT_1_V + FONT_3_V, 280, CYAN);
+    tft.drawFastHLine(20, M_V * 9 + ICONSIZE + FONT_1_V + FONT_3_V + 1, 280, CYAN);
 
-    tft.setCursor(113, MARGIN_V * 11 + ICONSIZE + FONT_1_V + FONT_3_V);
-    tft.setTextColor(CYAN);
-    tft.setTextSize(2);
-    tft.print("12:02:16"); // Valós óra
+    PrintRTCToMainScreen();
 
-    // tft.drawRoundRect(48, 154, ICONSIZE, ICONSIZE, 5, CYAN);  // Bal alsó ikon
-    // tft.drawRoundRect(128, 154, ICONSIZE, ICONSIZE, 5, CYAN); // Közép alsó ikon
-    // tft.drawRoundRect(208, 154, ICONSIZE, ICONSIZE, 5, CYAN); // Jobb alsó ikon
-    bmpDraw("settings.bmp", 48, 154);
-    bmpDraw("on-btn.bmp", 128, 154);
-    bmpDraw("clock.bmp", 208, 154);
+    if (!bmpDraw("settings.bmp", 48, 154))
+        tft.drawRoundRect(48, 154, ICONSIZE, ICONSIZE, 5, CYAN); // Bal alsó ikon
+    if (!bmpDraw("on-btn.bmp", 128, 154))
+        tft.drawRoundRect(128, 154, ICONSIZE, ICONSIZE, 5, CYAN); // Közép alsó ikon
+    if (!bmpDraw("clock.bmp", 208, 154))
+        tft.drawRoundRect(208, 154, ICONSIZE, ICONSIZE, 5, CYAN); // Jobb alsó ikon
 
     tft.setCursor(56, 222);
     tft.setTextColor(WHITE);
@@ -56,6 +64,7 @@ void DrawMainScreen() // Főképernyő
     sprintf(temp, "%s        %s           %s", strBtnLeftBottom, strBtnCenterBottom2, strBtnRightBottom);
     tft.print(temp);
     // tft.print("Idozites        Be           Ido");
+    delete temp; // Memóriafelszabadítás temp-nek
 }
 void DrawPeriodsMenu()
 {
@@ -63,35 +72,35 @@ void DrawPeriodsMenu()
 
     // tft.drawRoundRect(MARGIN_H, MARGIN_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN);                      // x32-es settings ikon
     // tft.drawRoundRect(320 - MARGIN_H - ICONSIZE / 2, MARGIN_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN); // x32-es home ikon
-    bmpDraw("settings32.bmp", MARGIN_H, MARGIN_V / 2);                  // x32-es settings ikon
-    bmpDraw("home32.bmp", 320 - MARGIN_H - ICONSIZE / 2, MARGIN_V / 2); // x32-es home ikon
+    bmpDraw("settings32.bmp", M_H, M_V / 2);                  // x32-es settings ikon
+    bmpDraw("home32.bmp", 320 - M_H - ICONSIZE / 2, M_V / 2); // x32-es home ikon
 
-    tft.setCursor(tft.width() - (10 * FONT_3_H + 9 * 3), MARGIN_V * 2);
+    tft.setCursor(tft.width() - (10 * FONT_3_H + 9 * 3), M_V * 2);
     tft.setTextColor(WHITE);
     tft.setTextSize(3);
     tft.print("Idozitesek");
 
-    tft.drawFastHLine(10, MARGIN_V + ICONSIZE / 2, 300, CYAN);     // Dupla vonal
-    tft.drawFastHLine(10, MARGIN_V + ICONSIZE / 2 + 1, 300, CYAN); // Dupla vonal
+    tft.drawFastHLine(10, M_V + ICONSIZE / 2, 300, CYAN);     // Dupla vonal
+    tft.drawFastHLine(10, M_V + ICONSIZE / 2 + 1, 300, CYAN); // Dupla vonal
 
-    tft.drawRoundRect(10, MARGIN_V * 7 + FONT_3_V, 300, OPTIONSIZE, 5, CYAN);                  // 1. időszak háttere
-    tft.drawRoundRect(10, MARGIN_V * 8 + FONT_3_V + OPTIONSIZE, 300, OPTIONSIZE, 5, CYAN);     // 2. időszak háttere
-    tft.drawRoundRect(10, MARGIN_V * 9 + FONT_3_V + OPTIONSIZE * 2, 300, OPTIONSIZE, 5, CYAN); // 3. időszak háttere
+    tft.drawRoundRect(10, M_V * 7 + FONT_3_V, 300, OPTIONSIZE, 5, CYAN);                  // 1. időszak háttere
+    tft.drawRoundRect(10, M_V * 8 + FONT_3_V + OPTIONSIZE, 300, OPTIONSIZE, 5, CYAN);     // 2. időszak háttere
+    tft.drawRoundRect(10, M_V * 9 + FONT_3_V + OPTIONSIZE * 2, 300, OPTIONSIZE, 5, CYAN); // 3. időszak háttere
 }
 void DrawTestMenu()
 {
     tft.fillScreen(DARKCYAN);
 
-    tft.drawRoundRect(MARGIN_H, MARGIN_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN);                      // x32-es settings ikon
-    tft.drawRoundRect(320 - MARGIN_H - ICONSIZE / 2, MARGIN_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN); // x32-es home ikon
+    tft.drawRoundRect(M_H, M_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN);                      // x32-es settings ikon
+    tft.drawRoundRect(320 - M_H - ICONSIZE / 2, M_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN); // x32-es home ikon
 
-    tft.setCursor(tft.width() - (9 * FONT_3_H + 8 * 3), MARGIN_V * 2);
+    tft.setCursor(tft.width() - (9 * FONT_3_H + 8 * 3), M_V * 2);
     tft.setTextColor(WHITE);
     tft.setTextSize(3);
     tft.print("Teszteles");
 
-    tft.drawFastHLine(10, MARGIN_V + ICONSIZE / 2, 300, CYAN);     // Dupla vonal
-    tft.drawFastHLine(10, MARGIN_V + ICONSIZE / 2 + 1, 300, CYAN); // Dupla vonal
+    tft.drawFastHLine(10, M_V + ICONSIZE / 2, 300, CYAN);     // Dupla vonal
+    tft.drawFastHLine(10, M_V + ICONSIZE / 2 + 1, 300, CYAN); // Dupla vonal
 }
 
 // void listSD()
@@ -116,7 +125,7 @@ void printDirectory(File dir)
 }
 
 #define BUFFPIXEL 20
-void bmpDraw(const char *filename, int x, int y)
+bool bmpDraw(const char *filename, int x, int y)
 {
 
     File bmpFile;
@@ -136,7 +145,7 @@ void bmpDraw(const char *filename, int x, int y)
     boolean first = true;
 
     if ((x >= tft.width()) || (y >= tft.height()))
-        return;
+        return false;
 
     Serial.println();
     Serial.print(F("Loading image '"));
@@ -146,7 +155,7 @@ void bmpDraw(const char *filename, int x, int y)
     if ((bmpFile = SD.open(filename)) /* == NULL*/)
     {
         Serial.println(F("File not found"));
-        return;
+        return false;
     }
 
     // Parse BMP header
@@ -225,6 +234,7 @@ void bmpDraw(const char *filename, int x, int y)
                             if (lcdidx > 0)
                             {
                                 tft.pushColors(lcdbuffer, lcdidx, first);
+
                                 lcdidx = 0;
                                 first = false;
                             }
@@ -243,6 +253,7 @@ void bmpDraw(const char *filename, int x, int y)
                 if (lcdidx > 0)
                 {
                     tft.pushColors(lcdbuffer, lcdidx, first);
+                    // tft.pushColor(lcdidx); // PROBA
                 }
                 Serial.print(F("Loaded in "));
                 Serial.print(millis() - startTime);
@@ -253,7 +264,11 @@ void bmpDraw(const char *filename, int x, int y)
 
     bmpFile.close();
     if (!goodBmp)
+    {
         Serial.println(F("BMP format not recognized."));
+        return false;
+    }
+    return true;
 }
 
 // These read 16- and 32-bit types from the SD card file.

@@ -1,8 +1,16 @@
+// ---- display.h ----
+
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
 #include <Adafruit_TFTLCD.h> // Hardware-specific library
-#include <TouchScreen.h>
+#include <SD.h>
+#include <Adafruit_GFX.h> // Core graphics library
+#include <TouchScreen.h>  // TouchScreen library
+// #include <Adafruit_ILI9341.h>     // Hardware-specific library
+// #include <SdFat.h>                // SD card & FAT filesystem library
+// #include <Adafruit_SPIFlash.h>    // SPI / QSPI flash library
+// #include <Adafruit_ImageReader.h> // Image-reading functions
 
 #if defined(__SAM3X8E__)
 #undef __FlashStringHelper::F(string_literal)
@@ -43,8 +51,8 @@
 #define DARKCYAN 0x032D // 0472
 
 // Menü makrók
-#define MARGIN_V 4    // Vertical margin
-#define MARGIN_H 8    // Horizonatal margin
+#define M_V 4         // Vertical margin
+#define M_H 8         // Horizonatal margin
 #define ICONSIZE 64   // Base Iconsize for buttons
 #define OPTIONSIZE 61 // Timing long button height
 #define FONT_1_H 7
@@ -54,33 +62,65 @@
 #define FONT_2_V FONT_1_V * 2
 #define FONT_3_V FONT_1_V * 3
 
-// String konstansok
-const char *strMainTitle = "Locsolorendszer";
-const char *strBtnLeftTop = "Locsolas";       // Locsolás
-const char *strBtnLeftCenter = "Sorban";      // Sorban locsoolás
-const char *strBtnRightCenter = "Teszteles";  // Tesztelés
-const char *strBtnRightTop = "Nedvesseg";     // Nedvesség
-const char *strBtnLeftBottom = "Beallitasok"; // Beállítások
-const char *strBtnCenterBottom1 = "Be";       // Kikapcsolt állapot
-const char *strBtnCenterBottom2 = "Ki";       // Bekapcsolt állapot
-const char *strBtnRightBottom = "Ido";        // Idő beállítás
+// String makrók
+#define strMainTitle "Locsolorendszer" // Locsolórendszer
+#define strBtnLeftTop "Locsolas"       // Locsolás
+#define strBtnLeftCenter "Sorban"      // Sorban locsoolás
+#define strBtnRightCenter "Teszteles"  // Tesztelés
+#define strBtnRightTop "Nedvesseg"     // Nedvesség
+#define strBtnLeftBottom "Beallitasok" // Beállítások
+#define strBtnCenterBottom1 "Be"       // Kikapcsolt állapot
+#define strBtnCenterBottom2 "Ki"       // Bekapcsolt állapot
+#define strBtnRightBottom "Ido"        // Idő beállítás
 
 // ----- Static variable declarations -----
 
 // For better pressure precision, we need to know the resistance between X+ and X- Use any multimeter to read it For the one we're using, its 300 ohms across the X plate
-TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
+static TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
 // Make TFT Display
-Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
+static Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
+// static Adafruit_ILI9341 tft(LCD_CS, LCD_CD);
+
+// Create SD
+// SdFat SD;                        // SD card filesystem
+// Adafruit_ImageReader reader(SD); // Image-reader object, pass in SD filesys
 
 // ----- Function Declarations -----
-
-void bmpDraw(const char *filename, int x, int y);
+/**
+ * @brief Draws a bitmap from the SD card to the tft display at the given coordinates.
+ * @param filename Bitmap's filename from SD card
+ * @param x Top left corner's x coordinate
+ * @param y Top left corner's y coordinate
+ * @returns Success state of function
+ */
+bool bmpDraw(const char *filename, int x, int y);
+/**
+ * @brief Bitamap data reading funcion (16 bits)
+ */
 uint16_t read16(File f);
+/**
+ * @brief Bitamap data reading funcion (32 bits)
+ */
 uint32_t read32(File f);
 
-void DrawMainScreen(); // Főképernyő
+// ----- Printing Functions -----
+
+/**
+ * Prints the current time to the main screen
+ */
+void PrintRTCToMainScreen();
+/**
+ * @brief Draws the Main Screen to the tft display.
+ */
+void DrawMainScreen();
+/**
+ * @brief Draws
+ */
 void DrawPeriodsMenu();
+/**
+ * @brief Draws
+ */
 void DrawTestMenu();
 
 #endif // DISPLAY_H
