@@ -17,11 +17,11 @@ public:
     Relay();                                                                     // Constructor for arrays
     Relay(int ID, TimeSpan start = TimeSpan(0), int duration = 0, int pin = -1); // Constructor for instances
     // - Getters -
-    int getID();
-    int getPin();
-    int getDuration();
-    TimeSpan getStart();
-    TimeSpan getEnd();
+    int getID() const;
+    int getPin() const;
+    int getDuration() const;
+    TimeSpan getStart() const;
+    TimeSpan getEnd() const;
     // - Setters -
     void setID(int id);
     void setPin(int pinNumber);

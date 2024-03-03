@@ -1,19 +1,17 @@
-#include <Arduino.h>
-#include <SD.h>
 #include "display.h"
-
+#include "menu.h"
 // == Functions ==
 
 void setup(void)
 {
   Serial.begin(9600);
-  Serial.println(F("Paint!"));
+  Serial.println(F("Start program!"));
 
-  // tft.reset();
-  // uint16_t identifier = tft.readID();
-  // Found ILI9341 LCD driver
+  tft.reset();
+  uint16_t identifier = tft.readID(); // Found ILI9341 LCD driver
+  tft.begin(identifier);
+
   // Set tft panel
-  // tft.begin(identifier);
   pinMode(13, OUTPUT);
   tft.setRotation(3);
   tft.fillScreen(BLACK);

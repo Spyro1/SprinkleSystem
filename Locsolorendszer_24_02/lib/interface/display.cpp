@@ -1,18 +1,8 @@
 // ---- display.cpp ----
 
-#include <Arduino.h>
-#include <SD.h>
-// #include <Adafruit_GFX.h> // Core graphics library
-
 #include "display.h"
 
-void PrintRTCToMainScreen()
-{
-    tft.setCursor(113, M_V * 11 + ICONSIZE + FONT_1_V + FONT_3_V);
-    tft.setTextColor(WHITE);
-    tft.setTextSize(2);
-    tft.print("12:02:16"); // Valós óra
-}
+/* ---- Drawing fucntions ---- */
 
 void DrawMainScreen() // Főképernyő
 {
@@ -24,49 +14,100 @@ void DrawMainScreen() // Főképernyő
     // button1.drawButton();
 
     if (!bmpDraw("on-sprk.bmp", M_H, M_V))
-        tft.drawRoundRect(M_H, M_V, ICONSIZE, ICONSIZE, 5, CYAN); // Bal felső ikon
+        tft.drawRoundRect(M_H, M_V, ICONSIZE, ICONSIZE, RADIUS, CYAN); // Bal felső ikon
     if (!bmpDraw("chain.bmp", M_H * 3 + ICONSIZE, M_V))
-        tft.drawRoundRect(M_H * 3 + ICONSIZE, M_V, ICONSIZE, ICONSIZE, 5, CYAN); // Bal fent közép ikon
+        tft.drawRoundRect(M_H * 3 + ICONSIZE, M_V, ICONSIZE, ICONSIZE, RADIUS, CYAN); // Bal fent közép ikon
     if (!bmpDraw("on-off.bmp", M_H * 5 + ICONSIZE * 2, M_V))
-        tft.drawRoundRect(M_H * 5 + ICONSIZE * 2, M_V, ICONSIZE, ICONSIZE, 5, CYAN); // Jobb fent közép ikon
+        tft.drawRoundRect(M_H * 5 + ICONSIZE * 2, M_V, ICONSIZE, ICONSIZE, RADIUS, CYAN); // Jobb fent közép ikon
     if (!bmpDraw("humidity.bmp", M_H * 7 + ICONSIZE * 3, M_V))
-        tft.drawRoundRect(M_H * 7 + ICONSIZE * 3, M_V, ICONSIZE, ICONSIZE, 5, CYAN); // Jobb fent ikon
+        tft.drawRoundRect(M_H * 7 + ICONSIZE * 3, M_V, ICONSIZE, ICONSIZE, RADIUS, CYAN); // Jobb fent ikon
 
-    tft.setCursor(17, M_V * 2 + ICONSIZE);
-    tft.setTextColor(WHITE);
-    tft.setTextSize(1);
-    char *temp = new char[50]; // Memóriafoglalás temp-nek
-    // Locsolas      Sorban      Teszteles    Nedvesseg
-    sprintf(temp, "%s      %s      %s    %s", strBtnLeftTop, strBtnLeftCenter, strBtnRightCenter, strBtnRightTop);
-    tft.print(temp);
+    // tft.setCursor(17, M_V * 2 + ICONSIZE);
+    // tft.setTextColor(WHITE);
+    // tft.setTextSize(1);
+    // char *temp = new char[50]; // Memóriafoglalás temp-nek
+    // // Locsolas      Sorban      Teszteles    Nedvesseg
+    // sprintf(temp, "%s      %s      %s    %s", strBtnLeftTop, strBtnLeftCenter, strBtnRightCenter, strBtnRightTop);
+    // tft.print(temp);
+    PrintLabel(strBtnLeftTop, M_H + ICONSIZE / 2, M_V * 2 + ICONSIZE);
+    PrintLabel(strBtnLeftCenter, M_H * 3 + ICONSIZE * 3 / 2, M_V * 2 + ICONSIZE);
+    PrintLabel(strBtnRightCenter, M_H * 5 + ICONSIZE * 5 / 2, M_V * 2 + ICONSIZE);
+    PrintLabel(strBtnRightTop, M_H * 7 + ICONSIZE * 7 / 2, M_V * 2 + ICONSIZE);
     // tft.print("Locsolas      Sorban      Teszteles    Nedvesseg");
 
-    tft.setCursor(26, M_V * 6 + ICONSIZE + FONT_1_V);
-    tft.setTextColor(WHITE);
-    tft.setTextSize(3);
-    tft.print(strMainTitle); // Locsolórendzser
+    PrintLabel(strMainTitle, CENTER_H, M_V * 6 + ICONSIZE + FONT_1_V + FONT_3_V / 2, 3); // Locsolórendzser
+    // tft.setCursor(26, M_V * 6 + ICONSIZE + FONT_1_V);
+    // tft.setTextColor(WHITE);
+    // tft.setTextSize(3);
+    // tft.print(strMainTitle);
 
     tft.drawFastHLine(20, M_V * 9 + ICONSIZE + FONT_1_V + FONT_3_V, 280, CYAN);
     tft.drawFastHLine(20, M_V * 9 + ICONSIZE + FONT_1_V + FONT_3_V + 1, 280, CYAN);
 
+    int bottomIconYCoord = HEIGHT - ICONSIZE - FONT_2_V - 2 * M_V;
     PrintRTCToMainScreen();
+    if (!bmpDraw("settings.bmp", CENTER_H - ICONSIZE * 3 / 2 - 2 * M_H, bottomIconYCoord))
+        tft.drawRoundRect(CENTER_H - ICONSIZE * 3 / 2 - 2 * M_H, bottomIconYCoord, ICONSIZE, ICONSIZE, RADIUS, CYAN); // Bal alsó ikon
+    if (!bmpDraw("on-btn.bmp", CENTER_H - ICONSIZE / 2, bottomIconYCoord))
+        tft.drawRoundRect(CENTER_H - ICONSIZE / 2, bottomIconYCoord, ICONSIZE, ICONSIZE, RADIUS, CYAN); // Közép alsó ikon
+    if (!bmpDraw("clock.bmp", CENTER_H + ICONSIZE / 2 + 2 * M_H, bottomIconYCoord))
+        tft.drawRoundRect(CENTER_H + ICONSIZE / 2 + 2 * M_H, bottomIconYCoord, ICONSIZE, ICONSIZE, RADIUS, CYAN); // Jobb alsó ikon
 
-    if (!bmpDraw("settings.bmp", 48, 154))
-        tft.drawRoundRect(48, 154, ICONSIZE, ICONSIZE, 5, CYAN); // Bal alsó ikon
-    if (!bmpDraw("on-btn.bmp", 128, 154))
-        tft.drawRoundRect(128, 154, ICONSIZE, ICONSIZE, 5, CYAN); // Közép alsó ikon
-    if (!bmpDraw("clock.bmp", 208, 154))
-        tft.drawRoundRect(208, 154, ICONSIZE, ICONSIZE, 5, CYAN); // Jobb alsó ikon
-
-    tft.setCursor(56, 222);
-    tft.setTextColor(WHITE);
-    tft.setTextSize(1);
-    sprintf(temp, "%s        %s           %s", strBtnLeftBottom, strBtnCenterBottom2, strBtnRightBottom);
-    tft.print(temp);
+    PrintLabel(strBtnLeftBottom, CENTER_H - ICONSIZE - 2 * M_H, HEIGHT - FONT_2_V - M_V);
+    PrintLabel(strBtnCenterBottom2, CENTER_H - ICONSIZE / 2, HEIGHT - FONT_2_V - M_V);
+    PrintLabel(strBtnRightBottom, CENTER_H + ICONSIZE + 2 * M_H, HEIGHT - FONT_2_V - M_V);
+    // tft.setCursor(56, 222);
+    // tft.setTextColor(WHITE);
+    // tft.setTextSize(1);
+    // sprintf(temp, "%s        %s           %s", strBtnLeftBottom, strBtnCenterBottom2, strBtnRightBottom);
+    // tft.print(temp);
     // tft.print("Idozites        Be           Ido");
-    delete temp; // Memóriafelszabadítás temp-nek
+    // delete temp; // Memóriafelszabadítás temp-nek
 }
-void DrawPeriodsMenu()
+
+void DrawSprinkleSubMenu()
+{
+    tft.fillScreen(BLACK);
+}
+void DrawChainSprinkleSubMenu()
+{
+    tft.fillScreen(BLACK);
+    // Top Icons
+    if (!bmpDraw("chain.bmp", M_H, M_V / 2))
+        tft.drawRoundRect(M_H, M_V / 2, ICONSIZE / 2, ICONSIZE / 2, RADIUS, CYAN); // x32-es chain ikon
+    if (!bmpDraw("home.bmp", 320 - M_H - ICONSIZE / 2, M_V / 2))
+        tft.drawRoundRect(320 - M_H - ICONSIZE / 2, M_V / 2, ICONSIZE / 2, ICONSIZE / 2, RADIUS, CYAN); // x32-es home ikon
+    // Submenu Title
+    PrintSubMenuTitle("Sorban locsolas", 3, WHITE);
+    // Line
+    tft.drawFastHLine(10, M_V + ICONSIZE / 2, 300, CYAN);     // Dupla vonal
+    tft.drawFastHLine(10, M_V + ICONSIZE / 2 + 1, 300, CYAN); // Dupla vonal
+    // First Relay setter column
+    int lineheight = M_V + ICONSIZE / 2 + 1;
+    if (!bmpDraw("up-arw.bmp", M_H, lineheight + M_V))
+        tft.drawRoundRect(M_H, lineheight + M_V, ICONSIZE, ICONSIZE, RADIUS, CYAN);
+    // tft.drawRoundRect()
+    if (!bmpDraw("down-arw.bmp", M_H, lineheight + M_V * 3 + ICONSIZE))
+        tft.drawRoundRect(M_H, lineheight + M_V * 3 + ICONSIZE, ICONSIZE, ICONSIZE, RADIUS, CYAN);
+    // Last Relay setter column
+
+    // Duration setter column
+
+    // Start button
+}
+void DrawTestSubMenu()
+{
+    tft.fillScreen(DARKCYAN);
+
+    tft.drawRoundRect(M_H, M_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN);                      // x32-es settings ikon
+    tft.drawRoundRect(320 - M_H - ICONSIZE / 2, M_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN); // x32-es home ikon
+
+    PrintSubMenuTitle("Teszteles", 3, WHITE);
+
+    tft.drawFastHLine(10, M_V + ICONSIZE / 2, 300, CYAN);     // Dupla vonal
+    tft.drawFastHLine(10, M_V + ICONSIZE / 2 + 1, 300, CYAN); // Dupla vonal
+}
+void DrawPeriodSubMenu()
 {
     tft.fillScreen(BLACK);
 
@@ -87,28 +128,35 @@ void DrawPeriodsMenu()
     tft.drawRoundRect(10, M_V * 8 + FONT_3_V + OPTIONSIZE, 300, OPTIONSIZE, 5, CYAN);     // 2. időszak háttere
     tft.drawRoundRect(10, M_V * 9 + FONT_3_V + OPTIONSIZE * 2, 300, OPTIONSIZE, 5, CYAN); // 3. időszak háttere
 }
-void DrawTestMenu()
+
+/* ---- Common used drawing blocks ---- */
+void PrintRTCToMainScreen()
 {
-    tft.fillScreen(DARKCYAN);
-
-    tft.drawRoundRect(M_H, M_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN);                      // x32-es settings ikon
-    tft.drawRoundRect(320 - M_H - ICONSIZE / 2, M_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN); // x32-es home ikon
-
-    tft.setCursor(tft.width() - (9 * FONT_3_H + 8 * 3), M_V * 2);
+    tft.setCursor(113, M_V * 11 + ICONSIZE + FONT_1_V + FONT_3_V);
     tft.setTextColor(WHITE);
-    tft.setTextSize(3);
-    tft.print("Teszteles");
-
-    tft.drawFastHLine(10, M_V + ICONSIZE / 2, 300, CYAN);     // Dupla vonal
-    tft.drawFastHLine(10, M_V + ICONSIZE / 2 + 1, 300, CYAN); // Dupla vonal
+    tft.setTextSize(2);
+    tft.print("12:02:16"); // Valós óra
+}
+void PrintSubMenuTitle(const char *title, int fontSize, uint16_t color)
+{
+    tft.setCursor(CENTER_H - GetTextWidth(title, fontSize) / 2, M_V * 2);
+    tft.setTextColor(color);
+    tft.setTextSize(fontSize);
+    tft.print(title);
+}
+void PrintLabel(const char *label, int x, int y, int fontSize, uint16_t color)
+{
+    tft.setCursor(x - GetTextWidth(label, fontSize) / 2, y - (FONT_1_V * fontSize));
+    tft.setTextColor(color);
+    tft.setTextSize(fontSize);
+    tft.print(label);
+}
+int GetTextWidth(const char *text, int fontSize)
+{
+    return strlen(text) * (FONT_1_H * fontSize) + (strlen(text) - 1) * 3;
 }
 
-// void listSD()
-// {
-//     File root;
-//     root = SD.open("/");
-//     printDirectory(root);
-// }
+/* ---- Drawing helper function ---- */
 void printDirectory(File dir)
 {
     while (true)

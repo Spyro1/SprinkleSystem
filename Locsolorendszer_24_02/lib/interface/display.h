@@ -53,12 +53,17 @@
 // Menü makrók
 #define M_V 4         // Vertical margin
 #define M_H 8         // Horizonatal margin
+#define RADIUS 5      // Rounded rectangle corner radius
 #define ICONSIZE 64   // Base Iconsize for buttons
 #define OPTIONSIZE 61 // Timing long button height
-#define FONT_1_H 7
+#define CENTER_H tft.width() / 2
+#define CENTER_V tft.height() / 2
+#define HEIGHT tft.height()
+#define WIDTH tft.width()
+#define FONT_1_H 5
 #define FONT_2_H FONT_1_H * 2
 #define FONT_3_H FONT_1_H * 3
-#define FONT_1_V 5
+#define FONT_1_V 7
 #define FONT_2_V FONT_1_V * 2
 #define FONT_3_V FONT_1_V * 3
 
@@ -86,7 +91,42 @@ static Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 // SdFat SD;                        // SD card filesystem
 // Adafruit_ImageReader reader(SD); // Image-reader object, pass in SD filesys
 
-// ----- Function Declarations -----
+/* ----- Function Declarations ----- */
+
+/* ---- Drawing fucntions ---- */
+
+/**
+ * @brief Draws the Main Screen to the tft display.
+ */
+void DrawMainScreen();
+/**
+ * @brief Draws
+ */
+void DrawSprinkleSubMenu();
+/**
+ * @brief
+ */
+void DrawChainSprinkleSubMenu();
+/**
+ * @brief Draws
+ */
+void DrawTestSubMenu();
+/**
+ * @brief Draws
+ */
+void DrawPeriodSubMenu();
+
+/* ---- Common used drawing blocks ---- */
+
+/**
+ * Prints the current time to the main screen
+ */
+void PrintRTCToMainScreen();
+void PrintSubMenuTitle(const char *title, int fontSize, uint16_t color = WHITE);
+void PrintLabel(const char *label, int x, int y, int fontSize = 1, uint16_t color = WHITE);
+int GetTextWidth(const char *text, int fontSize);
+
+/* ---- Drawing helper function ---- */
 /**
  * @brief Draws a bitmap from the SD card to the tft display at the given coordinates.
  * @param filename Bitmap's filename from SD card
@@ -103,24 +143,4 @@ uint16_t read16(File f);
  * @brief Bitamap data reading funcion (32 bits)
  */
 uint32_t read32(File f);
-
-// ----- Printing Functions -----
-
-/**
- * Prints the current time to the main screen
- */
-void PrintRTCToMainScreen();
-/**
- * @brief Draws the Main Screen to the tft display.
- */
-void DrawMainScreen();
-/**
- * @brief Draws
- */
-void DrawPeriodsMenu();
-/**
- * @brief Draws
- */
-void DrawTestMenu();
-
 #endif // DISPLAY_H
