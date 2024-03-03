@@ -7,6 +7,7 @@
 #include <SD.h>
 #include <Adafruit_GFX.h> // Core graphics library
 #include <TouchScreen.h>  // TouchScreen library
+#include <RTClib.h>
 // #include <Adafruit_ILI9341.h>     // Hardware-specific library
 // #include <SdFat.h>                // SD card & FAT filesystem library
 // #include <Adafruit_SPIFlash.h>    // SPI / QSPI flash library
@@ -81,10 +82,10 @@
 // ----- Static variable declarations -----
 
 // For better pressure precision, we need to know the resistance between X+ and X- Use any multimeter to read it For the one we're using, its 300 ohms across the X plate
-static TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
+//static TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
 // Make TFT Display
-static Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
+//static Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 // static Adafruit_ILI9341 tft(LCD_CS, LCD_CD);
 
 // Create SD
@@ -98,32 +99,32 @@ static Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 /**
  * @brief Draws the Main Screen to the tft display.
  */
-void DrawMainScreen();
+void DrawMainScreen(Adafruit_TFTLCD& tft);
 /**
  * @brief Draws
  */
-void DrawSprinkleSubMenu();
+void DrawSprinkleSubMenu(Adafruit_TFTLCD& tft);
 /**
  * @brief
  */
-void DrawChainSprinkleSubMenu();
+void DrawChainSprinkleSubMenu(Adafruit_TFTLCD& tft);
 /**
  * @brief Draws
  */
-void DrawTestSubMenu();
+void DrawTestSubMenu(Adafruit_TFTLCD& tft);
 /**
  * @brief Draws
  */
-void DrawPeriodSubMenu();
+void DrawPeriodSubMenu(Adafruit_TFTLCD& tft);
 
 /* ---- Common used drawing blocks ---- */
 
 /**
  * Prints the current time to the main screen
  */
-void PrintRTCToMainScreen();
-void PrintSubMenuTitle(const char *title, int fontSize, uint16_t color = WHITE);
-void PrintLabel(const char *label, int x, int y, int fontSize = 1, uint16_t color = WHITE);
+void PrintRTCToMainScreen(Adafruit_TFTLCD& tft, TimeSpan realTime);
+void PrintSubMenuTitle(Adafruit_TFTLCD& tft, const char *title, int fontSize, uint16_t color = WHITE);
+void PrintLabel(Adafruit_TFTLCD& tft, const char *label, int x, int y, int fontSize = 1, uint16_t color = WHITE);
 int GetTextWidth(const char *text, int fontSize);
 
 /* ---- Drawing helper function ---- */
@@ -134,13 +135,15 @@ int GetTextWidth(const char *text, int fontSize);
  * @param y Top left corner's y coordinate
  * @returns Success state of function
  */
-bool bmpDraw(const char *filename, int x, int y);
+bool bmpDraw(Adafruit_TFTLCD& tft, const char *filename, int x, int y);
 /**
- * @brief Bitamap data reading funcion (16 bits)
+ * @brief Bitmap data reading funcion (16 bits)
+ * Read 16- and 32-bit types from the SD card file. BMP data is stored little-endian, Arduino is little-endian too.
  */
 uint16_t read16(File f);
 /**
  * @brief Bitamap data reading funcion (32 bits)
+ * Read 16- and 32-bit types from the SD card file. BMP data is stored little-endian, Arduino is little-endian too.
  */
 uint32_t read32(File f);
 #endif // DISPLAY_H

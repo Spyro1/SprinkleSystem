@@ -4,7 +4,7 @@
 
 /* ---- Drawing fucntions ---- */
 
-void DrawMainScreen() // Főképernyő
+void DrawMainScreen(Adafruit_TFTLCD& tft) // Főképernyő
 {
     tft.fillScreen(BLACK);
     // ImageReturnCode stat;
@@ -13,13 +13,13 @@ void DrawMainScreen() // Főképernyő
     // button1.initButton(&tft, 0,0,50,50, WHITE, YELLOW, WHITE, "Gomb", 2); // GOMB ?????
     // button1.drawButton();
 
-    if (!bmpDraw("on-sprk.bmp", M_H, M_V))
+    if (!bmpDraw(tft, "on-sprk.bmp", M_H, M_V))
         tft.drawRoundRect(M_H, M_V, ICONSIZE, ICONSIZE, RADIUS, CYAN); // Bal felső ikon
-    if (!bmpDraw("chain.bmp", M_H * 3 + ICONSIZE, M_V))
+    if (!bmpDraw(tft, "chain.bmp", M_H * 3 + ICONSIZE, M_V))
         tft.drawRoundRect(M_H * 3 + ICONSIZE, M_V, ICONSIZE, ICONSIZE, RADIUS, CYAN); // Bal fent közép ikon
-    if (!bmpDraw("on-off.bmp", M_H * 5 + ICONSIZE * 2, M_V))
+    if (!bmpDraw(tft, "on-off.bmp", M_H * 5 + ICONSIZE * 2, M_V))
         tft.drawRoundRect(M_H * 5 + ICONSIZE * 2, M_V, ICONSIZE, ICONSIZE, RADIUS, CYAN); // Jobb fent közép ikon
-    if (!bmpDraw("humidity.bmp", M_H * 7 + ICONSIZE * 3, M_V))
+    if (!bmpDraw(tft, "humidity.bmp", M_H * 7 + ICONSIZE * 3, M_V))
         tft.drawRoundRect(M_H * 7 + ICONSIZE * 3, M_V, ICONSIZE, ICONSIZE, RADIUS, CYAN); // Jobb fent ikon
 
     // tft.setCursor(17, M_V * 2 + ICONSIZE);
@@ -29,33 +29,34 @@ void DrawMainScreen() // Főképernyő
     // // Locsolas      Sorban      Teszteles    Nedvesseg
     // sprintf(temp, "%s      %s      %s    %s", strBtnLeftTop, strBtnLeftCenter, strBtnRightCenter, strBtnRightTop);
     // tft.print(temp);
-    PrintLabel(strBtnLeftTop, M_H + ICONSIZE / 2, M_V * 2 + ICONSIZE);
-    PrintLabel(strBtnLeftCenter, M_H * 3 + ICONSIZE * 3 / 2, M_V * 2 + ICONSIZE);
-    PrintLabel(strBtnRightCenter, M_H * 5 + ICONSIZE * 5 / 2, M_V * 2 + ICONSIZE);
-    PrintLabel(strBtnRightTop, M_H * 7 + ICONSIZE * 7 / 2, M_V * 2 + ICONSIZE);
+    PrintLabel(tft, strBtnLeftTop, M_H + ICONSIZE / 2, M_V * 2 + ICONSIZE);
+    PrintLabel(tft, strBtnLeftCenter, M_H * 3 + ICONSIZE * 3 / 2, M_V * 2 + ICONSIZE);
+    PrintLabel(tft, strBtnRightCenter, M_H * 5 + ICONSIZE * 5 / 2, M_V * 2 + ICONSIZE);
+    PrintLabel(tft, strBtnRightTop, M_H * 7 + ICONSIZE * 7 / 2, M_V * 2 + ICONSIZE);
     // tft.print("Locsolas      Sorban      Teszteles    Nedvesseg");
 
-    PrintLabel(strMainTitle, CENTER_H, M_V * 6 + ICONSIZE + FONT_1_V + FONT_3_V / 2, 3); // Locsolórendzser
+    PrintLabel(tft, strMainTitle, CENTER_H, M_V * 6 + ICONSIZE + FONT_1_V, 3); // Locsolórendzser
     // tft.setCursor(26, M_V * 6 + ICONSIZE + FONT_1_V);
     // tft.setTextColor(WHITE);
     // tft.setTextSize(3);
     // tft.print(strMainTitle);
 
-    tft.drawFastHLine(20, M_V * 9 + ICONSIZE + FONT_1_V + FONT_3_V, 280, CYAN);
-    tft.drawFastHLine(20, M_V * 9 + ICONSIZE + FONT_1_V + FONT_3_V + 1, 280, CYAN);
+    tft.drawFastHLine(20, M_V * 7 + ICONSIZE + FONT_1_V + FONT_3_V, 280, CYAN);
+    tft.drawFastHLine(20, M_V * 7 + ICONSIZE + FONT_1_V + FONT_3_V + 1, 280, CYAN);
 
+    PrintRTCToMainScreen(tft, TimeSpan(1234)); // Valós idő
+    
     int bottomIconYCoord = HEIGHT - ICONSIZE - FONT_2_V - 2 * M_V;
-    PrintRTCToMainScreen();
-    if (!bmpDraw("settings.bmp", CENTER_H - ICONSIZE * 3 / 2 - 2 * M_H, bottomIconYCoord))
+    if (!bmpDraw(tft, "settings.bmp", CENTER_H - ICONSIZE * 3 / 2 - 2 * M_H, bottomIconYCoord))
         tft.drawRoundRect(CENTER_H - ICONSIZE * 3 / 2 - 2 * M_H, bottomIconYCoord, ICONSIZE, ICONSIZE, RADIUS, CYAN); // Bal alsó ikon
-    if (!bmpDraw("on-btn.bmp", CENTER_H - ICONSIZE / 2, bottomIconYCoord))
+    if (!bmpDraw(tft, "on-btn.bmp", CENTER_H - ICONSIZE / 2, bottomIconYCoord))
         tft.drawRoundRect(CENTER_H - ICONSIZE / 2, bottomIconYCoord, ICONSIZE, ICONSIZE, RADIUS, CYAN); // Közép alsó ikon
-    if (!bmpDraw("clock.bmp", CENTER_H + ICONSIZE / 2 + 2 * M_H, bottomIconYCoord))
+    if (!bmpDraw(tft, "clock.bmp", CENTER_H + ICONSIZE / 2 + 2 * M_H, bottomIconYCoord))
         tft.drawRoundRect(CENTER_H + ICONSIZE / 2 + 2 * M_H, bottomIconYCoord, ICONSIZE, ICONSIZE, RADIUS, CYAN); // Jobb alsó ikon
 
-    PrintLabel(strBtnLeftBottom, CENTER_H - ICONSIZE - 2 * M_H, HEIGHT - FONT_2_V - M_V);
-    PrintLabel(strBtnCenterBottom2, CENTER_H - ICONSIZE / 2, HEIGHT - FONT_2_V - M_V);
-    PrintLabel(strBtnRightBottom, CENTER_H + ICONSIZE + 2 * M_H, HEIGHT - FONT_2_V - M_V);
+    PrintLabel(tft, strBtnLeftBottom, CENTER_H - ICONSIZE - 2 * M_H, HEIGHT - FONT_2_V - M_V);
+    PrintLabel(tft, strBtnCenterBottom2, CENTER_H, HEIGHT - FONT_2_V - M_V);
+    PrintLabel(tft, strBtnRightBottom, CENTER_H + ICONSIZE + 2 * M_H, HEIGHT - FONT_2_V - M_V);
     // tft.setCursor(56, 222);
     // tft.setTextColor(WHITE);
     // tft.setTextSize(1);
@@ -65,29 +66,29 @@ void DrawMainScreen() // Főképernyő
     // delete temp; // Memóriafelszabadítás temp-nek
 }
 
-void DrawSprinkleSubMenu()
+void DrawSprinkleSubMenu(Adafruit_TFTLCD& tft)
 {
     tft.fillScreen(BLACK);
 }
-void DrawChainSprinkleSubMenu()
+void DrawChainSprinkleSubMenu(Adafruit_TFTLCD& tft)
 {
     tft.fillScreen(BLACK);
     // Top Icons
-    if (!bmpDraw("chain.bmp", M_H, M_V / 2))
+    if (!bmpDraw(tft, "chain.bmp", M_H, M_V / 2))
         tft.drawRoundRect(M_H, M_V / 2, ICONSIZE / 2, ICONSIZE / 2, RADIUS, CYAN); // x32-es chain ikon
-    if (!bmpDraw("home.bmp", 320 - M_H - ICONSIZE / 2, M_V / 2))
+    if (!bmpDraw(tft, "home.bmp", 320 - M_H - ICONSIZE / 2, M_V / 2))
         tft.drawRoundRect(320 - M_H - ICONSIZE / 2, M_V / 2, ICONSIZE / 2, ICONSIZE / 2, RADIUS, CYAN); // x32-es home ikon
     // Submenu Title
-    PrintSubMenuTitle("Sorban locsolas", 3, WHITE);
+    PrintSubMenuTitle(tft, "Sorban locsolas", 3, WHITE);
     // Line
     tft.drawFastHLine(10, M_V + ICONSIZE / 2, 300, CYAN);     // Dupla vonal
     tft.drawFastHLine(10, M_V + ICONSIZE / 2 + 1, 300, CYAN); // Dupla vonal
     // First Relay setter column
     int lineheight = M_V + ICONSIZE / 2 + 1;
-    if (!bmpDraw("up-arw.bmp", M_H, lineheight + M_V))
+    if (!bmpDraw(tft, "up-arw.bmp", M_H, lineheight + M_V))
         tft.drawRoundRect(M_H, lineheight + M_V, ICONSIZE, ICONSIZE, RADIUS, CYAN);
     // tft.drawRoundRect()
-    if (!bmpDraw("down-arw.bmp", M_H, lineheight + M_V * 3 + ICONSIZE))
+    if (!bmpDraw(tft, "down-arw.bmp", M_H, lineheight + M_V * 3 + ICONSIZE))
         tft.drawRoundRect(M_H, lineheight + M_V * 3 + ICONSIZE, ICONSIZE, ICONSIZE, RADIUS, CYAN);
     // Last Relay setter column
 
@@ -95,26 +96,26 @@ void DrawChainSprinkleSubMenu()
 
     // Start button
 }
-void DrawTestSubMenu()
+void DrawTestSubMenu(Adafruit_TFTLCD& tft)
 {
     tft.fillScreen(DARKCYAN);
 
     tft.drawRoundRect(M_H, M_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN);                      // x32-es settings ikon
     tft.drawRoundRect(320 - M_H - ICONSIZE / 2, M_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN); // x32-es home ikon
 
-    PrintSubMenuTitle("Teszteles", 3, WHITE);
+    PrintSubMenuTitle(tft, "Teszteles", 3, WHITE);
 
     tft.drawFastHLine(10, M_V + ICONSIZE / 2, 300, CYAN);     // Dupla vonal
     tft.drawFastHLine(10, M_V + ICONSIZE / 2 + 1, 300, CYAN); // Dupla vonal
 }
-void DrawPeriodSubMenu()
+void DrawPeriodSubMenu(Adafruit_TFTLCD& tft)
 {
     tft.fillScreen(BLACK);
 
     // tft.drawRoundRect(MARGIN_H, MARGIN_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN);                      // x32-es settings ikon
     // tft.drawRoundRect(320 - MARGIN_H - ICONSIZE / 2, MARGIN_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN); // x32-es home ikon
-    bmpDraw("settings32.bmp", M_H, M_V / 2);                  // x32-es settings ikon
-    bmpDraw("home32.bmp", 320 - M_H - ICONSIZE / 2, M_V / 2); // x32-es home ikon
+    bmpDraw(tft, "settings32.bmp", M_H, M_V / 2);                  // x32-es settings ikon
+    bmpDraw(tft, "home32.bmp", 320 - M_H - ICONSIZE / 2, M_V / 2); // x32-es home ikon
 
     tft.setCursor(tft.width() - (10 * FONT_3_H + 9 * 3), M_V * 2);
     tft.setTextColor(WHITE);
@@ -130,50 +131,36 @@ void DrawPeriodSubMenu()
 }
 
 /* ---- Common used drawing blocks ---- */
-void PrintRTCToMainScreen()
+
+void PrintRTCToMainScreen(Adafruit_TFTLCD& tft, TimeSpan realTime)
 {
-    tft.setCursor(113, M_V * 11 + ICONSIZE + FONT_1_V + FONT_3_V);
-    tft.setTextColor(WHITE);
-    tft.setTextSize(2);
-    tft.print("12:02:16"); // Valós óra
+    char temp[8];
+    sprintf(temp, "%2d:%02d:%02d", realTime.hours(), realTime.minutes(), realTime.seconds());
+    PrintLabel(tft, temp, CENTER_H - GetTextWidth(temp, 2)/2, M_V * 9 + ICONSIZE + FONT_1_V + FONT_3_V, 2);
 }
-void PrintSubMenuTitle(const char *title, int fontSize, uint16_t color)
+void PrintSubMenuTitle(Adafruit_TFTLCD& tft, const char *title, int fontSize, uint16_t color)
 {
     tft.setCursor(CENTER_H - GetTextWidth(title, fontSize) / 2, M_V * 2);
     tft.setTextColor(color);
     tft.setTextSize(fontSize);
     tft.print(title);
 }
-void PrintLabel(const char *label, int x, int y, int fontSize, uint16_t color)
+void PrintLabel(Adafruit_TFTLCD& tft, const char *label, int x, int y, int fontSize, uint16_t color)
 {
-    tft.setCursor(x - GetTextWidth(label, fontSize) / 2, y - (FONT_1_V * fontSize));
+    tft.setCursor(x - GetTextWidth(label, fontSize) / 2, y /* - (FONT_1_V * fontSize) */);
     tft.setTextColor(color);
     tft.setTextSize(fontSize);
     tft.print(label);
 }
 int GetTextWidth(const char *text, int fontSize)
 {
-    return strlen(text) * (FONT_1_H * fontSize) + (strlen(text) - 1) * 3;
+    return strlen(text) * (FONT_1_H * fontSize) + (strlen(text) - 1) * fontSize;
 }
 
 /* ---- Drawing helper function ---- */
-void printDirectory(File dir)
-{
-    while (true)
-    {
-        File entry = dir.openNextFile();
-        if (!entry)
-        {
-            dir.rewindDirectory();
-            break;
-        }
-        Serial.println(entry.name());
-    }
-    dir.rewindDirectory();
-}
 
 #define BUFFPIXEL 20
-bool bmpDraw(const char *filename, int x, int y)
+bool bmpDraw(Adafruit_TFTLCD& tft, const char *filename, int x, int y)
 {
 
     File bmpFile;
@@ -319,9 +306,6 @@ bool bmpDraw(const char *filename, int x, int y)
     return true;
 }
 
-// These read 16- and 32-bit types from the SD card file.
-// BMP data is stored little-endian, Arduino is little-endian too.
-// May need to reverse subscript order if porting elsewhere.
 
 uint16_t read16(File f)
 {
