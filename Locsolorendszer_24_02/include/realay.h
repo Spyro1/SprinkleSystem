@@ -14,8 +14,19 @@ class Relay
     TimeSpan end;   // End time of sprinkleing (calcualted)
 
 public:
-    Relay();                                                                     // Constructor for arrays
-    Relay(int ID, TimeSpan start = TimeSpan(0), int duration = 0, int pin = -1); // Constructor for instances
+    // -- Constrcutors --
+    /**
+     *  Constructor for arrays
+     * */
+    Relay();                    
+    /**
+     *  Constructor for instances
+     * @param ID Relays identifier
+     * @param start
+     * @param duration
+     * @param pin
+     * */                                                
+    Relay(int ID, TimeSpan start = TimeSpan(0), int duration = 0, int pin = -1);
     // - Getters -
     int getID() const;
     int getPin() const;
@@ -28,6 +39,8 @@ public:
     void setDuration(int duration);
     void setStart(TimeSpan startTime);
     void setStart(int hour, int minute);
+    // - Functions -
+    
 
 private:
     void UpdateEnd();

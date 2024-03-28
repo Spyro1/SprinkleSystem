@@ -41,15 +41,27 @@
 #define MAXPRESSURE 1000
 
 // 16 bites szinek
-#define BLACK 0x0000
-#define BLUE 0x001F
-#define RED 0xF800
-#define GREEN 0x07E0
-#define CYAN 0x07FF
-#define MAGENTA 0xF81F
-#define YELLOW 0xFFE0
-#define WHITE 0xFFFF
-#define DARKCYAN 0x032D // 0472
+#define BLACK       0x0000
+#define BLUE        0x001F
+#define CYAN        0x07FF
+#define DARKGREEN   0x03E0
+// #define DARKCYAN    0x03EF
+#define DARKGREY    0x7BEF
+#define GREEN       0x07E0
+#define GREENYELLOW 0xB7E0
+#define LIGHTGREY   0xC618
+#define MAGENTA     0xF81F
+#define MAROON      0x7800
+#define NAVY        0x000F
+#define OLIVE       0x7BE0
+#define ORANGE      0xFDA0
+#define PINK        0xFC9F
+#define PURPLE      0x780F
+#define RED         0xF800
+#define WHITE       0xFFFF
+#define YELLOW      0xFFE0
+
+#define BGDARKCYAN    0x032D // 0472
 
 // Menü makrók
 #define M_V 4         // Vertical margin
@@ -92,58 +104,63 @@
 // SdFat SD;                        // SD card filesystem
 // Adafruit_ImageReader reader(SD); // Image-reader object, pass in SD filesys
 
-/* ----- Function Declarations ----- */
+class Display{
 
-/* ---- Drawing fucntions ---- */
+    /* ----- Function Declarations ----- */
 
-/**
- * @brief Draws the Main Screen to the tft display.
- */
-void DrawMainScreen(Adafruit_TFTLCD& tft);
-/**
- * @brief Draws
- */
-void DrawSprinkleSubMenu(Adafruit_TFTLCD& tft);
-/**
- * @brief
- */
-void DrawChainSprinkleSubMenu(Adafruit_TFTLCD& tft);
-/**
- * @brief Draws
- */
-void DrawTestSubMenu(Adafruit_TFTLCD& tft);
-/**
- * @brief Draws
- */
-void DrawPeriodSubMenu(Adafruit_TFTLCD& tft);
+    /* ---- Drawing fucntions ---- */
+public:
+    /**
+     * @brief Draws the Main Screen to the tft display.
+     */
+    static void DrawMainScreen(Adafruit_TFTLCD& tft);
+    /**
+     * @brief Draws
+     */
+    static void DrawSprinkleSubMenu(Adafruit_TFTLCD& tft);
+    /**
+     * @brief
+     */
+    static void DrawChainSprinkleSubMenu(Adafruit_TFTLCD& tft);
+    /**
+     * @brief Draws
+     */
+    static void DrawTestSubMenu(Adafruit_TFTLCD& tft);
+    /**
+     * @brief Draws
+     */
+    static void DrawPeriodSubMenu(Adafruit_TFTLCD& tft);
 
-/* ---- Common used drawing blocks ---- */
+    /* ---- Common used drawing blocks ---- */
 
-/**
- * Prints the current time to the main screen
- */
-void PrintRTCToMainScreen(Adafruit_TFTLCD& tft, TimeSpan realTime);
-void PrintSubMenuTitle(Adafruit_TFTLCD& tft, const char *title, int fontSize, uint16_t color = WHITE);
-void PrintLabel(Adafruit_TFTLCD& tft, const char *label, int x, int y, int fontSize = 1, uint16_t color = WHITE);
-int GetTextWidth(const char *text, int fontSize);
+    /**
+     * Prints the current time to the main screen
+     */
+    static void PrintRTCToMainScreen(Adafruit_TFTLCD& tft, TimeSpan realTime);
 
-/* ---- Drawing helper function ---- */
-/**
- * @brief Draws a bitmap from the SD card to the tft display at the given coordinates.
- * @param filename Bitmap's filename from SD card
- * @param x Top left corner's x coordinate
- * @param y Top left corner's y coordinate
- * @returns Success state of function
- */
-bool bmpDraw(Adafruit_TFTLCD& tft, const char *filename, int x, int y);
-/**
- * @brief Bitmap data reading funcion (16 bits)
- * Read 16- and 32-bit types from the SD card file. BMP data is stored little-endian, Arduino is little-endian too.
- */
-uint16_t read16(File f);
-/**
- * @brief Bitamap data reading funcion (32 bits)
- * Read 16- and 32-bit types from the SD card file. BMP data is stored little-endian, Arduino is little-endian too.
- */
-uint32_t read32(File f);
+// private:
+    void PrintSubMenuTitle(Adafruit_TFTLCD& tft, const char *title, int fontSize, uint16_t color = WHITE);
+    void PrintLabel(Adafruit_TFTLCD& tft, const char *label, int x, int y, int fontSize = 1, uint16_t color = WHITE);
+    int GetTextWidth(const char *text, int fontSize);
+
+    /* ---- Drawing helper function ---- */
+    /**
+     * @brief Draws a bitmap from the SD card to the tft display at the given coordinates.
+     * @param filename Bitmap's filename from SD card
+     * @param x Top left corner's x coordinate
+     * @param y Top left corner's y coordinate
+     * @returns Success state of function
+     */
+    bool bmpDraw(Adafruit_TFTLCD& tft, const char *filename, int x, int y);
+    /**
+     * @brief Bitmap data reading funcion (16 bits)
+     * Read 16- and 32-bit types from the SD card file. BMP data is stored little-endian, Arduino is little-endian too.
+     */
+    uint16_t read16(File f);
+    /**
+     * @brief Bitamap data reading funcion (32 bits)
+     * Read 16- and 32-bit types from the SD card file. BMP data is stored little-endian, Arduino is little-endian too.
+     */
+    uint32_t read32(File f);
+};
 #endif // DISPLAY_H

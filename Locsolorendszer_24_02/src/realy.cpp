@@ -7,17 +7,17 @@
 Relay::Relay()
 {
     id = 0;
-    pin = -1;
-    duration = 0;
     start = TimeSpan(0);
     end = TimeSpan(0);
+    duration = 0;
+    pin = -1;
 }
 Relay::Relay(int ID, TimeSpan start, int duration, int pin)
 {
     id = ID;
-    this->pin = pin;
-    this->duration = duration;
     this->start = start;
+    this->duration = duration;
+    this->pin = pin;
     UpdateEnd();
 }
 

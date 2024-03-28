@@ -3,16 +3,35 @@
 #ifndef MENU_H
 #define MENU_H
 
+#include <Adafruit_TFTLCD.h> // Hardware-specific library
+#include "button.h"
+#include "display.h"
+
 enum menuStates
 {
     mainMenu,
     timePeriods,
-    realySettings,
-    realTimeSettings,
+    timingRelaySetting,
+    realTimeSetting,
     chainSprinkle,
     humiditySettings,
     settingsMenu
 };
+
+class Menu{
+    TouchButton buttons[100];
+    Adafruit_TFTLCD& tft;
+public:
+    Menu(Adafruit_TFTLCD& tft);
+
+    void RunMenu();
+    void Touched(int x, int y);
+    
+};
+
+
+
+
 
 /* ---- Button Clickevents ----- */
 
