@@ -14,8 +14,9 @@ void Menu::RunMenu() {
   
   
   // -- Start main screen -- 
-  DrawMainScreen(tft);
-  btnMainOnOff().ifPressedThenActivate(0,0);
+  DrawRTCSettingsSubMenu(tft); // Test
+  // DrawMainScreen(tft);
+  // btnMainOnOff().ifPressedThenActivate(0,0);
 
 }
 

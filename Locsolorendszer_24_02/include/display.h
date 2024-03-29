@@ -69,6 +69,9 @@
 #define RADIUS 5      // Rounded rectangle corner radius
 #define ICONSIZE 64   // Base Iconsize for buttons
 #define OPTIONSIZE 61 // Timing long button height
+#define SUBTITLE_H 38
+#define x32 ICONSIZE/2
+#define x16 ICONSIZE/4
 #define CENTER_H tft.width() / 2
 #define CENTER_V tft.height() / 2
 #define HEIGHT tft.height()
@@ -91,6 +94,10 @@
 #define strBtnCenterBottom2 "Ki"       // Bekapcsolt állapot
 #define strBtnRightBottom "Ido"        // Idő beállítás
 
+#define strRealTimeSettings "Ido beallitas"        // Idő beállítás almenő cím
+#define strHour "Ora"
+#define strMinute "Perx"
+
 // ----- Static variable declarations -----
 
 // For better pressure precision, we need to know the resistance between X+ and X- Use any multimeter to read it For the one we're using, its 300 ohms across the X plate
@@ -108,39 +115,33 @@
 
     /* ----- Function Declarations ----- */
 
-    /* ---- Drawing fucntions ---- */
 // public:
+    /* ---- Drawing fucntions ---- */
+
     /**
-     * @brief Draws the Main Screen to the tft display.
+     * Draws the Main Screen to the tft display.
      */
     void DrawMainScreen(Adafruit_TFTLCD& tft);
-    /**
-     * @brief Draws
-     */
-    void DrawSprinkleSubMenu(Adafruit_TFTLCD& tft);
-    /**
-     * @brief
-     */
-    void DrawChainSprinkleSubMenu(Adafruit_TFTLCD& tft);
-    /**
-     * @brief Draws
-     */
-    void DrawTestSubMenu(Adafruit_TFTLCD& tft);
-    /**
-     * @brief Draws
-     */
+    void DrawRTCSettingsSubMenu(Adafruit_TFTLCD& tft);
     void DrawPeriodSubMenu(Adafruit_TFTLCD& tft);
+    void DrawTimingSubMenu(Adafruit_TFTLCD& tft);
+    void DrawChainSprinkleSubMenu(Adafruit_TFTLCD& tft);
+    void DrawTestSubMenu(Adafruit_TFTLCD& tft);
+    void DrawSettingsSubMenu(Adafruit_TFTLCD& tft);
+    void DrawHumiditySubMenu(Adafruit_TFTLCD& tft);
+   
 
     /* ---- Common used drawing blocks ---- */
 
+
+// private:
     /**
      * Prints the current time to the main screen
      */
     void PrintRTCToMainScreen(Adafruit_TFTLCD& tft, TimeSpan realTime);
-
-// private:
     void PrintSubMenuTitle(Adafruit_TFTLCD& tft, const char *title, int fontSize, uint16_t color = WHITE);
     void PrintLabel(Adafruit_TFTLCD& tft, const char *label, int x, int y, int fontSize = 1, uint16_t color = WHITE);
+    void PrintDoubleLine(Adafruit_TFTLCD& tft, int y, int width = 300)
     int GetTextWidth(const char *text, int fontSize);
 
     /* ---- Drawing helper function ---- */
