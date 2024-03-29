@@ -4,26 +4,23 @@
 #include <TouchScreen.h>
 #include "menu.h"
 
-
 // ----- Static variable declarations -----
 
 // For better pressure precision, we need to know the resistance between X+ and X- Use any multimeter to read it For the one we're using, its 300 ohms across the X plate
- TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
+TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
 // Make TFT Display
- Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
+Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 /* ---- Drawing helper function ---- */
 
 // Create Menu
 Menu menuSystem = Menu(tft);
-
 
 void setup(void)
 {
   Serial.begin(9600);
   Serial.println(F("Paint!"));
 
-  
   // -- Set tft panel --
   tft.reset();
   uint16_t identifier = tft.readID(); // Found ILI9341 LCD driver
@@ -32,14 +29,15 @@ void setup(void)
   tft.setRotation(3);
   tft.fillScreen(BLACK);
 
-  // -- Setup SD card -- 
+  // -- Setup SD card --
   Serial.print(F("Initializing SD card..."));
   if (!SD.begin(SD_CS))
   {
     Serial.println(F("Failed!"));
     // return;
   }
-  else{
+  else
+  {
     Serial.println(F("OK!"));
     // Print files
     File dir = SD.open("/");
@@ -55,6 +53,7 @@ void setup(void)
     }
     dir.rewindDirectory();
   }
+  menuSystem.RunMenu();
 }
 
 void loop()
@@ -63,25 +62,24 @@ void loop()
   digitalWrite(13, HIGH);
   TSPoint p = ts.getPoint();
   digitalWrite(13, LOW);
-    // if sharing pins, you'll need to fix the directions of the touchscreen pins
-    // pinMode(XP, OUTPUT);
+  // if sharing pins, you'll need to fix the directions of the touchscreen pins
+  // pinMode(XP, OUTPUT);
   pinMode(XM, OUTPUT);
   pinMode(YP, OUTPUT);
-    // pinMode(YM, OUTPUT);
+  // pinMode(YM, OUTPUT);
 
   // -- Check pressed --
   if (p.z > MINPRESSURE && p.z < MAXPRESSURE)
   {
-    //Serial.print("X = "); Serial.print(p.x); Serial.print("\tY = "); Serial.print(p.y); // Print pushed coordinate
-    // Serial.print("\tPressure = "); Serial.println(p.z);   
+    // Serial.print("X = "); Serial.print(p.x); Serial.print("\tY = "); Serial.print(p.y); // Print pushed coordinate
+    //  Serial.print("\tPressure = "); Serial.println(p.z);
 
     // Scale from 0->1023 to tft.width
     p.x = map(p.x, TS_MINX, TS_MAXX, tft.width(), 0);
     p.y = map(p.y, TS_MINY, TS_MAXY, tft.height(), 0);
-    
+
     // Call Menu Touch to evaluate touch
     menuSystem.Touched(p.x, p.y);
     delay(100);
   }
 }
-
