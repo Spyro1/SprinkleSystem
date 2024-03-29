@@ -8,10 +8,10 @@
 #define F(string_literal) string_literal
 #endif
 
-#define YP A3 // must be an analog pin, use "An" notation!
-#define XM A2 // must be an analog pin, use "An" notation!
-#define YM 9  // can be a digital pin
-#define XP 8  // can be a digital pin
+#define YP A3 // LCD_CS // must be an analog pin, use "An" notation!
+#define XM A2 // LCD_RS // must be an analog pin, use "An" notation!
+#define YM 9 //9  // LCD_D1 // can be a digital pin
+#define XP 8 //8  // LCD_D0 // can be a digital pin
 
 #define TS_MINX 920
 #define TS_MINY 80
@@ -22,14 +22,17 @@
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
 #define LCD_CS A3
-#define LCD_CD A2 // LCD_RS
+#define LCD_CD A2   // LCD_RS
 #define LCD_WR A1
 #define LCD_RD A0
-#define SD_CS 10
-#define LCD_RESET A4 // optional
+#define SD_CS 10      // SD_SS
+#define LCD_RESET A4  // optional
 
 #define MINPRESSURE 10
 #define MAXPRESSURE 1000
+
+// Make TFT Display
+Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 
 // 16 bites szinekCYAN
 #define BLACK 0x0000
@@ -65,8 +68,6 @@ const char *strBtnCenterBottom1 = "Be";       // Kikapcsolt állapot
 const char *strBtnCenterBottom2 = "Ki";       // Bekapcsolt állapot
 const char *strBtnRightBottom = "Ido";        // Idő beállítás
 
-// Make TFT Display
-Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 
 // == Objects and global variables ==
 

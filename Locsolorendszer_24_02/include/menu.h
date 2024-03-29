@@ -3,7 +3,8 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include <Adafruit_TFTLCD.h> // Hardware-specific library
+// #include <Adafruit_TFTLCD.h> // Hardware-specific library
+#include <MCUFRIEND_kbv.h>
 #include "button.h"
 #include "display.h"
 
@@ -21,12 +22,12 @@ enum menuStates
 class Menu
 {
     TouchButton buttons[100];
-    Adafruit_TFTLCD &tft;
+    MCUFRIEND_kbv &tft;
 
     bool autoSprinkle = false; // If true, then timing is processed, if false, then no automatic sprinkleing
 
 public:
-    Menu(Adafruit_TFTLCD &tft);
+    Menu(MCUFRIEND_kbv &tft);
 
     void RunMenu();
     void Touched(int x, int y);

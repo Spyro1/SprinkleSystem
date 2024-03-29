@@ -3,7 +3,7 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
-#include <Adafruit_TFTLCD.h> // Hardware-specific library
+#include <MCUFRIEND_kbv.h> // Hardware-specific library
 #include <SD.h>
 #include <Adafruit_GFX.h> // Core graphics library
 #include <TouchScreen.h>  // TouchScreen library
@@ -41,37 +41,37 @@
 #define MAXPRESSURE 1000
 
 // 16 bites szinek
-#define BLACK       0x0000
-#define BLUE        0x001F
-#define CYAN        0x07FF
-#define DARKGREEN   0x03E0
-#define DARKCYAN    0x03EF
-#define DARKGREY    0x7BEF
-#define GREEN       0x07E0
+#define BLACK 0x0000
+#define BLUE 0x001F
+#define CYAN 0x07FF
+#define DARKGREEN 0x03E0
+#define DARKCYAN 0x03EF
+#define DARKGREY 0x7BEF
+#define GREEN 0x07E0
 #define GREENYELLOW 0xB7E0
-#define LIGHTGREY   0xC618
-#define MAGENTA     0xF81F
-#define MAROON      0x7800
-#define NAVY        0x000F
-#define OLIVE       0x7BE0
-#define ORANGE      0xFDA0
-#define PINK        0xFC9F
-#define PURPLE      0x780F
-#define RED         0xF800
-#define WHITE       0xFFFF
-#define YELLOW      0xFFE0
+#define LIGHTGREY 0xC618
+#define MAGENTA 0xF81F
+#define MAROON 0x7800
+#define NAVY 0x000F
+#define OLIVE 0x7BE0
+#define ORANGE 0xFDA0
+// #define PINK 0xFC9F
+#define PURPLE 0x780F
+#define RED 0xF800
+#define WHITE 0xFFFF
+#define YELLOW 0xFFE0
 
-#define BGDARKCYAN    0x032D // 0472
+#define BGDARKCYAN 0x032D // 0472
 
 // Menü makrók
-#define M_V 4         // Vertical margin
-#define M_H 8         // Horizonatal margin
-#define RADIUS 5      // Rounded rectangle corner radius
-#define ICONSIZE 64   // Base Iconsize for buttons
-#define OPTIONSIZE 61 // Timing long button height
+#define M_V 4    // Vertical margin
+#define M_H 8    // Horizonatal margin
+#define RADIUS 5 // Rounded rectangle corner radius
+#define x64 64   // Base Iconsize for buttons
+#define x32 x64 / 2
+#define x16 x64 / 4
+#define OPTIONSIZE 62 // Timing long button height
 #define SUBTITLE_H 38
-#define x32 ICONSIZE/2
-#define x16 ICONSIZE/4
 #define CENTER_H tft.width() / 2
 #define CENTER_V tft.height() / 2
 #define HEIGHT tft.height()
@@ -94,17 +94,26 @@
 #define strBtnCenterBottom2 "Ki"       // Bekapcsolt állapot
 #define strBtnRightBottom "Ido"        // Idő beállítás
 
-#define strRealTimeSettings "Ido beallitas"        // Idő beállítás almenő cím
+#define strRealTimeSettings "Ido beallitas" // Idő beállítás almenő cím
 #define strHour "Ora"
-#define strMinute "Perx"
+#define strMinute "Perc"
+#define strRelay "Releszam"
+#define strDurationShort "Idot."
+#define strPreiodSettings "Idozitesek" // Időzítések be-ki kapcsolási menüje
+#define strFirstPeriod "1. Idoszak"
+#define strSecondPeriod "2. Idoszak"
+#define strThirdPeriod "3. Idoszak"
+#define strFromRelay "Reletol"
+#define strToRelay "Releig"
+#define strDuration "Idotartam"
 
 // ----- Static variable declarations -----
 
 // For better pressure precision, we need to know the resistance between X+ and X- Use any multimeter to read it For the one we're using, its 300 ohms across the X plate
-//static TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
+// static TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
 // Make TFT Display
-//static Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
+// static MCUFRIEND_kbv tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 // static Adafruit_ILI9341 tft(LCD_CS, LCD_CD);
 
 // Create SD
@@ -113,55 +122,54 @@
 
 // class Display{
 
-    /* ----- Function Declarations ----- */
+/* ----- Function Declarations ----- */
 
 // public:
-    /* ---- Drawing fucntions ---- */
+/* ---- Drawing fucntions ---- */
 
-    /**
-     * Draws the Main Screen to the tft display.
-     */
-    void DrawMainScreen(Adafruit_TFTLCD& tft);
-    void DrawRTCSettingsSubMenu(Adafruit_TFTLCD& tft);
-    void DrawPeriodSubMenu(Adafruit_TFTLCD& tft);
-    void DrawTimingSubMenu(Adafruit_TFTLCD& tft);
-    void DrawChainSprinkleSubMenu(Adafruit_TFTLCD& tft);
-    void DrawTestSubMenu(Adafruit_TFTLCD& tft);
-    void DrawSettingsSubMenu(Adafruit_TFTLCD& tft);
-    void DrawHumiditySubMenu(Adafruit_TFTLCD& tft);
-   
+/**
+ * Draws the Main Screen to the tft display.
+ */
+void DrawMainScreen(MCUFRIEND_kbv &tft);
+void DrawRTCSettingsSubMenu(MCUFRIEND_kbv &tft);
+void DrawPeriodSubMenu(MCUFRIEND_kbv &tft);
+void DrawTimingSubMenu(MCUFRIEND_kbv &tft);
+void DrawChainSprinkleSubMenu(MCUFRIEND_kbv &tft);
+void DrawTestSubMenu(MCUFRIEND_kbv &tft);
+void DrawSettingsSubMenu(MCUFRIEND_kbv &tft);
+void DrawHumiditySubMenu(MCUFRIEND_kbv &tft);
 
-    /* ---- Common used drawing blocks ---- */
-
+/* ---- Common used drawing blocks ---- */
 
 // private:
-    /**
-     * Prints the current time to the main screen
-     */
-    void PrintRTCToMainScreen(Adafruit_TFTLCD& tft, TimeSpan realTime);
-    void PrintSubMenuTitle(Adafruit_TFTLCD& tft, const char *title, int fontSize, uint16_t color = WHITE);
-    void PrintLabel(Adafruit_TFTLCD& tft, const char *label, int x, int y, int fontSize = 1, uint16_t color = WHITE);
-    void PrintDoubleLine(Adafruit_TFTLCD& tft, int y, int width = 300);
-    int GetTextWidth(const char *text, int fontSize);
+/**
+ * Prints the current time to the main screen
+ */
+void PrintRTCToMainScreen(MCUFRIEND_kbv &tft, TimeSpan realTime);
+void PrintSubMenuTitle(MCUFRIEND_kbv &tft, const char *title, int fontSize, uint16_t color = WHITE);
+void PrintLabel(MCUFRIEND_kbv &tft, const char *label, int x, int y, int fontSize = 1, uint16_t color = WHITE);
+void PrintDoubleLine(MCUFRIEND_kbv &tft, int y, int width = 320, uint16_t color = WHITE);
+int GetTextWidth(const char *text, int fontSize);
+void PrintBmpOrRect(MCUFRIEND_kbv &tft, const char *text, int x, int y, int size, uint16_t color = CYAN);
 
-    /* ---- Drawing helper function ---- */
-    /**
-     * @brief Draws a bitmap from the SD card to the tft display at the given coordinates.
-     * @param filename Bitmap's filename from SD card
-     * @param x Top left corner's x coordinate
-     * @param y Top left corner's y coordinate
-     * @returns Success state of function
-     */
-    bool bmpDraw(Adafruit_TFTLCD& tft, const char *filename, int x, int y);
-    /**
-     * @brief Bitmap data reading funcion (16 bits)
-     * Read 16- and 32-bit types from the SD card file. BMP data is stored little-endian, Arduino is little-endian too.
-     */
-    uint16_t read16(File f);
-    /**
-     * @brief Bitamap data reading funcion (32 bits)
-     * Read 16- and 32-bit types from the SD card file. BMP data is stored little-endian, Arduino is little-endian too.
-     */
-    uint32_t read32(File f);
+/* ---- Drawing helper function ---- */
+/**
+ * @brief Draws a bitmap from the SD card to the tft display at the given coordinates.
+ * @param filename Bitmap's filename from SD card
+ * @param x Top left corner's x coordinate
+ * @param y Top left corner's y coordinate
+ * @returns Success state of function
+ */
+bool bmpDraw(MCUFRIEND_kbv &tft, const char *filename, int x, int y);
+/**
+ * @brief Bitmap data reading funcion (16 bits)
+ * Read 16- and 32-bit types from the SD card file. BMP data is stored little-endian, Arduino is little-endian too.
+ */
+uint16_t read16(File f);
+/**
+ * @brief Bitamap data reading funcion (32 bits)
+ * Read 16- and 32-bit types from the SD card file. BMP data is stored little-endian, Arduino is little-endian too.
+ */
+uint32_t read32(File f);
 // };
 #endif // DISPLAY_H

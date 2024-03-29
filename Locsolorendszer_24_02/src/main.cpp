@@ -1,6 +1,7 @@
 #include <SD.h>
-#include <Adafruit_GFX.h>    // Core graphics library
-#include <Adafruit_TFTLCD.h> // Hardware-specific library
+#include <Adafruit_GFX.h> // Core graphics library
+// #include <Adafruit_TFTLCD.h> // Hardware-specific library
+#include <MCUFRIEND_kbv.h>
 #include <TouchScreen.h>
 #include "menu.h"
 
@@ -10,7 +11,8 @@
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
 // Make TFT Display
-Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
+// Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
+MCUFRIEND_kbv tft; //(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 /* ---- Drawing helper function ---- */
 
 // Create Menu
@@ -26,7 +28,7 @@ void setup(void)
   uint16_t identifier = tft.readID(); // Found ILI9341 LCD driver
   tft.begin(identifier);
   pinMode(13, OUTPUT);
-  tft.setRotation(3);
+  tft.setRotation(1);
   tft.fillScreen(BLACK);
 
   // -- Setup SD card --

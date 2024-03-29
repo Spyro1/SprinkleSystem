@@ -4,7 +4,7 @@
 #include "display.h"
 
 /* ---- Menu class definicions ---- */
-Menu::Menu(Adafruit_TFTLCD &tft) : tft(tft)
+Menu::Menu(MCUFRIEND_kbv &tft) : tft(tft)
 {
   // btnMainOnOff() = TouchButton(0, 0, ICONSIZE, ICONSIZE, MainToggleButton_Clicked);
 }
@@ -13,8 +13,16 @@ void Menu::RunMenu()
 {
 
   // -- Start main screen --
+  // DrawMainScreen(tft);
+  // delay(5000);
   // DrawRTCSettingsSubMenu(tft); // Test
-  DrawMainScreen(tft);
+  // delay(10000);
+  // delay(5000);
+  // DrawPeriodSubMenu(tft);
+  DrawTimingSubMenu(tft);
+  delay(10000);
+  DrawChainSprinkleSubMenu(tft);
+
   // btnMainOnOff().ifPressedThenActivate(0,0);
 }
 
