@@ -32,8 +32,8 @@ void ChainButton_Clicked() {}
 void TestButton_Clicked() {}
 void HumidityButton_Clicked() {}
 void SettingsButton_Clicked() {}
-void Menu::MainToggleButton_Clicked() { 
-  autoSprinkle = !autoSprinkle;
+void MainToggleButton_Clicked() { 
+  // autoSprinkle = !autoSprinkle;
   // if (autoSprinkle)
 }
 void ClockButton_Clicked() {}

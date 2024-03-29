@@ -141,7 +141,7 @@
     void PrintRTCToMainScreen(Adafruit_TFTLCD& tft, TimeSpan realTime);
     void PrintSubMenuTitle(Adafruit_TFTLCD& tft, const char *title, int fontSize, uint16_t color = WHITE);
     void PrintLabel(Adafruit_TFTLCD& tft, const char *label, int x, int y, int fontSize = 1, uint16_t color = WHITE);
-    void PrintDoubleLine(Adafruit_TFTLCD& tft, int y, int width = 300)
+    void PrintDoubleLine(Adafruit_TFTLCD& tft, int y, int width = 300);
     int GetTextWidth(const char *text, int fontSize);
 
     /* ---- Drawing helper function ---- */

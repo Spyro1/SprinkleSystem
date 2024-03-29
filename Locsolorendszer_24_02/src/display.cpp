@@ -50,7 +50,7 @@ void DrawRTCSettingsSubMenu(Adafruit_TFTLCD &tft) {
     if (!bmpDraw(tft, "home32.bmp", 320 - M_H - x32, M_V / 2))
         tft.drawRoundRect(WIDTH - M_H - x32, M_V/2, x32, x32, RADIUS, CYAN); // x32-es home ikon
     // Print title
-    PrintLabel(tft, strRealTimeSettings, CENTER_H - GetTextWidth(strRealTimeSettings, 3)/2)
+    PrintLabel(tft, strRealTimeSettings, CENTER_H - GetTextWidth(strRealTimeSettings, 3)/2, M_V,3);
     // Draw double line below title
     PrintDoubleLine(tft, M_V + x32);
     // End of subtitle
@@ -66,8 +66,8 @@ void DrawRTCSettingsSubMenu(Adafruit_TFTLCD &tft) {
     if (!bmpDraw(tft, "arrow-d.bmp", CENTER_H + M_H, SUBTITLE_H + M_V * 2 + ICONSIZE + M_V*2 + x32))
         tft.drawRoundRect(CENTER_H + M_H, SUBTITLE_H + M_V * 2  + ICONSIZE + M_V*2 + x32, ICONSIZE, ICONSIZE, RADIUS, CYAN); // x32-es óra ikon
     // Draw num Editor field
-    tft.drawRoundRect(CENTER_H-x32-x16, SUBTITLE_H + M_V * 2 + ICONSIZE + M_V, x32, x32);   // Left hour field square
-    tft.drawRoundRect(CENTER_H+x16, SUBTITLE_H + M_V * 2 + ICONSIZE + M_V, x32, x32);       // Right minute field 
+    tft.drawRoundRect(CENTER_H-x32-x16, SUBTITLE_H + M_V * 2 + ICONSIZE + M_V, x32, x32, RADIUS, CYAN);   // Left hour field square
+    tft.drawRoundRect(CENTER_H+x16, SUBTITLE_H + M_V * 2 + ICONSIZE + M_V, x32, x32, RADIUS, CYAN);       // Right minute field 
     PrintLabel(tft,strHour, CENTER_H-x32*2, SUBTITLE_H + M_V * 2 + ICONSIZE + M_V, 3);      // Óra label
     PrintLabel(tft,strMinute, CENTER_H+x16+x32, SUBTITLE_H + M_V * 2 + ICONSIZE + M_V, 3);  // Perc label
     // Num fields
@@ -166,7 +166,7 @@ void PrintLabel(Adafruit_TFTLCD& tft, const char *label, int x, int y, int fontS
 }
 void PrintDoubleLine(Adafruit_TFTLCD& tft, int y, int width){
     tft.drawFastHLine((WIDTH - width) / 2, y, width, CYAN);     // Dupla vonal
-    tft.drawFastHLine((WIDTH - width) / 2, y, y + 1, width, CYAN); // Dupla vonal
+    tft.drawFastHLine((WIDTH - width) / 2, y + 1, width, CYAN); // Dupla vonal
 }
 int GetTextWidth(const char *text, int fontSize) {
     return strlen(text) * (FONT_1_H * fontSize) + (strlen(text) - 1) * fontSize;
