@@ -12,12 +12,8 @@ class TouchButton{
     void (*func)();
 public:
     TouchButton() { func = nullptr; }
-    TouchButton(int x, int y, int width, int height, void (*clickevent)()) : pos(x,y), size(width, height) {
-        func = clickevent;
-    }
-    TouchButton(Point position, Size size, void (*clickevent)()) : pos(position), size(size) {
-        func = clickevent;
-    }
+    TouchButton(int x, int y, int width, int height, void (*clickevent)()) : pos(x,y), size(width, height), func(clickevent) {}
+    TouchButton(Point position, Size size, void (*clickevent)()) : pos(position), size(size), func(clickevent) {}
     /**
      * Tests if the given coordinate is inside the button
      * @param x x coordinate

@@ -45,7 +45,7 @@
 #define BLUE        0x001F
 #define CYAN        0x07FF
 #define DARKGREEN   0x03E0
-// #define DARKCYAN    0x03EF
+#define DARKCYAN    0x03EF
 #define DARKGREY    0x7BEF
 #define GREEN       0x07E0
 #define GREENYELLOW 0xB7E0
@@ -104,39 +104,39 @@
 // SdFat SD;                        // SD card filesystem
 // Adafruit_ImageReader reader(SD); // Image-reader object, pass in SD filesys
 
-class Display{
+// class Display{
 
     /* ----- Function Declarations ----- */
 
     /* ---- Drawing fucntions ---- */
-public:
+// public:
     /**
      * @brief Draws the Main Screen to the tft display.
      */
-    static void DrawMainScreen(Adafruit_TFTLCD& tft);
+    void DrawMainScreen(Adafruit_TFTLCD& tft);
     /**
      * @brief Draws
      */
-    static void DrawSprinkleSubMenu(Adafruit_TFTLCD& tft);
+    void DrawSprinkleSubMenu(Adafruit_TFTLCD& tft);
     /**
      * @brief
      */
-    static void DrawChainSprinkleSubMenu(Adafruit_TFTLCD& tft);
+    void DrawChainSprinkleSubMenu(Adafruit_TFTLCD& tft);
     /**
      * @brief Draws
      */
-    static void DrawTestSubMenu(Adafruit_TFTLCD& tft);
+    void DrawTestSubMenu(Adafruit_TFTLCD& tft);
     /**
      * @brief Draws
      */
-    static void DrawPeriodSubMenu(Adafruit_TFTLCD& tft);
+    void DrawPeriodSubMenu(Adafruit_TFTLCD& tft);
 
     /* ---- Common used drawing blocks ---- */
 
     /**
      * Prints the current time to the main screen
      */
-    static void PrintRTCToMainScreen(Adafruit_TFTLCD& tft, TimeSpan realTime);
+    void PrintRTCToMainScreen(Adafruit_TFTLCD& tft, TimeSpan realTime);
 
 // private:
     void PrintSubMenuTitle(Adafruit_TFTLCD& tft, const char *title, int fontSize, uint16_t color = WHITE);
@@ -162,5 +162,5 @@ public:
      * Read 16- and 32-bit types from the SD card file. BMP data is stored little-endian, Arduino is little-endian too.
      */
     uint32_t read32(File f);
-};
+// };
 #endif // DISPLAY_H

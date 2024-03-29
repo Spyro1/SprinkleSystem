@@ -4,7 +4,7 @@
 
 /* ---- Drawing fucntions ---- */
 
-void Display::DrawMainScreen(Adafruit_TFTLCD& tft) { // Főképernyő
+void DrawMainScreen(Adafruit_TFTLCD& tft) { // Főképernyő
     tft.fillScreen(BLACK);
     // ImageReturnCode stat;
     // stat = reader.drawBMP("/settings.bmp", tft, 120, 120);
@@ -58,10 +58,10 @@ void Display::DrawMainScreen(Adafruit_TFTLCD& tft) { // Főképernyő
     PrintLabel(tft, strBtnRightBottom, CENTER_H + ICONSIZE + 2 * M_H, HEIGHT - FONT_2_V - M_V);
 }
 
-void Display::DrawSprinkleSubMenu(Adafruit_TFTLCD& tft) {
+void DrawSprinkleSubMenu(Adafruit_TFTLCD& tft) {
     tft.fillScreen(BLACK);
 }
-void Display::DrawChainSprinkleSubMenu(Adafruit_TFTLCD& tft) {
+void DrawChainSprinkleSubMenu(Adafruit_TFTLCD& tft) {
     tft.fillScreen(BLACK);
     // Top Icons
     if (!bmpDraw(tft, "chain.bmp", M_H, M_V / 2))
@@ -86,7 +86,7 @@ void Display::DrawChainSprinkleSubMenu(Adafruit_TFTLCD& tft) {
 
     // Start button
 }
-void Display::DrawTestSubMenu(Adafruit_TFTLCD& tft) {
+void DrawTestSubMenu(Adafruit_TFTLCD& tft) {
     tft.fillScreen(BGDARKCYAN);
 
     tft.drawRoundRect(M_H, M_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN);                      // x32-es settings ikon
@@ -97,7 +97,7 @@ void Display::DrawTestSubMenu(Adafruit_TFTLCD& tft) {
     tft.drawFastHLine(10, M_V + ICONSIZE / 2, 300, CYAN);     // Dupla vonal
     tft.drawFastHLine(10, M_V + ICONSIZE / 2 + 1, 300, CYAN); // Dupla vonal
 }
-void Display::DrawPeriodSubMenu(Adafruit_TFTLCD& tft) {
+void DrawPeriodSubMenu(Adafruit_TFTLCD& tft) {
     tft.fillScreen(BLACK);
 
     // tft.drawRoundRect(MARGIN_H, MARGIN_V / 2, ICONSIZE / 2, ICONSIZE / 2, 5, CYAN);                      // x32-es settings ikon
@@ -120,31 +120,31 @@ void Display::DrawPeriodSubMenu(Adafruit_TFTLCD& tft) {
 
 /* ---- Common used drawing blocks ---- */
 
-void Display::PrintRTCToMainScreen(Adafruit_TFTLCD& tft, TimeSpan realTime) {
+void PrintRTCToMainScreen(Adafruit_TFTLCD& tft, TimeSpan realTime) {
     char temp[20];
     sprintf(temp, "%2d:%02d:%02d", realTime.hours(), realTime.minutes(), realTime.seconds());
     PrintLabel(tft, temp, CENTER_H, M_V * 9 + ICONSIZE + FONT_1_V + FONT_3_V, 2);
 }
-void Display::PrintSubMenuTitle(Adafruit_TFTLCD& tft, const char *title, int fontSize, uint16_t color) {
+void PrintSubMenuTitle(Adafruit_TFTLCD& tft, const char *title, int fontSize, uint16_t color) {
     tft.setCursor(CENTER_H - GetTextWidth(title, fontSize) / 2, M_V * 2);
     tft.setTextColor(color);
     tft.setTextSize(fontSize);
     tft.print(title);
 }
-void Display::PrintLabel(Adafruit_TFTLCD& tft, const char *label, int x, int y, int fontSize, uint16_t color) {
+void PrintLabel(Adafruit_TFTLCD& tft, const char *label, int x, int y, int fontSize, uint16_t color) {
     tft.setCursor(x - GetTextWidth(label, fontSize) / 2, y /* - (FONT_1_V * fontSize) */);
     tft.setTextColor(color);
     tft.setTextSize(fontSize);
     tft.print(label);
 }
-int Display::GetTextWidth(const char *text, int fontSize) {
+int GetTextWidth(const char *text, int fontSize) {
     return strlen(text) * (FONT_1_H * fontSize) + (strlen(text) - 1) * fontSize;
 }
 
 /* ---- Drawing helper function ---- */
 
 #define BUFFPIXEL 20
-bool Display::bmpDraw(Adafruit_TFTLCD& tft, const char *filename, int x, int y)
+bool bmpDraw(Adafruit_TFTLCD& tft, const char *filename, int x, int y)
 {
 
     File bmpFile;
@@ -290,7 +290,7 @@ bool Display::bmpDraw(Adafruit_TFTLCD& tft, const char *filename, int x, int y)
     return true;
 }
 
-uint16_t Display::read16(File f)
+uint16_t read16(File f)
 {
     uint16_t result;
     ((uint8_t *)&result)[0] = f.read(); // LSB
@@ -298,7 +298,7 @@ uint16_t Display::read16(File f)
     return result;
 }
 
-uint32_t Display::read32(File f)
+uint32_t read32(File f)
 {
     uint32_t result;
     ((uint8_t *)&result)[0] = f.read(); // LSB

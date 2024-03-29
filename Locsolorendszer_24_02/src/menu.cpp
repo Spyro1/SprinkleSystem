@@ -1,14 +1,22 @@
 // --- menu.cpp ---
 
 #include "menu.h"
+#include "display.h"
 
 /* ---- Menu class definicions ---- */
-Menu::Menu(Adafruit_TFTLCD& tft) : tft(tft) { }
+Menu::Menu(Adafruit_TFTLCD& tft) : tft(tft) {
+  btnMainOnOff() = TouchButton(0, 0, ICONSIZE, ICONSIZE, MainToggleButton_Clicked);
+
+}
 
 void Menu::RunMenu() {
-    
+  
+  
+  
   // -- Start main screen -- 
   DrawMainScreen(tft);
+  btnMainOnOff().ifPressedThenActivate(0,0);
+
 }
 
 void Menu::Touched(int x, int y) {
@@ -23,7 +31,10 @@ void ChainButton_Clicked() {}
 void TestButton_Clicked() {}
 void HumidityButton_Clicked() {}
 void SettingsButton_Clicked() {}
-void MainToggleButton_Clicked() {}
+void Menu::MainToggleButton_Clicked() { 
+  autoSprinkle = !autoSprinkle;
+  // if (autoSprinkle)
+}
 void ClockButton_Clicked() {}
 
 // --- Submenus ---
