@@ -40,132 +40,139 @@ void DrawRTCSettingsSubMenu(MCUFRIEND_kbv &tft)
 {
     tft.fillScreen(BLACK);
     // Draw submenu title
-    PrintBmpOrRect(tft, "clock32.bmp", M_H / 2, M_V / 2, x32);
-    PrintBmpOrRect(tft, "home32.bmp", WIDTH - M_H / 2 - x32, M_V / 2, x32);
+    PrintBmpOrRect(tft, "clock32.bmp", SUBMENUICON_POS, x32);
+    PrintBmpOrRect(tft, "home32.bmp", SUBMENUHOME_POS, x32);
     // Print title
     PrintLabel(tft, strRealTimeSettings, CENTER_H, M_V * 2, 3);
     // Draw double line below title
-    PrintDoubleLine(tft, M_V + x32);
+    PrintDoubleLine(tft, x32);
     // End of subtitle
     // Draw Settings
-    PrintLabel(tft, ":", CENTER_H, CENTER_V, 3);
+    PrintLabel(tft, ":", COL_2_3_SEPERATOR, 3);
     // Draw Hour Up and Down buttons
-    PrintBmpOrRect(tft, "arrow-u.bmp", CENTER_H - M_H * 2 - x64, SUBTITLE_H + M_V * 2, x64);
-    PrintBmpOrRect(tft, "arrow-u.bmp", CENTER_H + M_H * 2, SUBTITLE_H + M_V * 2, x64);
-    PrintBmpOrRect(tft, "arrow-d.bmp", CENTER_H - M_H * 2 - x64, SUBTITLE_H + M_V * 2 + x64 + M_V * 2 + x32, x64);
-    PrintBmpOrRect(tft, "arrow-d.bmp", CENTER_H + M_H * 2, SUBTITLE_H + M_V * 2 + x64 + M_V * 2 + x32, x64);
+    PrintBmpOrRect(tft, UP_ARROW, SLOT_1_2);
+    PrintBmpOrRect(tft, UP_ARROW, SLOT_1_3);
+    PrintBmpOrRect(tft, DOWN_ARROW, SLOT_3_2);
+    PrintBmpOrRect(tft, DOWN_ARROW, SLOT_3_3);
     // Draw Save and Exit buttons
-    PrintBmpOrRect(tft, "exit.bmp", M_H / 2, HEIGHT - x32 - M_V / 2, x32, RED);
-    PrintBmpOrRect(tft, "save.bmp", WIDTH - x32 - M_H / 2, HEIGHT - x32 - M_V / 2, x32, GREEN);
+    PrintBmpOrRect(tft, EXIT_ICON, SLOT_2_1, RED);
+    PrintBmpOrRect(tft, OK_ICON, SLOT_2_4, GREEN);
     // Draw num Editor field
-    // tft.drawRoundRect(CENTER_H - x32 * 2, SUBTITLE_H + M_V * 2 + ICONSIZE + M_V, x32, x32, RADIUS, CYAN); // Left hour field square
-    // tft.drawRoundRect(CENTER_H + x32, SUBTITLE_H + M_V * 2 + ICONSIZE + M_V, x32, x32, RADIUS, CYAN);     // Right minute field
-    PrintLabel(tft, strHour, CENTER_H - x32 - x16, HEIGHT - x16, 2);   // Óra label
-    PrintLabel(tft, strMinute, CENTER_H + x32 + x16, HEIGHT - x16, 2); // Perc label
+    PrintLabel(tft, strHour, COL_2_LABEL, 2);   // Óra label
+    PrintLabel(tft, strMinute, COL_3_LABEL, 2); // Perc label
     // Num fields
-    PrintLabel(tft, "12", CENTER_H - x32, SUBTITLE_H + M_V * 4 + x64 + M_V, 2);
-    PrintLabel(tft, "00", CENTER_H + x32, SUBTITLE_H + M_V * 4 + x64 + M_V, 2);
+    PrintLabel(tft, "12", COL_2_CENTER, 3);
+    PrintLabel(tft, "00", COL_3_CENTER, 3);
 }
 
 void DrawPeriodSubMenu(MCUFRIEND_kbv &tft)
 {
     tft.fillScreen(BLACK);
     // Draw submenu title
-    PrintBmpOrRect(tft, "clock32.bmp", M_H / 2, M_V / 2, x32);              // x32-es óra ikon
-    PrintBmpOrRect(tft, "home32.bmp", WIDTH - M_H / 2 - x32, M_V / 2, x32); // x32-es home ikon
+    PrintBmpOrRect(tft, "clock32.bmp", SUBMENUICON_POS, x32); // x32-es óra ikon
+    PrintBmpOrRect(tft, "home32.bmp", SUBMENUHOME_POS, x32);  // x32-es home ikon
     // Print title
     PrintLabel(tft, strPreiodSettings, CENTER_H, M_V * 2, 3);
     // Draw double line below title
-    PrintDoubleLine(tft, M_V + x32);
+    PrintDoubleLine(tft, x32);
     // End of subtitle
     // Draw Period buttons
-    tft.fillRoundRect(M_H, SUBTITLE_H + M_V, 228, OPTIONSIZE, RADIUS, BGDARKCYAN);                         // 1. időszak háttere
-    tft.fillRoundRect(M_H, SUBTITLE_H + M_V * 2 + OPTIONSIZE, 228, OPTIONSIZE, RADIUS, BGDARKCYAN);        // 2. időszak háttere
-    tft.fillRoundRect(M_H, SUBTITLE_H + M_V * 3 + OPTIONSIZE * 2, 228, OPTIONSIZE, RADIUS, BGDARKCYAN);    // 3. időszak háttere
-    PrintLabel(tft, strFirstPeriod, CENTER_H - x64 - x16, SUBTITLE_H + M_V * 2 + x16, 2);                  // 1. időszak szöveg
-    PrintLabel(tft, strSecondPeriod, CENTER_H - x64 - x16, SUBTITLE_H + M_V * 3 + OPTIONSIZE + x16, 2);    // 2. időszak szöveg
-    PrintLabel(tft, strThirdPeriod, CENTER_H - x64 - x16, SUBTITLE_H + M_V * 4 + OPTIONSIZE * 2 + x16, 2); // 3. időszak szöveg
+    tft.drawRoundRect(SLOT_1_1 + 160, x64, RADIUS, CYAN);                                           // 1. időszak háttere
+    tft.drawRoundRect(SLOT_2_1 + 160, x64, RADIUS, CYAN);                                           // 2. időszak háttere
+    tft.drawRoundRect(SLOT_3_1 + 160, x64, RADIUS, CYAN);                                           // 3. időszak háttere
+    PrintLabel(tft, strFirstPeriod, CENTER_H - x64 - x16, SUBTITLE_H + M_V * 2 + x16, 2);           // 1. időszak szöveg
+    PrintLabel(tft, strSecondPeriod, CENTER_H - x64 - x16, SUBTITLE_H + M_V * 3 + x64 + x16, 2);    // 2. időszak szöveg
+    PrintLabel(tft, strThirdPeriod, CENTER_H - x64 - x16, SUBTITLE_H + M_V * 4 + x64 * 2 + x16, 2); // 3. időszak szöveg
     // On-off Switches
-    PrintBmpOrRect(tft, "on-sw.bmp", WIDTH - x64 - M_H, SUBTITLE_H + M_V, x64);
-    PrintBmpOrRect(tft, "on-sw.bmp", WIDTH - x64 - M_H, SUBTITLE_H + M_V * 2 + OPTIONSIZE - 1, x64);
-    PrintBmpOrRect(tft, "on-sw.bmp", WIDTH - x64 - M_H, SUBTITLE_H + M_V * 3 + OPTIONSIZE * 2 - 1, x64);
+    PrintBmpOrRect(tft, ON_SWITCH_LABEL, SLOT_1_4, GREEN);
+    PrintBmpOrRect(tft, OFF_SWITCH_LABEL, SLOT_2_4, RED);
+    PrintBmpOrRect(tft, OFF_SWITCH_LABEL, SLOT_3_4, RED);
 }
 void DrawTimingSubMenu(MCUFRIEND_kbv &tft)
 {
     tft.fillScreen(BLACK);
     // Draw submenu title
-    PrintBmpOrRect(tft, "realy32.bmp", M_H / 2, M_V / 2, x32);              // x32-es realy ikon
-    PrintBmpOrRect(tft, "home32.bmp", WIDTH - M_H / 2 - x32, M_V / 2, x32); // x32-es home ikon
+    PrintBmpOrRect(tft, "realy32.bmp", SUBMENUICON_POS, x32); // x32-es realy ikon
+    PrintBmpOrRect(tft, "home32.bmp", SUBMENUHOME_POS, x32);  // x32-es home ikon
     // Print title
-    PrintLabel(tft, strFirstPeriod, CENTER_H, M_V * 2, 3);
+    PrintLabel(tft, "1/1. Rele", CENTER_H, M_V * 2, 3);
     // Draw double line below title
-    PrintDoubleLine(tft, M_V + x32);
+    PrintDoubleLine(tft, x32);
     // End of subtitle
-    // Save button
-    PrintBmpOrRect(tft, "save.bmp", WIDTH - x32 - M_H / 2, SUBTITLE_H + M_V * 4 + x64, x32, GREEN);
     // Draw Hour Up and Down buttons
-    PrintBmpOrRect(tft, "arrow-u.bmp", M_H, SUBTITLE_H + M_V * 2, x64);
-    PrintBmpOrRect(tft, "arrow-u.bmp", M_H * 2 + x64, SUBTITLE_H + M_V * 2, x64);
-    PrintBmpOrRect(tft, "arrow-u.bmp", M_H * 3 + x64 * 2, SUBTITLE_H + M_V * 2, x64);
-    PrintBmpOrRect(tft, "arrow-u.bmp", M_H * 4 + x64 * 3, SUBTITLE_H + M_V * 2, x64);
-    PrintBmpOrRect(tft, "arrow-d.bmp", M_H, SUBTITLE_H + M_V * 6 + x64 + x32, x64);
-    PrintBmpOrRect(tft, "arrow-d.bmp", M_H * 2 + x64, SUBTITLE_H + M_V * 6 + x64 + x32, x64);
-    PrintBmpOrRect(tft, "arrow-d.bmp", M_H * 3 + x64 * 2, SUBTITLE_H + M_V * 6 + x64 + x32, x64);
-    PrintBmpOrRect(tft, "arrow-d.bmp", M_H * 4 + x64 * 3, SUBTITLE_H + M_V * 6 + x64 + x32, x64);
+    PrintBmpOrRect(tft, UP_ARROW, SLOT_1_1);
+    PrintBmpOrRect(tft, UP_ARROW, SLOT_1_2);
+    PrintBmpOrRect(tft, UP_ARROW, SLOT_1_3);
+    PrintBmpOrRect(tft, OK_ICON, SLOT_1_4, GREEN);
+    PrintBmpOrRect(tft, DOWN_ARROW, SLOT_3_1);
+    PrintBmpOrRect(tft, DOWN_ARROW, SLOT_3_2);
+    PrintBmpOrRect(tft, DOWN_ARROW, SLOT_3_3);
+    PrintBmpOrRect(tft, EXIT_ICON, SLOT_3_4, RED);
     // Filed labels
-    PrintLabel(tft, strRelay, M_H + x32, HEIGHT - x16, 1);                        // Relé label
-    PrintLabel(tft, strHour, M_H * 2 + x32 * 3, HEIGHT - x16, 1);                 // Óra label
-    PrintLabel(tft, strMinute, M_H * 3 + x32 * 5, HEIGHT - x16, 1);               // Perc label
-    PrintLabel(tft, strDuration, M_H * 4 + x32 * 7, HEIGHT - x16, 1);             // Időt. label
-    PrintLabel(tft, "p", M_H * 5 + x32 * 7 + x16, SUBTITLE_H + M_V * 6 + x64, 2); // "p" label
-    PrintLabel(tft, ":", M_H * 2 + x32 * 4, SUBTITLE_H + M_V * 5 + x64, 3);
-    // Num Fileds        M_H * 4 + x32 * 5 + x16
-    PrintLabel(tft, "01", M_H + x32, SUBTITLE_H + M_V * 5 + x64, 3);         // Relé szám
-    PrintLabel(tft, "21", M_H * 2 + x32 * 3, SUBTITLE_H + M_V * 5 + x64, 3); // Óra szám
-    PrintLabel(tft, "00", M_H * 3 + x32 * 5, SUBTITLE_H + M_V * 5 + x64, 3); // Perc szám
-    PrintLabel(tft, "10", M_H * 4 + x32 * 7, SUBTITLE_H + M_V * 5 + x64, 3); // Időtartam
+    PrintLabel(tft, strHour, COL_1_LABEL, 1);     // Óra label
+    PrintLabel(tft, strMinute, COL_2_LABEL, 1);   // Perc label
+    PrintLabel(tft, strDuration, COL_3_LABEL, 1); // Időt. label
+    PrintLabel(tft, "p", x32 + COL_3_CENTER, 3);  // "p" label
+    PrintLabel(tft, ":", COL_1_2_SEPERATOR, 3);
+    // Num Fileds
+    PrintLabel(tft, "21", COL_1_CENTER, 3); // Óra szám
+    PrintLabel(tft, "00", COL_2_CENTER, 3); // Perc szám
+    PrintLabel(tft, "10", COL_3_CENTER, 3); // Időtartam
 }
 void DrawChainSprinkleSubMenu(MCUFRIEND_kbv &tft)
 {
     tft.fillScreen(BLACK);
     // Draw submenu title
-    PrintBmpOrRect(tft, "chain32.bmp", M_H / 2, M_V / 2, x32);              // x32-es chain ikon
-    PrintBmpOrRect(tft, "home32.bmp", WIDTH - M_H / 2 - x32, M_V / 2, x32); // x32-es home ikon
+    PrintBmpOrRect(tft, "chain32.bmp", SUBMENUICON_POS, x32); // x32-es chain ikon
+    PrintBmpOrRect(tft, "home32.bmp", SUBMENUHOME_POS, x32);  // x32-es home ikon
     // Print title
     PrintLabel(tft, strBtnLeftCenter, CENTER_H, M_V * 2, 3); // Sorban
     // Draw double line below title
-    PrintDoubleLine(tft, M_V + x32);
+    PrintDoubleLine(tft, x32);
     // End of subtitle
-    // Save button
-    PrintBmpOrRect(tft, "save.bmp", WIDTH - x64 - M_H, SUBTITLE_H + x64, x64, GREEN);
     // Draw Hour Up and Down buttons
-    PrintBmpOrRect(tft, "arrow-u.bmp", M_H, SUBTITLE_H + M_V * 2, x64);
-    PrintBmpOrRect(tft, "arrow-u.bmp", M_H * 2 + x64, SUBTITLE_H + M_V * 2, x64);
-    PrintBmpOrRect(tft, "arrow-u.bmp", M_H * 3 + x64 * 2, SUBTITLE_H + M_V * 2, x64);
-    PrintBmpOrRect(tft, "arrow-d.bmp", M_H, SUBTITLE_H + M_V * 6 + x64 + x32, x64);
-    PrintBmpOrRect(tft, "arrow-d.bmp", M_H * 2 + x64, SUBTITLE_H + M_V * 6 + x64 + x32, x64);
-    PrintBmpOrRect(tft, "arrow-d.bmp", M_H * 3 + x64 * 2, SUBTITLE_H + M_V * 6 + x64 + x32, x64);
+    PrintBmpOrRect(tft, UP_ARROW, SLOT_1_1);
+    PrintBmpOrRect(tft, UP_ARROW, SLOT_1_2);
+    PrintBmpOrRect(tft, UP_ARROW, SLOT_1_3);
+    PrintBmpOrRect(tft, DOWN_ARROW, SLOT_3_1);
+    PrintBmpOrRect(tft, DOWN_ARROW, SLOT_3_2);
+    PrintBmpOrRect(tft, DOWN_ARROW, SLOT_3_3);
+    PrintBmpOrRect(tft, RUN_ICON, SLOT_2_4, GREEN);
     // Filed labels
-    PrintLabel(tft, strFromRelay, M_H + x32, HEIGHT - x16, 1);        // Relétől label
-    PrintLabel(tft, strToRelay, M_H * 2 + x32 * 3, HEIGHT - x16, 1);  // Reléig label
-    PrintLabel(tft, strDuration, M_H * 3 + x32 * 5, HEIGHT - x16, 1); // Időtartam label
-    PrintLabel(tft, "->", M_H * 2 + x32 * 2, SUBTITLE_H + M_V * 6 + x64, 2);
-    PrintLabel(tft, "p", M_H * 4 + x32 * 5 + x16, SUBTITLE_H + M_V * 6 + x64, 2); // "p" label
+    PrintLabel(tft, strFromRelay, COL_1_LABEL, 1); // Relétől label
+    PrintLabel(tft, strToRelay, COL_2_LABEL, 1);   // Reléig label
+    PrintLabel(tft, strDuration, COL_3_LABEL, 1);  // Időtartam label
+    PrintLabel(tft, "p", x32 + COL_3_CENTER, 3);   // "p" label
+    PrintLabel(tft, "->", COL_1_2_SEPERATOR, 3);
     // Num Fileds
-    PrintLabel(tft, "01", M_H + x32, SUBTITLE_H + M_V * 5 + x64, 3);         // Relétől szám
-    PrintLabel(tft, "09", M_H * 2 + x32 * 3, SUBTITLE_H + M_V * 5 + x64, 3); // Reléig szám
-    PrintLabel(tft, "10", M_H * 3 + x32 * 5, SUBTITLE_H + M_V * 5 + x64, 3); // Időtartam szám
+    PrintLabel(tft, "21", COL_1_CENTER, 3); // Relétől szám
+    PrintLabel(tft, "00", COL_2_CENTER, 3); // Reléig szám
+    PrintLabel(tft, "10", COL_3_CENTER, 3); // Időtartam szám
 }
 void DrawTestSubMenu(MCUFRIEND_kbv &tft)
 {
-    tft.fillScreen(BGDARKCYAN);
-
-    tft.drawRoundRect(M_H, M_V / 2, x32, x32, 5, CYAN);             // x32-es settings ikon
-    tft.drawRoundRect(320 - M_H - x32, M_V / 2, x32, x32, 5, CYAN); // x32-es home ikon
-
-    PrintSubMenuTitle(tft, "Teszteles", 3, WHITE);
-
-    PrintDoubleLine(tft, M_V + x32); // Dupla vonal
+    tft.fillScreen(BLACK);
+    // Draw submenu title
+    PrintBmpOrRect(tft, "test32.bmp", SUBMENUICON_POS, x32); // x32-es chain ikon
+    PrintBmpOrRect(tft, "home32.bmp", SUBMENUHOME_POS, x32); // x32-es home ikon
+    // Print title
+    PrintLabel(tft, strBtnRightCenter, CENTER_H, M_V * 2, 3); // Sorban
+    // Draw double line below title
+    PrintDoubleLine(tft, x32);
+    // End of subtitle
+    // Draw test switches
+    PrintBmpOrRect(tft, OFF_SWITCH, SLOT_1_1, LIGHTGREY);
+    PrintBmpOrRect(tft, OFF_SWITCH, SLOT_1_2, LIGHTGREY);
+    PrintBmpOrRect(tft, OFF_SWITCH, SLOT_1_3, LIGHTGREY);
+    PrintBmpOrRect(tft, OFF_SWITCH, SLOT_1_4, LIGHTGREY);
+    PrintBmpOrRect(tft, OFF_SWITCH, SLOT_2_1, LIGHTGREY);
+    PrintBmpOrRect(tft, OFF_SWITCH, SLOT_2_2, LIGHTGREY);
+    PrintBmpOrRect(tft, OFF_SWITCH, SLOT_2_3, LIGHTGREY);
+    PrintBmpOrRect(tft, OFF_SWITCH, SLOT_2_4, LIGHTGREY);
+    // Bottom navigation buttons
+    PrintBmpOrRect(tft, LEFT_ARROW, SLOT_3_1, BLUE);
+    PrintBmpOrRect(tft, EXIT_ICON, SLOT_3_2, RED);
+    PrintBmpOrRect(tft, RIGHT_ARROW, SLOT_3_4, BLUE);
 }
 
 void DrawSettingsSubMenu(MCUFRIEND_kbv &tft)
@@ -200,8 +207,8 @@ void PrintLabel(MCUFRIEND_kbv &tft, const char *label, int x, int y, int fontSiz
 }
 void PrintDoubleLine(MCUFRIEND_kbv &tft, int y, int width, uint16_t color)
 {
-    tft.drawFastHLine((WIDTH - width) / 2, y, width, color);     // Dupla vonal
-    tft.drawFastHLine((WIDTH - width) / 2, y + 1, width, color); // Dupla vonal
+    tft.drawFastHLine((WIDTH - width) / 2, y, width, color); // Dupla vonal
+    // tft.drawFastHLine((WIDTH - width) / 2, y + 1, width, color); // Dupla vonal
 }
 int GetTextWidth(const char *text, int fontSize)
 {

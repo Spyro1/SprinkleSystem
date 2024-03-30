@@ -5,15 +5,35 @@
 #include <TouchScreen.h>
 #include "menu.h"
 
+// ------- Touch Screen macros -------------
+#define YP A3 // must be an analog pin, use "An" notation!
+#define XM A2 // must be an analog pin, use "An" notation!
+#define YM 9  // can be a digital pin
+#define XP 8  // can be a digital pin
+
+#define TS_MINX 920
+#define TS_MINY 80
+#define TS_MAXX 135
+#define TS_MAXY 915
+// ------- TFT Display macros ----------------
+
+#define LCD_CS A3
+#define LCD_CD A2 // LCD_RS
+#define LCD_WR A1
+#define LCD_RD A0
+#define SD_CS 10
+#define LCD_RESET A4 // optional
+
+#define MINPRESSURE 10
+#define MAXPRESSURE 1000
+
 // ----- Static variable declarations -----
 
 // For better pressure precision, we need to know the resistance between X+ and X- Use any multimeter to read it For the one we're using, its 300 ohms across the X plate
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
 // Make TFT Display
-// Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
-MCUFRIEND_kbv tft; //(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
-/* ---- Drawing helper function ---- */
+MCUFRIEND_kbv tft;
 
 // Create Menu
 Menu menuSystem = Menu(tft);
@@ -77,11 +97,11 @@ void loop()
     //  Serial.print("\tPressure = "); Serial.println(p.z);
 
     // Scale from 0->1023 to tft.width
-    p.x = map(p.x, TS_MINX, TS_MAXX, tft.width(), 0);
-    p.y = map(p.y, TS_MINY, TS_MAXY, tft.height(), 0);
+    int y = map(p.x, TS_MINX, TS_MAXX, tft.height(), 0);
+    int x = map(p.y, TS_MAXY, TS_MINY, tft.width(), 0);
 
     // Call Menu Touch to evaluate touch
-    menuSystem.Touched(p.x, p.y);
-    delay(100);
+    menuSystem.Touched(x, y);
+    delay(300);
   }
 }

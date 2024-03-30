@@ -18,28 +18,6 @@
 #define F(string_literal) string_literal
 #endif
 
-// ------- Touch Screen macros -------------
-#define YP A3 // must be an analog pin, use "An" notation!
-#define XM A2 // must be an analog pin, use "An" notation!
-#define YM 9  // can be a digital pin
-#define XP 8  // can be a digital pin
-
-#define TS_MINX 920
-#define TS_MINY 80
-#define TS_MAXX 135
-#define TS_MAXY 915
-// ------- TFT Display macros ----------------
-
-#define LCD_CS A3
-#define LCD_CD A2 // LCD_RS
-#define LCD_WR A1
-#define LCD_RD A0
-#define SD_CS 10
-#define LCD_RESET A4 // optional
-
-#define MINPRESSURE 10
-#define MAXPRESSURE 1000
-
 // 16 bites szinek
 #define BLACK 0x0000
 #define BLUE 0x001F
@@ -82,6 +60,45 @@
 #define FONT_1_V 7
 #define FONT_2_V FONT_1_V * 2
 #define FONT_3_V FONT_1_V * 3
+// Small icon corners
+#define SUBMENUICON_POS 4, 0
+#define SUBMENUHOME_POS 284, 0
+// Submenu table corners
+#define SLOT_1_1 8, 36, x64
+#define SLOT_1_2 88, 36, x64
+#define SLOT_1_3 168, 36, x64
+#define SLOT_1_4 248, 36, x64
+#define SLOT_2_1 8, 104, x64
+#define SLOT_2_2 88, 104, x64
+#define SLOT_2_3 168, 104, x64
+#define SLOT_2_4 248, 104, x64
+#define SLOT_3_1 8, 172, x64
+#define SLOT_3_2 88, 172, x64
+#define SLOT_3_3 168, 172, x64
+#define SLOT_3_4 248, 172, x64
+// SUBMENU NUM FILD POSITIONS
+#define COL_1_CENTER 40, 120
+#define COL_1_LABEL 40, 154
+#define COL_2_CENTER 120, 120
+#define COL_2_LABEL 120, 154
+#define COL_3_CENTER 200, 120
+#define COL_3_LABEL 200, 154
+#define COL_1_2_SEPERATOR 80, 120
+#define COL_2_3_SEPERATOR 160, 120
+#define COL_4_LABEL_T 280, 104
+#define COL_4_LABEL_B 280, 150
+// BITMAPS
+#define UP_ARROW "arw-up.bmp"
+#define DOWN_ARROW "arw-dw.bmp"
+#define LEFT_ARROW "arw-l.bmp"
+#define RIGHT_ARROW "arw-r.bmp"
+#define OK_ICON "ok.bmp"
+#define EXIT_ICON "exit.bmp"
+#define RUN_ICON "run.bmp"
+#define ON_SWITCH "sw-on.bmp"
+#define OFF_SWITCH "sw-on.bmp"
+#define ON_SWITCH_LABEL "sw-on-l.bmp"
+#define OFF_SWITCH_LABEL "sw-on-l.bmp"
 
 // String makrók
 #define strMainTitle "Locsolorendszer" // Locsolórendszer
