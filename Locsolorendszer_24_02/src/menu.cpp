@@ -4,7 +4,7 @@
 #include "display.h"
 
 /* ---- Menu class definicions ---- */
-Menu::Menu(MCUFRIEND_kbv &tft) : tft(tft)
+Menu::Menu(MCUFRIEND_kbv &tft, SdFat &SD) : tft(tft), SD(SD)
 {
   // Main menu button clickevents
   mainScreenButtons[0] = TouchButton(8, 4, x64, x64, SprinkleButton_Clicked);
@@ -32,17 +32,17 @@ Menu::Menu(MCUFRIEND_kbv &tft) : tft(tft)
 void Menu::RunMenu()
 {
   // -- Start main screen --
-  // DrawMainScreen(tft);
-  // delay(10000);
-  // DrawRTCSettingsSubMenu(tft); // Test
-  // delay(10000);
-  // DrawPeriodSubMenu(tft);
-  // delay(10000);
-  // DrawTimingSubMenu(tft);
-  // delay(10000);
-  // // DrawChainSprinkleSubMenu(tft);
-  // delay(10000);
-  DrawTestSubMenu(tft);
+  DrawMainScreen(tft, SD);
+  delay(10000);
+  DrawRTCSettingsSubMenu(tft, SD); // Test
+  delay(10000);
+  DrawPeriodSubMenu(tft, SD);
+  delay(10000);
+  DrawTimingSubMenu(tft, SD);
+  delay(10000);
+  DrawChainSprinkleSubMenu(tft, SD);
+  delay(10000);
+  DrawTestSubMenu(tft, SD);
 }
 
 void Menu::Touched(int x, int y)

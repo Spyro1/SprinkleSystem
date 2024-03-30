@@ -4,14 +4,10 @@
 #define DISPLAY_H
 
 #include <MCUFRIEND_kbv.h> // Hardware-specific library
-#include <SD.h>
-#include <Adafruit_GFX.h> // Core graphics library
-#include <TouchScreen.h>  // TouchScreen library
+#include <Adafruit_GFX.h>  // Core graphics library
+#include <TouchScreen.h>   // TouchScreen library
 #include <RTClib.h>
-// #include <Adafruit_ILI9341.h>     // Hardware-specific library
-// #include <SdFat.h>                // SD card & FAT filesystem library
-// #include <Adafruit_SPIFlash.h>    // SPI / QSPI flash library
-// #include <Adafruit_ImageReader.h> // Image-reading functions
+#include <SdFat.h>
 
 #if defined(__SAM3X8E__)
 #undef __FlashStringHelper::F(string_literal)
@@ -95,10 +91,19 @@
 #define OK_ICON "ok.bmp"
 #define EXIT_ICON "exit.bmp"
 #define RUN_ICON "run.bmp"
+#define TEST_ICON "test.bmp"
+#define CLOCK_ICON "clock.bmp"
 #define ON_SWITCH "sw-on.bmp"
 #define OFF_SWITCH "sw-on.bmp"
 #define ON_SWITCH_LABEL "sw-on-l.bmp"
 #define OFF_SWITCH_LABEL "sw-on-l.bmp"
+#define BTN_ON "btn-on.bmp"
+#define BTN_OFF "btn-off.bmp"
+#define SPRINKLER_ICON_ON "sprk-on.bmp"
+#define SPRINKLER_ICON_OFF "sprk-off.bmp"
+#define CHAIN_ICON "chain.bmp"
+#define SETTINGS_ICON "settings.bmp"
+#define HUMIDITY_ICON "humidity.bmp"
 
 // String makrók
 #define strMainTitle "Locsolorendszer" // Locsolórendszer
@@ -125,6 +130,10 @@
 #define strDuration "Idotartam"
 
 // ----- Static variable declarations -----
+// ----- SD Card init -----
+#if SPI_DRIVER_SELECT != 2
+#error edit SdFatConfig.h .  READ THE SKETCH INSTRUCTIONS
+#endif
 
 // For better pressure precision, we need to know the resistance between X+ and X- Use any multimeter to read it For the one we're using, its 300 ohms across the X plate
 // static TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
@@ -147,14 +156,14 @@
 /**
  * Draws the Main Screen to the tft display.
  */
-void DrawMainScreen(MCUFRIEND_kbv &tft);
-void DrawRTCSettingsSubMenu(MCUFRIEND_kbv &tft);
-void DrawPeriodSubMenu(MCUFRIEND_kbv &tft);
-void DrawTimingSubMenu(MCUFRIEND_kbv &tft);
-void DrawChainSprinkleSubMenu(MCUFRIEND_kbv &tft);
-void DrawTestSubMenu(MCUFRIEND_kbv &tft);
-void DrawSettingsSubMenu(MCUFRIEND_kbv &tft);
-void DrawHumiditySubMenu(MCUFRIEND_kbv &tft);
+void DrawMainScreen(MCUFRIEND_kbv &tft, SdFat &SD);
+void DrawRTCSettingsSubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
+void DrawPeriodSubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
+void DrawTimingSubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
+void DrawChainSprinkleSubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
+void DrawTestSubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
+void DrawSettingsSubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
+void DrawHumiditySubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
 
 /* ---- Common used drawing blocks ---- */
 
@@ -167,7 +176,7 @@ void PrintSubMenuTitle(MCUFRIEND_kbv &tft, const char *title, int fontSize, uint
 void PrintLabel(MCUFRIEND_kbv &tft, const char *label, int x, int y, int fontSize = 1, uint16_t color = WHITE);
 void PrintDoubleLine(MCUFRIEND_kbv &tft, int y, int width = 320, uint16_t color = WHITE);
 int GetTextWidth(const char *text, int fontSize);
-void PrintBmpOrRect(MCUFRIEND_kbv &tft, const char *text, int x, int y, int size, uint16_t color = CYAN);
+void PrintBmpOrRect(MCUFRIEND_kbv &tft, SdFat &SD, const char *text, int x, int y, int size, uint16_t color = CYAN);
 
 /* ---- Drawing helper function ---- */
 /**
@@ -177,16 +186,17 @@ void PrintBmpOrRect(MCUFRIEND_kbv &tft, const char *text, int x, int y, int size
  * @param y Top left corner's y coordinate
  * @returns Success state of function
  */
-bool bmpDraw(MCUFRIEND_kbv &tft, const char *filename, int x, int y);
+bool bmpDraw(MCUFRIEND_kbv &tft, SdFat &SD, const char *filename, int x, int y);
+uint8_t showBMP(MCUFRIEND_kbv &tft, SdFat &SD, const char *nm, int x, int y);
 /**
  * @brief Bitmap data reading funcion (16 bits)
  * Read 16- and 32-bit types from the SD card file. BMP data is stored little-endian, Arduino is little-endian too.
  */
-uint16_t read16(File f);
+uint16_t read16(File &f);
 /**
  * @brief Bitamap data reading funcion (32 bits)
  * Read 16- and 32-bit types from the SD card file. BMP data is stored little-endian, Arduino is little-endian too.
  */
-uint32_t read32(File f);
+uint32_t read32(File &f);
 // };
 #endif // DISPLAY_H

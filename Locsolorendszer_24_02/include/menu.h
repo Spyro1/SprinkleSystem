@@ -4,6 +4,7 @@
 #define MENU_H
 
 // #include <Adafruit_TFTLCD.h> // Hardware-specific library
+#include <SdFat.h> // Use the SdFat library
 #include <MCUFRIEND_kbv.h>
 #include "button.h"
 #include "display.h"
@@ -50,11 +51,12 @@ class Menu
     TouchButton mainScreenButtons[7]; // Main screen buttons
     TouchButton subMenuButtons[13];   // Table Buttons [12] hombe button
     MCUFRIEND_kbv &tft;               // Screen drawing reference
+    SdFat &SD;                        // SD card reading obj
     bool mainSwitch = false;          // If true, then timing is processed, if false, then no automatic sprinkleing
 
 public:
     // -- Constructor --
-    Menu(MCUFRIEND_kbv &tft);
+    Menu(MCUFRIEND_kbv &tft, SdFat &SD);
     // -- Functions --
     void RunMenu();
     void Touched(int x, int y);

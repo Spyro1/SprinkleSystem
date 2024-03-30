@@ -1,9 +1,11 @@
-#include <SD.h>
+
+
 #include <Adafruit_GFX.h> // Core graphics library
 // #include <Adafruit_TFTLCD.h> // Hardware-specific library
 #include <MCUFRIEND_kbv.h>
 #include <TouchScreen.h>
 #include "menu.h"
+#include "display.h"
 
 // ------- Touch Screen macros -------------
 #define YP A3 // must be an analog pin, use "An" notation!
@@ -21,12 +23,18 @@
 #define LCD_CD A2 // LCD_RS
 #define LCD_WR A1
 #define LCD_RD A0
-#define SD_CS 10
+// #define SD_CS 10     // 10
 #define LCD_RESET A4 // optional
 
 #define MINPRESSURE 10
 #define MAXPRESSURE 1000
 
+#include <SPI.h> // f.k. for Arduino-1.5.2
+// #define USE_SDFAT
+#include <SdFat.h>                 // Use the SdFat library
+SoftSpiDriver<12, 11, 13> softSpi; // Bit-Bang on the Shield pins SDFat.h v2
+SdFat SD;
+#define SD_CS SdSpiConfig(10, DEDICATED_SPI, SD_SCK_MHZ(0), &softSpi)
 // ----- Static variable declarations -----
 
 // For better pressure precision, we need to know the resistance between X+ and X- Use any multimeter to read it For the one we're using, its 300 ohms across the X plate
@@ -36,7 +44,7 @@ TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 MCUFRIEND_kbv tft;
 
 // Create Menu
-Menu menuSystem = Menu(tft);
+Menu menuSystem = Menu(tft, SD);
 
 void setup(void)
 {
@@ -52,6 +60,8 @@ void setup(void)
   tft.fillScreen(BLACK);
 
   // -- Setup SD card --
+  pinMode(10, OUTPUT);    // change this to 53 on a mega  // don't follow this!!
+  digitalWrite(10, HIGH); // Add this line
   Serial.print(F("Initializing SD card..."));
   if (!SD.begin(SD_CS))
   {
@@ -71,7 +81,8 @@ void setup(void)
         dir.rewindDirectory();
         break;
       }
-      Serial.println(entry.name());
+      // Serial.println((char *)entry.name());
+      entry.close();
     }
     dir.rewindDirectory();
   }

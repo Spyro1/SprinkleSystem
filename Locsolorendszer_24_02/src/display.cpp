@@ -4,15 +4,15 @@
 
 /* ---- Drawing fucntions ---- */
 
-void DrawMainScreen(MCUFRIEND_kbv &tft)
+void DrawMainScreen(MCUFRIEND_kbv &tft, SdFat &SD)
 { // Főképernyő
     tft.fillScreen(BLACK);
 
     // Draw top buttons
-    PrintBmpOrRect(tft, "on-sprk.bmp", M_H, M_V, x64);                // Bal felső ikon
-    PrintBmpOrRect(tft, "chain.bmp", M_H * 3 + x64, M_V, x64);        // Bal fent közép ikon
-    PrintBmpOrRect(tft, "on-off.bmp", M_H * 5 + x64 * 2, M_V, x64);   // Jobb fent közép ikon
-    PrintBmpOrRect(tft, "humidity.bmp", M_H * 7 + x64 * 3, M_V, x64); // Jobb fent ikon
+    PrintBmpOrRect(tft, SD, SPRINKLER_ICON_ON, M_H, M_V, x64);           // Bal felső ikon
+    PrintBmpOrRect(tft, SD, CHAIN_ICON, M_H * 3 + x64, M_V, x64);        // Bal fent közép ikon
+    PrintBmpOrRect(tft, SD, TEST_ICON, M_H * 5 + x64 * 2, M_V, x64);     // Jobb fent közép ikon
+    PrintBmpOrRect(tft, SD, HUMIDITY_ICON, M_H * 7 + x64 * 3, M_V, x64); // Jobb fent ikon
     // Draw top button labels
     PrintLabel(tft, strBtnLeftTop, M_H + x32, M_V * 2 + x64);
     PrintLabel(tft, strBtnLeftCenter, M_H * 3 + x64 * 3 / 2, M_V * 2 + x64);
@@ -27,21 +27,21 @@ void DrawMainScreen(MCUFRIEND_kbv &tft)
     PrintRTCToMainScreen(tft, TimeSpan(1234)); // Valós idő
     // Draw bottom buttons
     const int bottomIconYCoord = HEIGHT - x64 - FONT_2_V - 2 * M_V;
-    PrintBmpOrRect(tft, "settings.bmp", CENTER_H - x64 * 3 / 2 - 2 * M_H, bottomIconYCoord, x64); // Bal alsó ikon
-    PrintBmpOrRect(tft, "on-btn.bmp", CENTER_H - x32, bottomIconYCoord, x64);                     // Közép alsó ikon
-    PrintBmpOrRect(tft, "clock.bmp", CENTER_H + x32 + 2 * M_H, bottomIconYCoord, x64);            // Jobb alsó ikon
+    PrintBmpOrRect(tft, SD, SETTINGS_ICON, CENTER_H - x64 * 3 / 2 - 2 * M_H, bottomIconYCoord, x64); // Bal alsó ikon
+    PrintBmpOrRect(tft, SD, BTN_ON, CENTER_H - x32, bottomIconYCoord, x64);                          // Közép alsó ikon
+    PrintBmpOrRect(tft, SD, CLOCK_ICON, CENTER_H + x32 + 2 * M_H, bottomIconYCoord, x64);            // Jobb alsó ikon
     // Draw bottom button labels
     PrintLabel(tft, strBtnLeftBottom, CENTER_H - x64 - 2 * M_H, HEIGHT - FONT_2_V - M_V);
     PrintLabel(tft, strBtnCenterBottom2, CENTER_H, HEIGHT - FONT_2_V - M_V);
     PrintLabel(tft, strBtnRightBottom, CENTER_H + x64 + 2 * M_H, HEIGHT - FONT_2_V - M_V);
 }
 
-void DrawRTCSettingsSubMenu(MCUFRIEND_kbv &tft)
+void DrawRTCSettingsSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
 {
     tft.fillScreen(BLACK);
     // Draw submenu title
-    PrintBmpOrRect(tft, "clock32.bmp", SUBMENUICON_POS, x32);
-    PrintBmpOrRect(tft, "home32.bmp", SUBMENUHOME_POS, x32);
+    PrintBmpOrRect(tft, SD, "clock32.bmp", SUBMENUICON_POS, x32);
+    PrintBmpOrRect(tft, SD, "home32.bmp", SUBMENUHOME_POS, x32);
     // Print title
     PrintLabel(tft, strRealTimeSettings, CENTER_H, M_V * 2, 3);
     // Draw double line below title
@@ -50,13 +50,13 @@ void DrawRTCSettingsSubMenu(MCUFRIEND_kbv &tft)
     // Draw Settings
     PrintLabel(tft, ":", COL_2_3_SEPERATOR, 3);
     // Draw Hour Up and Down buttons
-    PrintBmpOrRect(tft, UP_ARROW, SLOT_1_2);
-    PrintBmpOrRect(tft, UP_ARROW, SLOT_1_3);
-    PrintBmpOrRect(tft, DOWN_ARROW, SLOT_3_2);
-    PrintBmpOrRect(tft, DOWN_ARROW, SLOT_3_3);
+    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_2);
+    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_3);
+    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_2);
+    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_3);
     // Draw Save and Exit buttons
-    PrintBmpOrRect(tft, EXIT_ICON, SLOT_2_1, RED);
-    PrintBmpOrRect(tft, OK_ICON, SLOT_2_4, GREEN);
+    PrintBmpOrRect(tft, SD, EXIT_ICON, SLOT_2_1, RED);
+    PrintBmpOrRect(tft, SD, OK_ICON, SLOT_2_4, GREEN);
     // Draw num Editor field
     PrintLabel(tft, strHour, COL_2_LABEL, 2);   // Óra label
     PrintLabel(tft, strMinute, COL_3_LABEL, 2); // Perc label
@@ -65,12 +65,12 @@ void DrawRTCSettingsSubMenu(MCUFRIEND_kbv &tft)
     PrintLabel(tft, "00", COL_3_CENTER, 3);
 }
 
-void DrawPeriodSubMenu(MCUFRIEND_kbv &tft)
+void DrawPeriodSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
 {
     tft.fillScreen(BLACK);
     // Draw submenu title
-    PrintBmpOrRect(tft, "clock32.bmp", SUBMENUICON_POS, x32); // x32-es óra ikon
-    PrintBmpOrRect(tft, "home32.bmp", SUBMENUHOME_POS, x32);  // x32-es home ikon
+    PrintBmpOrRect(tft, SD, "clock32.bmp", SUBMENUICON_POS, x32); // x32-es óra ikon
+    PrintBmpOrRect(tft, SD, "home32.bmp", SUBMENUHOME_POS, x32);  // x32-es home ikon
     // Print title
     PrintLabel(tft, strPreiodSettings, CENTER_H, M_V * 2, 3);
     // Draw double line below title
@@ -84,30 +84,30 @@ void DrawPeriodSubMenu(MCUFRIEND_kbv &tft)
     PrintLabel(tft, strSecondPeriod, CENTER_H - x64 - x16, SUBTITLE_H + M_V * 3 + x64 + x16, 2);    // 2. időszak szöveg
     PrintLabel(tft, strThirdPeriod, CENTER_H - x64 - x16, SUBTITLE_H + M_V * 4 + x64 * 2 + x16, 2); // 3. időszak szöveg
     // On-off Switches
-    PrintBmpOrRect(tft, ON_SWITCH_LABEL, SLOT_1_4, GREEN);
-    PrintBmpOrRect(tft, OFF_SWITCH_LABEL, SLOT_2_4, RED);
-    PrintBmpOrRect(tft, OFF_SWITCH_LABEL, SLOT_3_4, RED);
+    PrintBmpOrRect(tft, SD, ON_SWITCH_LABEL, SLOT_1_4, GREEN);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH_LABEL, SLOT_2_4, RED);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH_LABEL, SLOT_3_4, RED);
 }
-void DrawTimingSubMenu(MCUFRIEND_kbv &tft)
+void DrawTimingSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
 {
     tft.fillScreen(BLACK);
     // Draw submenu title
-    PrintBmpOrRect(tft, "realy32.bmp", SUBMENUICON_POS, x32); // x32-es realy ikon
-    PrintBmpOrRect(tft, "home32.bmp", SUBMENUHOME_POS, x32);  // x32-es home ikon
+    PrintBmpOrRect(tft, SD, "realy32.bmp", SUBMENUICON_POS, x32); // x32-es realy ikon
+    PrintBmpOrRect(tft, SD, "home32.bmp", SUBMENUHOME_POS, x32);  // x32-es home ikon
     // Print title
     PrintLabel(tft, "1/1. Rele", CENTER_H, M_V * 2, 3);
     // Draw double line below title
     PrintDoubleLine(tft, x32);
     // End of subtitle
     // Draw Hour Up and Down buttons
-    PrintBmpOrRect(tft, UP_ARROW, SLOT_1_1);
-    PrintBmpOrRect(tft, UP_ARROW, SLOT_1_2);
-    PrintBmpOrRect(tft, UP_ARROW, SLOT_1_3);
-    PrintBmpOrRect(tft, OK_ICON, SLOT_1_4, GREEN);
-    PrintBmpOrRect(tft, DOWN_ARROW, SLOT_3_1);
-    PrintBmpOrRect(tft, DOWN_ARROW, SLOT_3_2);
-    PrintBmpOrRect(tft, DOWN_ARROW, SLOT_3_3);
-    PrintBmpOrRect(tft, EXIT_ICON, SLOT_3_4, RED);
+    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_1);
+    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_2);
+    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_3);
+    PrintBmpOrRect(tft, SD, OK_ICON, SLOT_1_4, GREEN);
+    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_1);
+    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_2);
+    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_3);
+    PrintBmpOrRect(tft, SD, EXIT_ICON, SLOT_3_4, RED);
     // Filed labels
     PrintLabel(tft, strHour, COL_1_LABEL, 1);     // Óra label
     PrintLabel(tft, strMinute, COL_2_LABEL, 1);   // Perc label
@@ -119,25 +119,25 @@ void DrawTimingSubMenu(MCUFRIEND_kbv &tft)
     PrintLabel(tft, "00", COL_2_CENTER, 3); // Perc szám
     PrintLabel(tft, "10", COL_3_CENTER, 3); // Időtartam
 }
-void DrawChainSprinkleSubMenu(MCUFRIEND_kbv &tft)
+void DrawChainSprinkleSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
 {
     tft.fillScreen(BLACK);
     // Draw submenu title
-    PrintBmpOrRect(tft, "chain32.bmp", SUBMENUICON_POS, x32); // x32-es chain ikon
-    PrintBmpOrRect(tft, "home32.bmp", SUBMENUHOME_POS, x32);  // x32-es home ikon
+    PrintBmpOrRect(tft, SD, "chain32.bmp", SUBMENUICON_POS, x32); // x32-es chain ikon
+    PrintBmpOrRect(tft, SD, "home32.bmp", SUBMENUHOME_POS, x32);  // x32-es home ikon
     // Print title
     PrintLabel(tft, strBtnLeftCenter, CENTER_H, M_V * 2, 3); // Sorban
     // Draw double line below title
     PrintDoubleLine(tft, x32);
     // End of subtitle
     // Draw Hour Up and Down buttons
-    PrintBmpOrRect(tft, UP_ARROW, SLOT_1_1);
-    PrintBmpOrRect(tft, UP_ARROW, SLOT_1_2);
-    PrintBmpOrRect(tft, UP_ARROW, SLOT_1_3);
-    PrintBmpOrRect(tft, DOWN_ARROW, SLOT_3_1);
-    PrintBmpOrRect(tft, DOWN_ARROW, SLOT_3_2);
-    PrintBmpOrRect(tft, DOWN_ARROW, SLOT_3_3);
-    PrintBmpOrRect(tft, RUN_ICON, SLOT_2_4, GREEN);
+    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_1);
+    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_2);
+    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_3);
+    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_1);
+    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_2);
+    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_3);
+    PrintBmpOrRect(tft, SD, RUN_ICON, SLOT_2_4, GREEN);
     // Filed labels
     PrintLabel(tft, strFromRelay, COL_1_LABEL, 1); // Relétől label
     PrintLabel(tft, strToRelay, COL_2_LABEL, 1);   // Reléig label
@@ -149,37 +149,37 @@ void DrawChainSprinkleSubMenu(MCUFRIEND_kbv &tft)
     PrintLabel(tft, "00", COL_2_CENTER, 3); // Reléig szám
     PrintLabel(tft, "10", COL_3_CENTER, 3); // Időtartam szám
 }
-void DrawTestSubMenu(MCUFRIEND_kbv &tft)
+void DrawTestSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
 {
     tft.fillScreen(BLACK);
     // Draw submenu title
-    PrintBmpOrRect(tft, "test32.bmp", SUBMENUICON_POS, x32); // x32-es chain ikon
-    PrintBmpOrRect(tft, "home32.bmp", SUBMENUHOME_POS, x32); // x32-es home ikon
+    PrintBmpOrRect(tft, SD, "test32.bmp", SUBMENUICON_POS, x32); // x32-es chain ikon
+    PrintBmpOrRect(tft, SD, "home32.bmp", SUBMENUHOME_POS, x32); // x32-es home ikon
     // Print title
     PrintLabel(tft, strBtnRightCenter, CENTER_H, M_V * 2, 3); // Sorban
     // Draw double line below title
     PrintDoubleLine(tft, x32);
     // End of subtitle
     // Draw test switches
-    PrintBmpOrRect(tft, OFF_SWITCH, SLOT_1_1, LIGHTGREY);
-    PrintBmpOrRect(tft, OFF_SWITCH, SLOT_1_2, LIGHTGREY);
-    PrintBmpOrRect(tft, OFF_SWITCH, SLOT_1_3, LIGHTGREY);
-    PrintBmpOrRect(tft, OFF_SWITCH, SLOT_1_4, LIGHTGREY);
-    PrintBmpOrRect(tft, OFF_SWITCH, SLOT_2_1, LIGHTGREY);
-    PrintBmpOrRect(tft, OFF_SWITCH, SLOT_2_2, LIGHTGREY);
-    PrintBmpOrRect(tft, OFF_SWITCH, SLOT_2_3, LIGHTGREY);
-    PrintBmpOrRect(tft, OFF_SWITCH, SLOT_2_4, LIGHTGREY);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_1_1, LIGHTGREY);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_1_2, LIGHTGREY);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_1_3, LIGHTGREY);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_1_4, LIGHTGREY);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_2_1, LIGHTGREY);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_2_2, LIGHTGREY);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_2_3, LIGHTGREY);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_2_4, LIGHTGREY);
     // Bottom navigation buttons
-    PrintBmpOrRect(tft, LEFT_ARROW, SLOT_3_1, BLUE);
-    PrintBmpOrRect(tft, EXIT_ICON, SLOT_3_2, RED);
-    PrintBmpOrRect(tft, RIGHT_ARROW, SLOT_3_4, BLUE);
+    PrintBmpOrRect(tft, SD, LEFT_ARROW, SLOT_3_1, BLUE);
+    PrintBmpOrRect(tft, SD, EXIT_ICON, SLOT_3_2, RED);
+    PrintBmpOrRect(tft, SD, RIGHT_ARROW, SLOT_3_4, BLUE);
 }
 
-void DrawSettingsSubMenu(MCUFRIEND_kbv &tft)
+void DrawSettingsSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
 {
 }
 
-void DrawHumiditySubMenu(MCUFRIEND_kbv &tft)
+void DrawHumiditySubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
 {
 }
 
@@ -214,16 +214,46 @@ int GetTextWidth(const char *text, int fontSize)
 {
     return strlen(text) * (FONT_1_H * fontSize) + (strlen(text) - 1) * fontSize;
 }
-void PrintBmpOrRect(MCUFRIEND_kbv &tft, const char *bitmapname, int x, int y, int size, uint16_t color)
+void PrintBmpOrRect(MCUFRIEND_kbv &tft, SdFat &SD, const char *bitmapname, int x, int y, int size, uint16_t color)
 {
-    if (!bmpDraw(tft, bitmapname, x, y))
+    // if (!bmpDraw(tft, bitmapname, x, y))
+    //     tft.drawRoundRect(x, y, size, size, RADIUS, color);
+    int ret = showBMP(tft, SD, bitmapname, x, y);
+    Serial.print(bitmapname);
+    switch (ret)
+    {
+    case 0:
+        Serial.print(F("found!"));
+        break;
+    case 1:
+        Serial.println(F("bad position"));
+        break;
+    case 2:
+        Serial.println(F("bad BMP ID"));
+        break;
+    case 3:
+        Serial.println(F("wrong number of planes"));
+        break;
+    case 4:
+        Serial.println(F("unsupported BMP format"));
+        break;
+    case 5:
+        Serial.println(F("unsupported palette"));
+        break;
+    default:
+        Serial.println(F("unknown"));
+        break;
+    }
+    if (ret != 0)
         tft.drawRoundRect(x, y, size, size, RADIUS, color);
 }
 
 /* ---- Drawing helper function ---- */
 
 #define BUFFPIXEL 20
-bool bmpDraw(MCUFRIEND_kbv &tft, const char *filename, int x, int y)
+#define PALETTEDEPTH 8 // support 256-colour Palette
+#define BMPIMAGEOFFSET 54
+bool bmpDraw(MCUFRIEND_kbv &tft, SdFat &SD, const char *filename, int x, int y)
 {
 
     File bmpFile;
@@ -369,20 +399,190 @@ bool bmpDraw(MCUFRIEND_kbv &tft, const char *filename, int x, int y)
     return true;
 }
 
-uint16_t read16(File f)
+// uint16_t read16(File f)
+// {
+//     uint16_t result;
+//     ((uint8_t *)&result)[0] = f.read(); // LSB
+//     ((uint8_t *)&result)[1] = f.read(); // MSB
+//     return result;
+// }
+
+// uint32_t read32(File f)
+// {
+//     uint32_t result;
+//     ((uint8_t *)&result)[0] = f.read(); // LSB
+//     ((uint8_t *)&result)[1] = f.read();
+//     ((uint8_t *)&result)[2] = f.read();
+//     ((uint8_t *)&result)[3] = f.read(); // MSB
+//     return result;
+// }
+uint16_t read16(File &f)
 {
-    uint16_t result;
-    ((uint8_t *)&result)[0] = f.read(); // LSB
-    ((uint8_t *)&result)[1] = f.read(); // MSB
+    uint16_t result; // read little-endian
+    f.read(&result, sizeof(result));
     return result;
 }
 
-uint32_t read32(File f)
+uint32_t read32(File &f)
 {
     uint32_t result;
-    ((uint8_t *)&result)[0] = f.read(); // LSB
-    ((uint8_t *)&result)[1] = f.read();
-    ((uint8_t *)&result)[2] = f.read();
-    ((uint8_t *)&result)[3] = f.read(); // MSB
+    f.read(&result, sizeof(result));
     return result;
+}
+uint8_t showBMP(MCUFRIEND_kbv &tft, SdFat &SD, const char *nm, int x, int y)
+{
+    File bmpFile;
+    int bmpWidth, bmpHeight;         // W+H in pixels
+    uint8_t bmpDepth;                // Bit depth (currently must be 24, 16, 8, 4, 1)
+    uint32_t bmpImageoffset;         // Start of image data in file
+    uint32_t rowSize;                // Not always = bmpWidth; may have padding
+    uint8_t sdbuffer[3 * BUFFPIXEL]; // pixel in buffer (R+G+B per pixel)
+    uint16_t lcdbuffer[(1 << PALETTEDEPTH) + BUFFPIXEL], *palette = NULL;
+    uint8_t bitmask, bitshift;
+    boolean flip = true; // BMP is stored bottom-to-top
+    int w, h, row, col, lcdbufsiz = (1 << PALETTEDEPTH) + BUFFPIXEL, buffidx;
+    uint32_t pos;          // seek position
+    boolean is565 = false; //
+
+    uint16_t bmpID;
+    uint16_t n; // blocks read
+    uint8_t ret;
+
+    if ((x >= tft.width()) || (y >= tft.height()))
+        return 1; // off screen
+
+    bmpFile = SD.open(nm);            // Parse BMP header
+    bmpID = read16(bmpFile);          // BMP signature
+    (void)read32(bmpFile);            // Read & ignore file size
+    (void)read32(bmpFile);            // Read & ignore creator bytes
+    bmpImageoffset = read32(bmpFile); // Start of image data
+    (void)read32(bmpFile);            // Read & ignore DIB header size
+    bmpWidth = read32(bmpFile);
+    bmpHeight = read32(bmpFile);
+    n = read16(bmpFile);        // # planes -- must be '1'
+    bmpDepth = read16(bmpFile); // bits per pixel
+    pos = read32(bmpFile);      // format
+    if (bmpID != 0x4D42)
+        ret = 2; // bad ID
+    else if (n != 1)
+        ret = 3; // too many planes
+    else if (pos != 0 && pos != 3)
+        ret = 4; // format: 0 = uncompressed, 3 = 565
+    else if (bmpDepth < 16 && bmpDepth > PALETTEDEPTH)
+        ret = 5; // palette
+    else
+    {
+        bool first = true;
+        is565 = (pos == 3); // ?already in 16-bit format
+        // BMP rows are padded (if needed) to 4-byte boundary
+        rowSize = (bmpWidth * bmpDepth / 8 + 3) & ~3;
+        if (bmpHeight < 0)
+        { // If negative, image is in top-down order.
+            bmpHeight = -bmpHeight;
+            flip = false;
+        }
+
+        w = bmpWidth;
+        h = bmpHeight;
+        if ((x + w) >= tft.width()) // Crop area to be loaded
+            w = tft.width() - x;
+        if ((y + h) >= tft.height()) //
+            h = tft.height() - y;
+
+        if (bmpDepth <= PALETTEDEPTH)
+        { // these modes have separate palette
+            // bmpFile.seek(BMPIMAGEOFFSET); //palette is always @ 54
+            bmpFile.seek(bmpImageoffset - (4 << bmpDepth)); // 54 for regular, diff for colorsimportant
+            bitmask = 0xFF;
+            if (bmpDepth < 8)
+                bitmask >>= bmpDepth;
+            bitshift = 8 - bmpDepth;
+            n = 1 << bmpDepth;
+            lcdbufsiz -= n;
+            palette = lcdbuffer + lcdbufsiz;
+            for (col = 0; col < (int)n; col++)
+            {
+                pos = read32(bmpFile); // map palette to 5-6-5
+                palette[col] = ((pos & 0x0000F8) >> 3) | ((pos & 0x00FC00) >> 5) | ((pos & 0xF80000) >> 8);
+            }
+        }
+
+        // Set TFT address window to clipped image bounds
+        tft.setAddrWindow(x, y, x + w - 1, y + h - 1);
+        for (row = 0; row < h; row++)
+        { // For each scanline...
+            // Seek to start of scan line.  It might seem labor-
+            // intensive to be doing this on every line, but this
+            // method covers a lot of gritty details like cropping
+            // and scanline padding.  Also, the seek only takes
+            // place if the file position actually needs to change
+            // (avoids a lot of cluster math in SD library).
+            uint8_t r, g, b; //, *sdptr;
+            int lcdidx, lcdleft;
+            if (flip) // Bitmap is stored bottom-to-top order (normal BMP)
+                pos = bmpImageoffset + (bmpHeight - 1 - row) * rowSize;
+            else // Bitmap is stored top-to-bottom
+                pos = bmpImageoffset + row * rowSize;
+            if (bmpFile.position() != pos)
+            { // Need seek?
+                bmpFile.seek(pos);
+                buffidx = sizeof(sdbuffer); // Force buffer reload
+            }
+
+            for (col = 0; col < w;)
+            { // pixels in row
+                lcdleft = w - col;
+                if (lcdleft > lcdbufsiz)
+                    lcdleft = lcdbufsiz;
+                for (lcdidx = 0; lcdidx < lcdleft; lcdidx++)
+                { // buffer at a time
+                    uint16_t color;
+                    // Time to read more pixel data?
+                    if (buffidx >= (int)sizeof(sdbuffer))
+                    { // Indeed
+                        bmpFile.read(sdbuffer, sizeof(sdbuffer));
+                        buffidx = 0; // Set index to beginning
+                        r = 0;
+                    }
+                    switch (bmpDepth)
+                    { // Convert pixel from BMP to TFT format
+                    case 32:
+                    case 24:
+                        b = sdbuffer[buffidx++];
+                        g = sdbuffer[buffidx++];
+                        r = sdbuffer[buffidx++];
+                        if (bmpDepth == 32)
+                            buffidx++; // ignore ALPHA
+                        color = tft.color565(r, g, b);
+                        break;
+                    case 16:
+                        b = sdbuffer[buffidx++];
+                        r = sdbuffer[buffidx++];
+                        if (is565)
+                            color = (r << 8) | (b);
+                        else
+                            color = (r << 9) | ((b & 0xE0) << 1) | (b & 0x1F);
+                        break;
+                    case 1:
+                    case 4:
+                    case 8:
+                        if (r == 0)
+                            b = sdbuffer[buffidx++], r = 8;
+                        color = palette[(b >> bitshift) & bitmask];
+                        r -= bmpDepth;
+                        b <<= bmpDepth;
+                        break;
+                    }
+                    lcdbuffer[lcdidx] = color;
+                }
+                tft.pushColors(lcdbuffer, lcdidx, first);
+                first = false;
+                col += lcdidx;
+            }                                                       // end cols
+        }                                                           // end rows
+        tft.setAddrWindow(0, 0, tft.width() - 1, tft.height() - 1); // restore full screen
+        ret = 0;                                                    // good render
+    }
+    bmpFile.close();
+    return (ret);
 }
