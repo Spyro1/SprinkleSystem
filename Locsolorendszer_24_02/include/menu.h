@@ -38,10 +38,12 @@ void EventButton_Clicked_3_4(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
 
 class Menu
 {
-    TouchButton mainScreenButtons[7]; // Main screen buttons
-    TouchButton subMenuButtons[13];   // Table Buttons [12] hombe button
-    MCUFRIEND_kbv &tft;               // Screen drawing reference
-    SdFat &SD;                        // SD card reading obj
+    // TouchButton mainScreenButtons[7]; // Main screen buttons
+    // TouchButton subMenuButtons[13];   // Table Buttons [12] hombe button
+    TouchButton btnSprinkle, btnChain, btnTest, btnHumidity, btnSettings, btnMainToggle, btnClock; //, btnHome;
+
+    MCUFRIEND_kbv &tft; // Screen drawing reference
+    SdFat &SD;          // SD card reading obj
     menuHandeler MH;
 
 public:

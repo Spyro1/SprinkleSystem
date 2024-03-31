@@ -34,7 +34,7 @@
 - Beállítások :
 
 ### Gombok kiosztása
-
+ 
 ## Osztályszerkezet
 
 ```mermaid
