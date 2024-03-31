@@ -3,9 +3,9 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include "Point.h"
+#include "types.h"
 
-typedef void (*VoidFunc)(MCUFRIEND_kbv &tft, SdFat &SD);
+typedef void (*VoidFunc)(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
 
 class TouchButton
 {
@@ -14,13 +14,12 @@ class TouchButton
     VoidFunc func;
     MCUFRIEND_kbv &tft;
     SdFat &SD;
+    menuHandeler &MH;
 
 public:
-    TouchButton() : func(nullptr), tft(*(MCUFRIEND_kbv *)0), SD(*(SdFat *)0)
-    {
-    }
-    TouchButton(MCUFRIEND_kbv &tft, SdFat &SD, int x, int y, int width, int height, VoidFunc clickevent) : pos(x, y), size(width, height), func(clickevent), tft(tft), SD(SD) {}
-    TouchButton(MCUFRIEND_kbv &tft, SdFat &SD, Point position, Size size, VoidFunc clickevent) : pos(position), size(size), func(clickevent), tft(tft), SD(SD) {}
+    TouchButton() : func(nullptr), tft(*(MCUFRIEND_kbv *)0), SD(*(SdFat *)0), MH(*(menuHandeler *)0) {}
+    TouchButton(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH, int x, int y, int width, int height, VoidFunc clickevent) : pos(x, y), size(width, height), func(clickevent), tft(tft), SD(SD), MH(MH) {}
+    TouchButton(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH, Point position, Size size, VoidFunc clickevent) : pos(position), size(size), func(clickevent), tft(tft), SD(SD), MH(MH) {}
     /**
      * Tests if the given coordinate is inside the button
      * @param x x coordinate
@@ -45,7 +44,7 @@ public:
      */
     void activate()
     {
-        func(tft, SD);
+        func(tft, SD, MH);
     }
     /**
      * Combines isPressed and activate functions. If the given coordinate is inside the button, then runs the button's function.

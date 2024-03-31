@@ -3,7 +3,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include <Adafruit_GFX.h> // Core graphics library
+/* #include <Adafruit_GFX.h> // Core graphics library
 // #include <Adafruit_TFTLCD.h> // Hardware-specific library
 #include <MCUFRIEND_kbv.h>
 #include <TouchScreen.h>
@@ -44,6 +44,6 @@ SdFat SD;
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
 // Make TFT Display
-MCUFRIEND_kbv tft;
+MCUFRIEND_kbv tft; */
 
 #endif

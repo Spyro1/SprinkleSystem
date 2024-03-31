@@ -1,7 +1,7 @@
 // ---- display.cpp ----
 
 #include "display.h"
-#include "main.h"
+// #include "main.h"
 
 /* ---- Drawing fucntions ---- */
 
@@ -29,7 +29,7 @@ void DrawMainScreen(MCUFRIEND_kbv &tft, SdFat &SD)
     // Draw bottom buttons
     const int bottomIconYCoord = HEIGHT - x64 - FONT_2_V - 2 * M_V;
     PrintBmpOrRect(tft, SD, SETTINGS_ICON, CENTER_H - x64 * 3 / 2 - 2 * M_H, bottomIconYCoord, x64); // Bal alsó ikon
-    PrintBmpOrRect(tft, SD, BTN_ON, CENTER_H - x32, bottomIconYCoord, x64);                          // Közép alsó ikon
+    PrintBmpOrRect(tft, SD, BTN_OFF, CENTER_H - x32, bottomIconYCoord, x64);                         // Közép alsó ikon
     PrintBmpOrRect(tft, SD, CLOCK_ICON, CENTER_H + x32 + 2 * M_H, bottomIconYCoord, x64);            // Jobb alsó ikon
     // Draw bottom button labels
     PrintLabel(tft, strBtnLeftBottom, CENTER_H - x64 - 2 * M_H, HEIGHT - FONT_2_V - M_V);
@@ -224,7 +224,7 @@ void PrintBmpOrRect(MCUFRIEND_kbv &tft, SdFat &SD, const char *bitmapname, int x
     switch (ret)
     {
     case 0:
-        Serial.print(F("found!"));
+        Serial.println(F("found!"));
         break;
     case 1:
         Serial.println(F("bad position"));
