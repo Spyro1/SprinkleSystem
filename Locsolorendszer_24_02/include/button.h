@@ -5,18 +5,22 @@
 
 #include "Point.h"
 
-typedef void (*VoidFunc)();
+typedef void (*VoidFunc)(MCUFRIEND_kbv &tft, SdFat &SD);
 
 class TouchButton
 {
     Point pos; // Position of top left corner
     Size size; // Size of the button
     VoidFunc func;
+    MCUFRIEND_kbv &tft;
+    SdFat &SD;
 
 public:
-    TouchButton() { func = nullptr; }
-    TouchButton(int x, int y, int width, int height, VoidFunc clickevent) : pos(x, y), size(width, height), func(clickevent) {}
-    TouchButton(Point position, Size size, VoidFunc clickevent) : pos(position), size(size), func(clickevent) {}
+    TouchButton() : func(nullptr), tft(*(MCUFRIEND_kbv *)0), SD(*(SdFat *)0)
+    {
+    }
+    TouchButton(MCUFRIEND_kbv &tft, SdFat &SD, int x, int y, int width, int height, VoidFunc clickevent) : pos(x, y), size(width, height), func(clickevent), tft(tft), SD(SD) {}
+    TouchButton(MCUFRIEND_kbv &tft, SdFat &SD, Point position, Size size, VoidFunc clickevent) : pos(position), size(size), func(clickevent), tft(tft), SD(SD) {}
     /**
      * Tests if the given coordinate is inside the button
      * @param x x coordinate
@@ -41,7 +45,7 @@ public:
      */
     void activate()
     {
-        func();
+        func(tft, SD);
     }
     /**
      * Combines isPressed and activate functions. If the given coordinate is inside the button, then runs the button's function.
@@ -66,6 +70,15 @@ public:
     bool ifPressedThenActivate(Point p)
     {
         return ifPressedThenActivate(p.x, p.y);
+    }
+    TouchButton &operator=(TouchButton &&TB)
+    {
+        this->pos = TB.pos;
+        this->size = TB.size;
+        this->func = TB.func;
+        this->tft = TB.tft;
+        // this->SD = TB.SD;
+        return *this;
     }
 };
 

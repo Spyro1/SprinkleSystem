@@ -1,6 +1,7 @@
 // ---- display.cpp ----
 
 #include "display.h"
+#include "main.h"
 
 /* ---- Drawing fucntions ---- */
 
@@ -40,8 +41,8 @@ void DrawRTCSettingsSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
 {
     tft.fillScreen(BLACK);
     // Draw submenu title
-    PrintBmpOrRect(tft, SD, "clock32.bmp", SUBMENUICON_POS, x32);
-    PrintBmpOrRect(tft, SD, "home32.bmp", SUBMENUHOME_POS, x32);
+    PrintBmpOrRect(tft, SD, CLOCK_ICONx32, SUBMENUICON_POS, x32);
+    PrintBmpOrRect(tft, SD, HOME_ICONx32, SUBMENUHOME_POS, x32);
     // Print title
     PrintLabel(tft, strRealTimeSettings, CENTER_H, M_V * 2, 3);
     // Draw double line below title
@@ -69,8 +70,8 @@ void DrawPeriodSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
 {
     tft.fillScreen(BLACK);
     // Draw submenu title
-    PrintBmpOrRect(tft, SD, "clock32.bmp", SUBMENUICON_POS, x32); // x32-es óra ikon
-    PrintBmpOrRect(tft, SD, "home32.bmp", SUBMENUHOME_POS, x32);  // x32-es home ikon
+    PrintBmpOrRect(tft, SD, SPRINKLER_ICONx32, SUBMENUICON_POS, x32); // x32-es óra ikon
+    PrintBmpOrRect(tft, SD, HOME_ICONx32, SUBMENUHOME_POS, x32);      // x32-es home ikon
     // Print title
     PrintLabel(tft, strPreiodSettings, CENTER_H, M_V * 2, 3);
     // Draw double line below title
@@ -92,8 +93,8 @@ void DrawTimingSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
 {
     tft.fillScreen(BLACK);
     // Draw submenu title
-    PrintBmpOrRect(tft, SD, "realy32.bmp", SUBMENUICON_POS, x32); // x32-es realy ikon
-    PrintBmpOrRect(tft, SD, "home32.bmp", SUBMENUHOME_POS, x32);  // x32-es home ikon
+    PrintBmpOrRect(tft, SD, RELAY_ICONx32, SUBMENUICON_POS, x32); // x32-es realy ikon
+    PrintBmpOrRect(tft, SD, HOME_ICONx32, SUBMENUHOME_POS, x32);  // x32-es home ikon
     // Print title
     PrintLabel(tft, "1/1. Rele", CENTER_H, M_V * 2, 3);
     // Draw double line below title
@@ -123,8 +124,8 @@ void DrawChainSprinkleSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
 {
     tft.fillScreen(BLACK);
     // Draw submenu title
-    PrintBmpOrRect(tft, SD, "chain32.bmp", SUBMENUICON_POS, x32); // x32-es chain ikon
-    PrintBmpOrRect(tft, SD, "home32.bmp", SUBMENUHOME_POS, x32);  // x32-es home ikon
+    PrintBmpOrRect(tft, SD, CHAIN_ICONx32, SUBMENUICON_POS, x32); // x32-es chain ikon
+    PrintBmpOrRect(tft, SD, HOME_ICONx32, SUBMENUHOME_POS, x32);  // x32-es home ikon
     // Print title
     PrintLabel(tft, strBtnLeftCenter, CENTER_H, M_V * 2, 3); // Sorban
     // Draw double line below title
@@ -137,7 +138,7 @@ void DrawChainSprinkleSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
     PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_1);
     PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_2);
     PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_3);
-    PrintBmpOrRect(tft, SD, RUN_ICON, SLOT_2_4, GREEN);
+    PrintBmpOrRect(tft, SD, START_ICON, SLOT_2_4, GREEN);
     // Filed labels
     PrintLabel(tft, strFromRelay, COL_1_LABEL, 1); // Relétől label
     PrintLabel(tft, strToRelay, COL_2_LABEL, 1);   // Reléig label
@@ -153,8 +154,8 @@ void DrawTestSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
 {
     tft.fillScreen(BLACK);
     // Draw submenu title
-    PrintBmpOrRect(tft, SD, "test32.bmp", SUBMENUICON_POS, x32); // x32-es chain ikon
-    PrintBmpOrRect(tft, SD, "home32.bmp", SUBMENUHOME_POS, x32); // x32-es home ikon
+    PrintBmpOrRect(tft, SD, TEST_ICONx32, SUBMENUICON_POS, x32); // x32-es chain ikon
+    PrintBmpOrRect(tft, SD, HOME_ICONx32, SUBMENUHOME_POS, x32); // x32-es home ikon
     // Print title
     PrintLabel(tft, strBtnRightCenter, CENTER_H, M_V * 2, 3); // Sorban
     // Draw double line below title
