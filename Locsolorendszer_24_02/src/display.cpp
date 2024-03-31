@@ -9,10 +9,10 @@ void DrawMainScreen(MCUFRIEND_kbv &tft, SdFat &SD)
     tft.fillScreen(BLACK);
 
     // Draw top buttons
-    PrintBmpOrRect(tft, SD, SPRINKLER_ICON_ON, M_H, M_V, x64);           // Bal felső ikon
-    PrintBmpOrRect(tft, SD, CHAIN_ICON, M_H * 3 + x64, M_V, x64);        // Bal fent közép ikon
-    PrintBmpOrRect(tft, SD, TEST_ICON, M_H * 5 + x64 * 2, M_V, x64);     // Jobb fent közép ikon
-    PrintBmpOrRect(tft, SD, HUMIDITY_ICON, M_H * 7 + x64 * 3, M_V, x64); // Jobb fent ikon
+    PrintBmpOrRect(tft, SD, SPRINKLER_ICON_ON, M_H, M_V, x64, GREEN);             // Bal felső ikon
+    PrintBmpOrRect(tft, SD, CHAIN_ICON, M_H * 3 + x64, M_V, x64, PURPLE);         // Bal fent közép ikon
+    PrintBmpOrRect(tft, SD, TEST_ICON, M_H * 5 + x64 * 2, M_V, x64, GREENYELLOW); // Jobb fent közép ikon
+    PrintBmpOrRect(tft, SD, HUMIDITY_ICON, M_H * 7 + x64 * 3, M_V, x64, CYAN);    // Jobb fent ikon
     // Draw top button labels
     PrintLabel(tft, strBtnLeftTop, M_H + x32, M_V * 2 + x64);
     PrintLabel(tft, strBtnLeftCenter, M_H * 3 + x64 * 3 / 2, M_V * 2 + x64);
@@ -27,9 +27,9 @@ void DrawMainScreen(MCUFRIEND_kbv &tft, SdFat &SD)
     PrintRTCToMainScreen(tft, TimeSpan(1234)); // Valós idő
     // Draw bottom buttons
     const int bottomIconYCoord = HEIGHT - x64 - FONT_2_V - 2 * M_V;
-    PrintBmpOrRect(tft, SD, SETTINGS_ICON, CENTER_H - x64 * 3 / 2 - 2 * M_H, bottomIconYCoord, x64); // Bal alsó ikon
-    PrintBmpOrRect(tft, SD, BTN_OFF, CENTER_H - x32, bottomIconYCoord, x64);                         // Közép alsó ikon
-    PrintBmpOrRect(tft, SD, CLOCK_ICON, CENTER_H + x32 + 2 * M_H, bottomIconYCoord, x64);            // Jobb alsó ikon
+    PrintBmpOrRect(tft, SD, SETTINGS_ICON, CENTER_H - x64 * 3 / 2 - 2 * M_H, bottomIconYCoord, x64, LIGHTGREY); // Bal alsó ikon
+    PrintBmpOrRect(tft, SD, BTN_OFF, CENTER_H - x32, bottomIconYCoord, x64, RED);                               // Közép alsó ikon
+    PrintBmpOrRect(tft, SD, CLOCK_ICON, CENTER_H + x32 + 2 * M_H, bottomIconYCoord, x64, NAVY);                 // Jobb alsó ikon
     // Draw bottom button labels
     PrintLabel(tft, strBtnLeftBottom, CENTER_H - x64 - 2 * M_H, HEIGHT - FONT_2_V - M_V);
     PrintLabel(tft, strBtnCenterBottom2, CENTER_H, HEIGHT - FONT_2_V - M_V);

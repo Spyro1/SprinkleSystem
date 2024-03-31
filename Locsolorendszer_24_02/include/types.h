@@ -45,8 +45,8 @@ enum menuStates
 struct menuHandeler
 {
     // ---- Menu Variables ----
-    menuStates State;
-    bool mainSwitch; // If true, then timing is processed, if false, then no automatic sprinkleing
+    menuStates State; // Current state of menusystem
+    bool mainSwitch;  // If true, then timing is processed, if false, then no automatic sprinkleing
 
     menuHandeler()
     {

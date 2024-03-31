@@ -14,12 +14,6 @@
   - Beállítások (BTN)
   - Ki/Be (BTN)
   - Idő (BTN)
-    - home
-    - óra ↑ (BTN)
-    - óra ↓ (BTN)
-    - perc ↑ (BTN)
-    - perc ↓ (BTN)
--
 
 ## Gombok
 
@@ -33,8 +27,6 @@
 - Nedvesség :
 - Beállítások :
 
-### Gombok kiosztása
- 
 ## Osztályszerkezet
 
 ```mermaid
