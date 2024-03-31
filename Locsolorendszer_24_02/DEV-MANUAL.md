@@ -35,62 +35,6 @@
 
 ### Gombok kiosztása
 
-- Főképernyő = **DrawMainScreen** 7 db: `buttons[0-6]`
-  - `[0]` Bekapcsoló gomb
-  - `[1]` Valós idő beállító gomb
-  - `[2]` Beállítások gomb
-  - `[3]` Locsolás időzítés
-  - `[4]` Sorban locsolás
-  - `[5]` Tesztelés
-  - `[6]` Nedvesség
-- Valós idő beállítás = **DrawRTCSettingsSubMenu** 4 db: `buttons[7-10]`
-  - `[7]` Óra ↑
-  - `[8]` Óra ↓
-  - `[9]` Perc ↑
-  - `[10]` Perc ↓
-- Időszakok = **DrawPeriodSubMenu** 6 db: `buttons[11-16]`
-  - `[11]` 1. Időszak
-  - `[12]` 1. Kapcsoló
-  - `[13]` 2. Időszak
-  - `[14]` 2. Kapcsoló
-  - `[15]` 3. Időszak
-  - `[16]` 3. Kapcsoló
-- Időzítés beállítás = **DrawTimingSubMenu** 8 db: `buttons[17-24]`
-  - `[17]` Relé ↑
-  - `[18]` Relé ↓
-  - `[19]` Óra ↑
-  - `[20]` Óra ↓
-  - `[21]` Perc ↑
-  - `[22]` Perc ↓
-  - `[23]` Időtartam ↑
-  - `[24]` Időtartam ↓
-- Sorban locsolás = **DrawChainSprinkleSubMenu** 7 db: `buttons[25-31]`
-  - `[25]` Relétől ↑
-  - `[26]` Relétől ↓
-  - `[27]` Reléig ↑
-  - `[28]` Reléig ↓
-  - `[29]` Időtartam ↑
-  - `[30]` Időtartam ↓
-  - `[31]` Indítás
-- Tesztelés = **DrawTestSubMenu** 10 db: `buttons[32-41]`
-  - `[32]` 1 (9) kapcsoló
-  - `[33]` 2 (10) kapcsoló
-  - `[34]` 3 (11) kapcsoló
-  - `[35]` 4 (12) kapcsoló
-  - `[36]` 5 (13) kapcsoló
-  - `[37]` 6 (14) kapcsoló
-  - `[38]` 7 (15) kapcsoló
-  - `[39]` 8 (16) kapcsoló
-  - `[40]` Lapozás balra
-  - `[41]` Lapozás jobbra
--
-
-- Általános gombok: buttons[]
-
-### Locsolás
-
-### Sorban
-
 ## Osztályszerkezet
 
 ```mermaid

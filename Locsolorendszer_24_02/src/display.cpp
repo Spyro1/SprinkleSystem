@@ -1,7 +1,6 @@
 // ---- display.cpp ----
 
 #include "display.h"
-// #include "main.h"
 
 /* ---- Drawing fucntions ---- */
 
@@ -35,6 +34,7 @@ void DrawMainScreen(MCUFRIEND_kbv &tft, SdFat &SD)
     PrintLabel(tft, strBtnLeftBottom, CENTER_H - x64 - 2 * M_H, HEIGHT - FONT_2_V - M_V);
     PrintLabel(tft, strBtnCenterBottom2, CENTER_H, HEIGHT - FONT_2_V - M_V);
     PrintLabel(tft, strBtnRightBottom, CENTER_H + x64 + 2 * M_H, HEIGHT - FONT_2_V - M_V);
+    debugln("MainScreen_Drawed");
 }
 
 void DrawRTCSettingsSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
@@ -64,6 +64,7 @@ void DrawRTCSettingsSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
     // Num fields
     PrintLabel(tft, "12", COL_2_CENTER, 3);
     PrintLabel(tft, "00", COL_3_CENTER, 3);
+    debugln("RTCScreen_Drawed");
 }
 
 void DrawPeriodSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
@@ -88,6 +89,7 @@ void DrawPeriodSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
     PrintBmpOrRect(tft, SD, ON_SWITCH_LABEL, SLOT_1_4, GREEN);
     PrintBmpOrRect(tft, SD, OFF_SWITCH_LABEL, SLOT_2_4, RED);
     PrintBmpOrRect(tft, SD, OFF_SWITCH_LABEL, SLOT_3_4, RED);
+    debugln("PeriodScreen_Drawed");
 }
 void DrawTimingSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
 {
@@ -119,6 +121,7 @@ void DrawTimingSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
     PrintLabel(tft, "21", COL_1_CENTER, 3); // Óra szám
     PrintLabel(tft, "00", COL_2_CENTER, 3); // Perc szám
     PrintLabel(tft, "10", COL_3_CENTER, 3); // Időtartam
+    debugln("TimingScreen_Drawed");
 }
 void DrawChainSprinkleSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
 {
@@ -149,6 +152,7 @@ void DrawChainSprinkleSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
     PrintLabel(tft, "21", COL_1_CENTER, 3); // Relétől szám
     PrintLabel(tft, "00", COL_2_CENTER, 3); // Reléig szám
     PrintLabel(tft, "10", COL_3_CENTER, 3); // Időtartam szám
+    debugln("ChainScreen_Drawed");
 }
 void DrawTestSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
 {
@@ -174,75 +178,78 @@ void DrawTestSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
     PrintBmpOrRect(tft, SD, LEFT_ARROW, SLOT_3_1, BLUE);
     PrintBmpOrRect(tft, SD, EXIT_ICON, SLOT_3_2, RED);
     PrintBmpOrRect(tft, SD, RIGHT_ARROW, SLOT_3_4, BLUE);
+    debugln("TestScreen_Drawed");
 }
 
 void DrawSettingsSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
 {
+    debugln("SettingsScreen_Drawed");
 }
 
 void DrawHumiditySubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
 {
+    debugln("HumidityScreen_Drawed");
 }
 
 /* ---- Common used drawing blocks ---- */
 
-void PrintRTCToMainScreen(MCUFRIEND_kbv &tft, TimeSpan realTime)
+void PrintRTCToMainScreen(MCUFRIEND_kbv &tft, const TimeSpan &realTime)
 {
     char temp[9];
     sprintf(temp, "%02d:%02d:%02d", realTime.hours(), realTime.minutes(), realTime.seconds());
     PrintLabel(tft, temp, CENTER_H, M_V * 9 + x64 + FONT_1_V + FONT_3_V, 2);
 }
-void PrintSubMenuTitle(MCUFRIEND_kbv &tft, const char *title, int fontSize, uint16_t color)
+void PrintSubMenuTitle(MCUFRIEND_kbv &tft, const char *title, const int fontSize, const uint16_t color)
 {
     tft.setCursor(CENTER_H - GetTextWidth(title, fontSize) / 2, M_V * 2);
     tft.setTextColor(color);
     tft.setTextSize(fontSize);
     tft.print(title);
 }
-void PrintLabel(MCUFRIEND_kbv &tft, const char *label, int x, int y, int fontSize, uint16_t color)
+void PrintLabel(MCUFRIEND_kbv &tft, const char *label, const short x, const short y, const int fontSize, const uint16_t color)
 {
     tft.setCursor(x - GetTextWidth(label, fontSize) / 2, y /* - (FONT_1_V * fontSize) */);
     tft.setTextColor(color);
     tft.setTextSize(fontSize);
     tft.print(label);
 }
-void PrintDoubleLine(MCUFRIEND_kbv &tft, int y, int width, uint16_t color)
+void PrintDoubleLine(MCUFRIEND_kbv &tft, const short y, const int width, const uint16_t color)
 {
     tft.drawFastHLine((WIDTH - width) / 2, y, width, color); // Dupla vonal
     // tft.drawFastHLine((WIDTH - width) / 2, y + 1, width, color); // Dupla vonal
 }
-int GetTextWidth(const char *text, int fontSize)
+int GetTextWidth(const char *text, const int fontSize)
 {
     return strlen(text) * (FONT_1_H * fontSize) + (strlen(text) - 1) * fontSize;
 }
-void PrintBmpOrRect(MCUFRIEND_kbv &tft, SdFat &SD, const char *bitmapname, int x, int y, int size, uint16_t color)
+void PrintBmpOrRect(MCUFRIEND_kbv &tft, SdFat &SD, const char *bitmapname, const short x, const short y, const int size, const uint16_t color)
 {
     // if (!bmpDraw(tft, bitmapname, x, y))
     //     tft.drawRoundRect(x, y, size, size, RADIUS, color);
     int ret = showBMP(tft, SD, bitmapname, x, y);
-    Serial.print(bitmapname);
+    debugv(bitmapname);
     switch (ret)
     {
     case 0:
-        Serial.println(F("found!"));
+        debugln(" found!");
         break;
     case 1:
-        Serial.println(F("bad position"));
+        debugln(" bad position");
         break;
     case 2:
-        Serial.println(F("bad BMP ID"));
+        debugln(" bad BMP ID");
         break;
     case 3:
-        Serial.println(F("wrong number of planes"));
+        debugln(" wrong number of planes");
         break;
     case 4:
-        Serial.println(F("unsupported BMP format"));
+        debugln(" unsupported BMP format");
         break;
     case 5:
-        Serial.println(F("unsupported palette"));
+        debugln(" unsupported palette");
         break;
     default:
-        Serial.println(F("unknown"));
+        debugln(" unknown");
         break;
     }
     if (ret != 0)
@@ -254,7 +261,7 @@ void PrintBmpOrRect(MCUFRIEND_kbv &tft, SdFat &SD, const char *bitmapname, int x
 #define BUFFPIXEL 20
 #define PALETTEDEPTH 8 // support 256-colour Palette
 #define BMPIMAGEOFFSET 54
-bool bmpDraw(MCUFRIEND_kbv &tft, SdFat &SD, const char *filename, int x, int y)
+bool bmpDraw(MCUFRIEND_kbv &tft, SdFat &SD, const char *filename, short x, short y)
 {
 
     File bmpFile;
@@ -269,50 +276,50 @@ bool bmpDraw(MCUFRIEND_kbv &tft, SdFat &SD, const char *filename, int x, int y)
     boolean flip = true;                // BMP is stored bottom-to-top
     int w, h, row, col;
     uint8_t r, g, b;
-    uint32_t pos = 0, startTime = millis();
+    uint32_t pos = 0;
     uint8_t lcdidx = 0;
     boolean first = true;
 
     if ((x >= tft.width()) || (y >= tft.height()))
         return false;
 
-    Serial.println();
-    Serial.print(F("Loading image '"));
-    Serial.print(filename);
-    Serial.println('\'');
+    // debugln();
+    debug("\nLoading image '");
+    debugv(filename);
+    debugln("\'");
     // Open requested file on SD card
     if ((bmpFile = SD.open(filename)) /* == NULL*/)
     {
-        Serial.println(F("File not found"));
+        debugln("File not found");
         return false;
     }
 
     // Parse BMP header
     if (read16(bmpFile) == 0x4D42)
     { // BMP signature
-        Serial.println(F("File size: "));
-        Serial.println(read32(bmpFile));
+        debugln("File size: ");
+        debugvln(read32(bmpFile));
         (void)read32(bmpFile);            // Read & ignore creator bytes
         bmpImageoffset = read32(bmpFile); // Start of image data
-        Serial.print(F("Image Offset: "));
-        Serial.println(bmpImageoffset, DEC);
+        debug("Image Offset: ");
+        debugvln(bmpImageoffset);
         // Read DIB header
-        Serial.print(F("Header size: "));
-        Serial.println(read32(bmpFile));
+        debug("Header size: ");
+        debugvln(read32(bmpFile));
         bmpWidth = read32(bmpFile);
         bmpHeight = read32(bmpFile);
         if (read16(bmpFile) == 1)
         {                               // # planes -- must be '1'
             bmpDepth = read16(bmpFile); // bits per pixel
-            // Serial.print(F("Bit Depth: ")); Serial.println(bmpDepth);
+            // debug("Bit Depth: "); debugln(bmpDepth);
             if ((bmpDepth == 24) && (read32(bmpFile) == 0))
             { // 0 = uncompressed
 
                 goodBmp = true; // Supported BMP format -- proceed!
-                // Serial.print(F("Image size: "));
-                // Serial.print(bmpWidth);
-                // Serial.print('x');
-                // Serial.println(bmpHeight);
+                // debug("Image size: ");
+                // debug(bmpWidth);
+                // debug('x');
+                // debugln(bmpHeight);
 
                 // BMP rows are padded (if needed) to 4-byte boundary
                 rowSize = (bmpWidth * 3 + 3) & ~3;
@@ -384,9 +391,6 @@ bool bmpDraw(MCUFRIEND_kbv &tft, SdFat &SD, const char *filename, int x, int y)
                     tft.pushColors(lcdbuffer, lcdidx, first);
                     // tft.pushColor(lcdidx); // PROBA
                 }
-                Serial.print(F("Loaded in "));
-                Serial.print(millis() - startTime);
-                Serial.println(" ms");
             } // end goodBmp
         }
     }
@@ -394,7 +398,7 @@ bool bmpDraw(MCUFRIEND_kbv &tft, SdFat &SD, const char *filename, int x, int y)
     bmpFile.close();
     if (!goodBmp)
     {
-        Serial.println(F("BMP format not recognized."));
+        debugln("BMP format not recognized.");
         return false;
     }
     return true;
@@ -430,7 +434,7 @@ uint32_t read32(File &f)
     f.read(&result, sizeof(result));
     return result;
 }
-uint8_t showBMP(MCUFRIEND_kbv &tft, SdFat &SD, const char *nm, int x, int y)
+uint8_t showBMP(MCUFRIEND_kbv &tft, SdFat &SD, const char *nm, short x, short y)
 {
     File bmpFile;
     int bmpWidth, bmpHeight;         // W+H in pixels

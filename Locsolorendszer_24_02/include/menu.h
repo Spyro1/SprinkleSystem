@@ -13,28 +13,28 @@
 #define mainScreenButtonCount 7
 
 /* ---- Button Clickevents ----- */
-/* --- MainScreen button events --- */
-void SprinkleButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler& MH);
-void ChainButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler& MH);
-void TestButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler& MH);
-void HumidityButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler& MH);
-void SettingsButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler& MH);
-void MainToggleButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler& MH);
-void ClockButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler& MH);
-/* --- Table button evetns --- */
-void HomeIcon_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler& MH);
-void EventButton_Clicked_1_1(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler& MH);
-void EventButton_Clicked_1_2(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler& MH);
-void EventButton_Clicked_1_3(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler& MH);
-void EventButton_Clicked_1_4(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler& MH);
-void EventButton_Clicked_2_1(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler& MH);
-void EventButton_Clicked_2_2(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler& MH);
-void EventButton_Clicked_2_3(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler& MH);
-void EventButton_Clicked_2_4(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler& MH);
-void EventButton_Clicked_3_1(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler& MH);
-void EventButton_Clicked_3_2(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler& MH);
-void EventButton_Clicked_3_3(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler& MH);
-void EventButton_Clicked_3_4(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler& MH);
+/* --- MainScreen button clickevents --- */
+void SprinkleButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
+void ChainButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
+void TestButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
+void HumidityButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
+void SettingsButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
+void MainToggleButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
+void ClockButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
+/* --- Table button clickevents --- */
+void HomeIcon_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
+void EventButton_Clicked_1_1(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
+void EventButton_Clicked_1_2(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
+void EventButton_Clicked_1_3(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
+void EventButton_Clicked_1_4(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
+void EventButton_Clicked_2_1(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
+void EventButton_Clicked_2_2(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
+void EventButton_Clicked_2_3(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
+void EventButton_Clicked_2_4(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
+void EventButton_Clicked_3_1(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
+void EventButton_Clicked_3_2(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
+void EventButton_Clicked_3_3(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
+void EventButton_Clicked_3_4(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
 
 class Menu
 {
@@ -45,7 +45,6 @@ class Menu
     menuHandeler MH;
 
 public:
-    // friend void SprinkleButton_Clicked();
     // -- Constructor --
     Menu(MCUFRIEND_kbv &tft, SdFat &SD);
     // -- Functions --

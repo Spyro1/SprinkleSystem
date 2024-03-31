@@ -32,8 +32,11 @@ Menu::Menu(MCUFRIEND_kbv &tft, SdFat &SD) : tft(tft), SD(SD)
 }
 void Menu::RunMenu()
 {
+  // debug("FIN-MH.State=");
+  // debugvln(MH.State);
   // -- Start main screen --
   DrawMainScreen(tft, SD);
+  // DrawTimingSubMenu(tft, SD);
   MH.State = mainMenu;
   MH.mainSwitch = false;
   // delay(10000);
@@ -50,25 +53,26 @@ void Menu::RunMenu()
 
 void Menu::Touched(int x, int y)
 {
-  Serial.print("Menu: (");
-  Serial.print(x);
-  Serial.print(", ");
-  Serial.print(y);
-  Serial.print(") -  "); // Print actual coordinates
-  Serial.println();
+  debug("\nMenu: (");
+  debugv(x);
+  debug(", ");
+  debugv(y);
+  debug(") -  "); // Print actual coordinates
   if (MH.State == mainMenu)
   {
     for (size_t i = 0; i < mainScreenButtonCount; i++)
     {
-      mainScreenButtons[i].ifPressedThenActivate(x, y);
+      bool ret = mainScreenButtons[i].ifPressedThenActivate(x, y);
     }
+    debug("mainButtonsTested");
   }
   else
   {
     for (size_t i = 0; i < subMenuButtonCount; i++)
     {
-      subMenuButtons[i].ifPressedThenActivate(x, y);
+      bool ret = subMenuButtons[i].ifPressedThenActivate(x, y);
     }
+    debug("tableButtonsTested");
   }
 }
 
@@ -77,9 +81,9 @@ void Menu::Touched(int x, int y)
 
 void SprinkleButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
-  Serial.println("SprinkleButton_Clicked");
-  Serial.print("MH.State=");
-  Serial.println(MH.State);
+  debugln("SprinkleButton_Clicked");
+  // debug("MH.State=");
+  // debugv(MH.State);
   if (MH.State == mainMenu)
   {
     MH.State = subPeriodsChoser;
@@ -88,7 +92,7 @@ void SprinkleButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 }
 void ChainButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
-  Serial.println("ChainButton_Clicked");
+  debugln("ChainButton_Clicked");
   if (MH.State == mainMenu)
   {
     MH.State = subChainSprinkle;
@@ -97,7 +101,7 @@ void ChainButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 }
 void TestButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
-  Serial.println("TestButton_Clicked");
+  debugln("TestButton_Clicked");
   if (MH.State == mainMenu)
   {
     MH.State = subTesting;
@@ -106,7 +110,7 @@ void TestButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 }
 void HumidityButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
-  Serial.println("HumidityButton_Clicked");
+  debugln("HumidityButton_Clicked");
   if (MH.State == mainMenu)
   {
     MH.State = subHumiditySetting;
@@ -115,7 +119,7 @@ void HumidityButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 }
 void SettingsButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
-  Serial.println("SettingsButton_Clicked");
+  debugln("SettingsButton_Clicked");
   if (MH.State == mainMenu)
   {
     MH.State = subSettingsMenu;
@@ -124,7 +128,7 @@ void SettingsButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 }
 void MainToggleButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
-  Serial.println("MainToggleButton_Clicked");
+  debugln("MainToggleButton_Clicked");
   if (MH.State == mainMenu)
   {
     MH.mainSwitch = !MH.mainSwitch;
@@ -140,7 +144,7 @@ void MainToggleButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 }
 void ClockButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
-  Serial.println("ClockButton_Clicked");
+  debugln("ClockButton_Clicked");
   if (MH.State == mainMenu)
   {
     MH.State = subSettingsMenu;
@@ -152,59 +156,59 @@ void ClockButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 
 void HomeIcon_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
-  Serial.println("HomeIcon_Clicked");
+  debugln("HomeIcon_Clicked");
   if (MH.State != mainMenu)
   {
     MH.State = mainMenu;
-    // DrawMainScreen(tft, SD);
+    DrawMainScreen(tft, SD);
   }
 }
 
 void EventButton_Clicked_1_1(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
-  Serial.println("1"); // Button number
+  debugln("1"); // Button number
 }
 void EventButton_Clicked_1_2(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
-  Serial.println("2"); // Button number
+  debugln("2"); // Button number
 }
 void EventButton_Clicked_1_3(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
-  Serial.println("3"); // Button number
+  debugln("3"); // Button number
 }
 void EventButton_Clicked_1_4(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
-  Serial.println("4"); // Button number
+  debugln("4"); // Button number
 }
 void EventButton_Clicked_2_1(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
-  Serial.println("5"); // Button number
+  debugln("5"); // Button number
 }
 void EventButton_Clicked_2_2(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
-  Serial.println("6"); // Button number
+  debugln("6"); // Button number
 }
 void EventButton_Clicked_2_3(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
-  Serial.println("7"); // Button number
+  debugln("7"); // Button number
 }
 void EventButton_Clicked_2_4(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
-  Serial.println("8"); // Button number
+  debugln("8"); // Button number
 }
 void EventButton_Clicked_3_1(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
-  Serial.println("9"); // Button number
+  debugln("9"); // Button number
 }
 void EventButton_Clicked_3_2(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
-  Serial.println("10"); // Button number
+  debugln("10"); // Button number
 }
 void EventButton_Clicked_3_3(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
-  Serial.println("11"); // Button number
+  debugln("11"); // Button number
 }
 void EventButton_Clicked_3_4(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
-  Serial.println("12"); // Button number
+  debugln("12"); // Button number
 }

@@ -5,21 +5,22 @@
 
 #include "types.h"
 
-typedef void (*VoidFunc)(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
+typedef void (*ClickEvent)(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
 
 class TouchButton
 {
-    Point pos; // Position of top left corner
-    Size size; // Size of the button
-    VoidFunc func;
-    MCUFRIEND_kbv &tft;
-    SdFat &SD;
-    menuHandeler &MH;
+    Point pos;          // Position of top left corner
+    Size size;          // Size of the button
+    ClickEvent func;    // Function to call when button is pressed
+    MCUFRIEND_kbv &tft; // TFT Display reference
+    SdFat &SD;          // SD card reference
+    menuHandeler &MH;   // Menu Handeling struct for menu fields
 
 public:
+    // -- Constructors --
     TouchButton() : func(nullptr), tft(*(MCUFRIEND_kbv *)0), SD(*(SdFat *)0), MH(*(menuHandeler *)0) {}
-    TouchButton(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH, int x, int y, int width, int height, VoidFunc clickevent) : pos(x, y), size(width, height), func(clickevent), tft(tft), SD(SD), MH(MH) {}
-    TouchButton(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH, Point position, Size size, VoidFunc clickevent) : pos(position), size(size), func(clickevent), tft(tft), SD(SD), MH(MH) {}
+    TouchButton(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH, int x, int y, int width, int height, ClickEvent clickevent) : pos(x, y), size(width, height), func(clickevent), tft(tft), SD(SD), MH(MH) {}
+    TouchButton(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH, Point position, Size size, ClickEvent clickevent) : pos(position), size(size), func(clickevent), tft(tft), SD(SD), MH(MH) {}
     /**
      * Tests if the given coordinate is inside the button
      * @param x x coordinate
@@ -44,6 +45,7 @@ public:
      */
     void activate()
     {
+        debug(" Activated ");
         func(tft, SD, MH);
     }
     /**

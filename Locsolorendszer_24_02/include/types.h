@@ -3,6 +3,20 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+// DEBUG macro
+#define DEBUG 1
+#if DEBUG == 1
+#define debug(str) Serial.print(F(str));
+#define debugv(V) Serial.print(V);
+#define debugln(str) Serial.println(F(str));
+#define debugvln(V) Serial.println(V);
+#else
+#define debug(str)
+#define debugv(V)
+#define debugln(str)
+#define debugvln(V)
+#endif
+
 struct Point
 {
     int x, y;

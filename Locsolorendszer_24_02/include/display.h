@@ -8,6 +8,7 @@
 #include <TouchScreen.h>   // TouchScreen library
 #include <RTClib.h>
 #include <SdFat.h>
+#include "types.h"
 
 #if defined(__SAM3X8E__)
 #undef __FlashStringHelper::F(string_literal)
@@ -147,22 +148,6 @@
 #error edit SdFatConfig.h .  READ THE SKETCH INSTRUCTIONS
 #endif
 
-// For better pressure precision, we need to know the resistance between X+ and X- Use any multimeter to read it For the one we're using, its 300 ohms across the X plate
-// static TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
-
-// Make TFT Display
-// static MCUFRIEND_kbv tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
-// static Adafruit_ILI9341 tft(LCD_CS, LCD_CD);
-
-// Create SD
-// SdFat SD;                        // SD card filesystem
-// Adafruit_ImageReader reader(SD); // Image-reader object, pass in SD filesys
-
-// class Display{
-
-/* ----- Function Declarations ----- */
-
-// public:
 /* ---- Drawing fucntions ---- */
 
 /**
@@ -179,16 +164,15 @@ void DrawHumiditySubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
 
 /* ---- Common used drawing blocks ---- */
 
-// private:
 /**
  * Prints the current time to the main screen
  */
-void PrintRTCToMainScreen(MCUFRIEND_kbv &tft, TimeSpan realTime);
-void PrintSubMenuTitle(MCUFRIEND_kbv &tft, const char *title, int fontSize, uint16_t color = WHITE);
-void PrintLabel(MCUFRIEND_kbv &tft, const char *label, int x, int y, int fontSize = 1, uint16_t color = WHITE);
-void PrintDoubleLine(MCUFRIEND_kbv &tft, int y, int width = 320, uint16_t color = WHITE);
-int GetTextWidth(const char *text, int fontSize);
-void PrintBmpOrRect(MCUFRIEND_kbv &tft, SdFat &SD, const char *text, int x, int y, int size, uint16_t color = CYAN);
+void PrintRTCToMainScreen(MCUFRIEND_kbv &tft, const TimeSpan &realTime);
+void PrintSubMenuTitle(MCUFRIEND_kbv &tft, const char *title, int fontSize, const uint16_t color = WHITE);
+void PrintLabel(MCUFRIEND_kbv &tft, const char *label, short x, short y, int fontSize = 1, const uint16_t color = WHITE);
+void PrintDoubleLine(MCUFRIEND_kbv &tft, const short y, const int width = 320, const uint16_t color = WHITE);
+int GetTextWidth(const char *text, const int fontSize);
+void PrintBmpOrRect(MCUFRIEND_kbv &tft, SdFat &SD, const char *text, const short x, const short y, const int size, const uint16_t color = CYAN);
 
 /* ---- Drawing helper function ---- */
 /**
@@ -198,8 +182,8 @@ void PrintBmpOrRect(MCUFRIEND_kbv &tft, SdFat &SD, const char *text, int x, int 
  * @param y Top left corner's y coordinate
  * @returns Success state of function
  */
-bool bmpDraw(MCUFRIEND_kbv &tft, SdFat &SD, const char *filename, int x, int y);
-uint8_t showBMP(MCUFRIEND_kbv &tft, SdFat &SD, const char *nm, int x, int y);
+bool bmpDraw(MCUFRIEND_kbv &tft, SdFat &SD, const char *filename, short x, short y);
+uint8_t showBMP(MCUFRIEND_kbv &tft, SdFat &SD, const char *nm, short x, short y);
 /**
  * @brief Bitmap data reading funcion (16 bits)
  * Read 16- and 32-bit types from the SD card file. BMP data is stored little-endian, Arduino is little-endian too.
