@@ -12,7 +12,21 @@
 #define subMenuButtonCount 13
 #define mainScreenButtonCount 7
 
+#define BTN_1_1 Point(1, 1)
+#define BTN_1_2 Point(2, 1)
+#define BTN_1_3 Point(3, 1)
+#define BTN_1_4 Point(4, 1)
+#define BTN_2_1 Point(1, 2)
+#define BTN_2_2 Point(2, 2)
+#define BTN_2_3 Point(3, 2)
+#define BTN_2_4 Point(4, 2)
+#define BTN_3_1 Point(1, 3)
+#define BTN_3_2 Point(2, 3)
+#define BTN_3_3 Point(3, 3)
+#define BTN_3_4 Point(4, 3)
+
 /* ---- Button Clickevents ----- */
+void ExecuteClickEvent(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH, Point clickPos);
 /* --- MainScreen button clickevents --- */
 void SprinkleButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
 void ChainButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
@@ -40,7 +54,6 @@ class Menu
 {
     TouchButton mainScreenButtons[7]; // Main screen buttons
     TouchButton subMenuButtons[13];   // Table Buttons [12] hombe button
-    // TouchButton btnSprinkle, btnChain, btnTest, btnHumidity, btnSettings, btnMainToggle, btnClock; //, btnHome;
 
     MCUFRIEND_kbv &tft; // Screen drawing reference
     SdFat &SD;          // SD card reading obj
@@ -52,6 +65,8 @@ public:
     // -- Functions --
     void RunMenu();
     void Touched(int x, int y);
+    // -- Setters --
+    void setState(menuStates state) { MH.State = state; }
 };
 
 #endif // MENU_H

@@ -63,7 +63,6 @@ void Menu::Touched(int x, int y)
 
 /* ---- Button Clickevents ----- */
 // --- Main Screen---
-
 void SprinkleButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
   debugln("SprinkleButton_Clicked");
@@ -117,12 +116,16 @@ void MainToggleButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
     MH.mainSwitch = !MH.mainSwitch;
     if (MH.mainSwitch)
     {
+      PrintLabel(tft, strBtnCenterBottom2, CENTER_H, HEIGHT - FONT_2_V - M_V, 2, BLACK);
+      PrintLabel(tft, strBtnCenterBottom1, CENTER_H, HEIGHT - FONT_2_V - M_V, 2);
       PrintBmpOrRect(tft, SD, BTN_ON, CENTER_H - x32, HEIGHT - x64 - FONT_2_V - 2 * M_V, x64, GREEN);
       debugln("mainSwitch set to ON");
     }
     else
     {
 
+      PrintLabel(tft, strBtnCenterBottom1, CENTER_H, HEIGHT - FONT_2_V - M_V, 2, BLACK);
+      PrintLabel(tft, strBtnCenterBottom2, CENTER_H, HEIGHT - FONT_2_V - M_V, 2);
       PrintBmpOrRect(tft, SD, BTN_OFF, CENTER_H - x32, HEIGHT - x64 - FONT_2_V - 2 * M_V, x64, RED);
       debugln("mainSwitch set to OFF");
     }
@@ -139,13 +142,90 @@ void ClockButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 }
 
 // --- Submenus ---
+void ExecuteClickEvent(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH, Point clickPos)
+{
+  switch (MH.State)
+  {
+  case subPeriodsChoser:
+    if (clickPos == BTN_1_4)
+    {
+      if (MH.periods[0].isActive)
+      {
+        PrintBmpOrRect(tft, SD, OFF_SWITCH_LABEL, SLOT_1_4, RED);
+        MH.periods[0].isActive = false;
+      }
+      else
+      {
+        PrintBmpOrRect(tft, SD, ON_SWITCH_LABEL, SLOT_1_4, GREEN);
+        MH.periods[0].isActive = true;
+      }
+    }
+    if (clickPos == BTN_2_4)
+    {
+      if (MH.periods[1].isActive)
+      {
+        PrintBmpOrRect(tft, SD, OFF_SWITCH_LABEL, SLOT_2_4, RED);
+        MH.periods[1].isActive = false;
+      }
+      else
+      {
+        PrintBmpOrRect(tft, SD, ON_SWITCH_LABEL, SLOT_2_4, GREEN);
+        MH.periods[1].isActive = true;
+      }
+    }
+    if (clickPos == BTN_3_4)
+    {
+      if (MH.periods[2].isActive)
+      {
+        PrintBmpOrRect(tft, SD, OFF_SWITCH_LABEL, SLOT_3_4, RED);
+        MH.periods[2].isActive = false;
+      }
+      else
+      {
+        PrintBmpOrRect(tft, SD, ON_SWITCH_LABEL, SLOT_3_4, GREEN);
+        MH.periods[2].isActive = true;
+      }
+    }
+    break;
+  case subChoseRelay:
+    if (MH.page == 0)
+    {
+    }
+    else if (MH.page == 1)
+    {
+    }
+    break;
+  case subTimingRelay:
+    break;
+  case subAutomaticTiming:
+    break;
+  case subChainSprinkle:
+    break;
+  case subTesting:
+    if (MH.page == 0)
+    {
+    }
+    else if (MH.page == 1)
+    {
+    }
+    break;
+  case subHumiditySetting:
+    break;
+  case subSettingsMenu:
+    break;
+  case subRealTimeSetting:
+    break;
+  default:
+    break;
+  }
+}
 
 void HomeIcon_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
   debugln("HomeIcon_Clicked");
   if (MH.State != mainMenu)
   {
-    MH.State = mainMenu;
+    MH.Reset();
     DrawMainScreen(tft, SD);
   }
 }
@@ -153,48 +233,60 @@ void HomeIcon_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 void EventButton_Clicked_1_1(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
   debugln("1"); // Button number
+  ExecuteClickEvent(tft, SD, MH, {1, 1});
 }
 void EventButton_Clicked_1_2(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
   debugln("2"); // Button number
+  ExecuteClickEvent(tft, SD, MH, {2, 1});
 }
 void EventButton_Clicked_1_3(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
   debugln("3"); // Button number
+  ExecuteClickEvent(tft, SD, MH, {3, 1});
 }
 void EventButton_Clicked_1_4(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
   debugln("4"); // Button number
+  ExecuteClickEvent(tft, SD, MH, {4, 1});
 }
 void EventButton_Clicked_2_1(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
   debugln("5"); // Button number
+  ExecuteClickEvent(tft, SD, MH, {1, 2});
 }
 void EventButton_Clicked_2_2(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
   debugln("6"); // Button number
+  ExecuteClickEvent(tft, SD, MH, {2, 2});
 }
 void EventButton_Clicked_2_3(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
   debugln("7"); // Button number
+  ExecuteClickEvent(tft, SD, MH, {3, 2});
 }
 void EventButton_Clicked_2_4(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
   debugln("8"); // Button number
+  ExecuteClickEvent(tft, SD, MH, {4, 2});
 }
 void EventButton_Clicked_3_1(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
   debugln("9"); // Button number
+  ExecuteClickEvent(tft, SD, MH, {1, 3});
 }
 void EventButton_Clicked_3_2(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
   debugln("10"); // Button number
+  ExecuteClickEvent(tft, SD, MH, {2, 3});
 }
 void EventButton_Clicked_3_3(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
   debugln("11"); // Button number
+  ExecuteClickEvent(tft, SD, MH, {3, 3});
 }
 void EventButton_Clicked_3_4(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
 {
   debugln("12"); // Button number
+  ExecuteClickEvent(tft, SD, MH, {4, 3});
 }

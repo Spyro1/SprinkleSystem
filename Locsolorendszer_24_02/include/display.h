@@ -15,7 +15,7 @@
 #define F(string_literal) string_literal
 #endif
 
-// 16 bites szinek
+// 16 bit Colors fot TFT display
 #define BLACK 0x0000
 #define BLUE 0x001F
 #define CYAN 0x07FF
@@ -35,10 +35,9 @@
 #define RED 0xF800
 #define WHITE 0xFFFF
 #define YELLOW 0xFFE0
-
 #define BGDARKCYAN 0x032D // 0472
 
-// Menü makrók
+// Menu spacing macros
 #define M_V 4    // Vertical margin
 #define M_H 8    // Horizonatal margin
 #define RADIUS 5 // Rounded rectangle corner radius
@@ -118,7 +117,7 @@
 #define SPRINKLER_ICONx32 "sprk-32.bmp"
 #define TEST_ICONx32 "test-32.bmp"
 #define RELAY_ICONx32 "valve-32.bmp"
-// String makrók
+// MainScreen string macros
 #define strMainTitle "Locsolorendszer" // Locsolórendszer
 #define strBtnLeftTop "Locsolas"       // Locsolás
 #define strBtnLeftCenter "Sorban"      // Sorban locsoolás
@@ -128,7 +127,8 @@
 #define strBtnCenterBottom1 "Be"       // Kikapcsolt állapot
 #define strBtnCenterBottom2 "Ki"       // Bekapcsolt állapot
 #define strBtnRightBottom "Ido"        // Idő beállítás
-
+// Submenu string macros
+#define strEmpty "  "
 #define strRealTimeSettings "Ido beallitas" // Idő beállítás almenő cím
 #define strHour "Ora"
 #define strMinute "Perc"
@@ -142,47 +142,135 @@
 #define strToRelay "Releig"
 #define strDuration "Idotartam"
 
-// ----- Static variable declarations -----
-// ----- SD Card init -----
-#if SPI_DRIVER_SELECT != 2
-#error edit SdFatConfig.h .  READ THE SKETCH INSTRUCTIONS
-#endif
-
 /* ---- Drawing fucntions ---- */
-
 /**
  * Draws the Main Screen to the tft display.
+ * @param tft Reference to tft display
+ * @param SD Reference to SD card
  */
 void DrawMainScreen(MCUFRIEND_kbv &tft, SdFat &SD);
+/**
+ * Draws the settings for real time
+ * @param tft Reference to tft display
+ * @param SD Reference to SD card
+ */
 void DrawRTCSettingsSubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
+/**
+ *  Draws period chooser submenu
+ * @param tft Reference to tft display
+ * @param SD Reference to SD card
+ */
 void DrawPeriodSubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
-void DrawTimingSubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
+/**
+ * Draws 1-8, 9-16 relay to the screen to chose time setting submenu
+ * @param tft Reference to tft display
+ * @param SD Reference to SD card
+ */
+void DrawRelayChooserSubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
+/**
+ * Draws the relay's time and duration setting submenu
+ * @param tft Reference to tft display
+ * @param SD Reference to SD card
+ */
+void DrawRelayTimingSubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
+/**
+ * Draws chain sprinkle setting submenu
+ * @param tft Reference to tft display
+ * @param SD Reference to SD card
+ */
 void DrawChainSprinkleSubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
+/**
+ * Draws 1-8, 9-16 Switches to test the sprinkler system
+ * @param tft Reference to tft display
+ * @param SD Reference to SD card
+ */
 void DrawTestSubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
+/**
+ * Draws the settings menu for the system
+ * @param tft Reference to tft display
+ * @param SD Reference to SD card
+ */
 void DrawSettingsSubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
+/**
+ * Draws the humidity sensitivity settings for the system
+ * @param tft Reference to tft display
+ * @param SD Reference to SD card
+ */
 void DrawHumiditySubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
 
 /* ---- Common used drawing blocks ---- */
 
 /**
  * Prints the current time to the main screen
+ * @param tft Reference to tft display
+ * @param realTime Reference to real time
  */
 void PrintRTCToMainScreen(MCUFRIEND_kbv &tft, const TimeSpan &realTime);
+/**
+ * Prints the title to a submenu
+ * @param tft Reference to tft display
+ * @param title Name of the submenu to display
+ * @param fontSize Title font size
+ * @param color Color of the text
+ */
 void PrintSubMenuTitle(MCUFRIEND_kbv &tft, const char *title, int fontSize, const uint16_t color = WHITE);
+/**
+ * Prints the given text to the display at the given coordinates
+ * @param tft Reference to tft display
+ * @param label Text to display
+ * @param x x coordinate - center of the text
+ * @param y y coordinate - top of the text
+ * @param fontSize Text font size
+ * @param color Color of the text
+ */
 void PrintLabel(MCUFRIEND_kbv &tft, const char *label, short x, short y, int fontSize = 1, const uint16_t color = WHITE);
+/**
+ * Prints the Line below the submenu title
+ * @param tft Reference to tft display
+ * @param y y coordinate of the line from the top
+ * @param width Width of the line, default is screen width
+ * @param color Color of the line, default is WHITE
+ */
 void PrintDoubleLine(MCUFRIEND_kbv &tft, const short y, const int width = 320, const uint16_t color = WHITE);
+/**
+ * Calculates the text width in pixels of the given string
+ * @param text Text calculate the width
+ * @param fontSize Text font size
+ * @return Width of string in pixels
+ */
 int GetTextWidth(const char *text, const int fontSize);
+/**
+ * Prints the desired bitmap to the display at coordinates or a rounded square if not found on SD card
+ * @param tft Reference to tft display
+ * @param SD Reference to SD card
+ * @param text
+ * @param x
+ * @param y
+ * @param size
+ * @param color
+ */
 void PrintBmpOrRect(MCUFRIEND_kbv &tft, SdFat &SD, const char *text, const short x, const short y, const int size, const uint16_t color = CYAN);
 
 /* ---- Drawing helper function ---- */
 /**
  * @brief Draws a bitmap from the SD card to the tft display at the given coordinates.
+ * @param tft Reference to tft display
+ * @param SD Reference to SD card
  * @param filename Bitmap's filename from SD card
  * @param x Top left corner's x coordinate
  * @param y Top left corner's y coordinate
  * @returns Success state of function
  */
 bool bmpDraw(MCUFRIEND_kbv &tft, SdFat &SD, const char *filename, short x, short y);
+/**
+ * @brief Draws a bitmap from the SD card to the tft display at the given coordinates.
+ * @param tft Reference to tft display
+ * @param SD Reference to SD card
+ * @param nm Bitmap's filename from SD card
+ * @param x Top left corner's x coordinate
+ * @param y Top left corner's y coordinate
+ * @return Success state of function encoded. 0 is success
+ */
 uint8_t showBMP(MCUFRIEND_kbv &tft, SdFat &SD, const char *nm, short x, short y);
 /**
  * @brief Bitmap data reading funcion (16 bits)

@@ -48,10 +48,22 @@ classDiagram
     class display{
       <<functions>>
         + DrawMainScreen()
-        + DrawSprinkleSubMenu()
+        + DrawRTCSettingsSubMenu()
+        + DrawPeriodSubMenu()
+        + DrawRelayChooserSubMenu()
+        + DrawRelayTimingSubMenu()
         + DrawChainSprinkleSubMenu()
         + DrawTestSubMenu()
-        + DrawPeriodSubMenu()
+        + DrawSettingsSubMenu()
+        + DrawHumiditySubMenu()
+        - PrintRTCToMainScreen()
+        - PrintSubMenuTitle()
+        - PrintLabel()
+        - PrintDoubleLine()
+        - GetTextWidth()
+        - PrintBmpOrRect()
+        - bmpDraw()
+        - showBMP()
     }
     class Point{
       + x: int

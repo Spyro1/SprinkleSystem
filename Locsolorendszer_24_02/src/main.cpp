@@ -1,8 +1,6 @@
-// #include "main.h"
-
 #include <Adafruit_GFX.h> // Core graphics library
-// #include <Adafruit_TFTLCD.h> // Hardware-specific library
 #include <MCUFRIEND_kbv.h>
+#include <Adafruit_TFTLCD.h>
 #include <TouchScreen.h>
 #include "menu.h"
 #include "display.h"
@@ -42,20 +40,25 @@ TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
 // Make TFT Display
 MCUFRIEND_kbv tft;
-
 // Create Menu
 Menu menuSystem(tft, SD);
+
+// Display sleeping mode
+unsigned long lastTouched;
+bool backlight = true;
+#define BACKLIGHT_PIN 3
+#define BACKLIGHT_COOLDOWN 30000
 
 void setup(void)
 {
   Serial.begin(9600);
   Serial.println(F("Paint!"));
-
   // -- Set tft panel --
   tft.reset();
   uint16_t identifier = tft.readID(); // Found ILI9341 LCD driver
   tft.begin(identifier);
   pinMode(13, OUTPUT);
+  pinMode(BACKLIGHT_PIN, OUTPUT); // Backlight switching pin
   tft.setRotation(1);
   tft.fillScreen(BLACK);
 
@@ -87,6 +90,7 @@ void setup(void)
     dir.rewindDirectory();
   }
   menuSystem.RunMenu();
+  lastTouched = millis();
 }
 
 void loop()
@@ -104,15 +108,27 @@ void loop()
   // -- Check pressed --
   if (p.z > MINPRESSURE && p.z < MAXPRESSURE)
   {
-    // Serial.print("X = "); Serial.print(p.x); Serial.print("\tY = "); Serial.print(p.y); // Print pushed coordinate
-    //  Serial.print("\tPressure = "); Serial.println(p.z);
-
     // Scale from 0->1023 to tft.width
     int y = map(p.x, TS_MINX, TS_MAXX, tft.height(), 0);
     int x = map(p.y, TS_MAXY, TS_MINY, tft.width(), 0);
 
-    // Call Menu Touch to evaluate touch
+    if (!backlight && x > 0 && x < WIDTH && y > 0 && y < HEIGHT)
+    {
+      menuSystem.setState(mainMenu);
+      backlight = true;
+      debug("Turn ON backlight");
+      DrawMainScreen(tft, SD);
+      // Call Menu Touch to evaluate touch
+    }
+    lastTouched = millis();
     menuSystem.Touched(x, y);
     delay(300);
+  }
+  if (backlight && (millis() - lastTouched) > BACKLIGHT_COOLDOWN)
+  {
+    // digitalWrite(BACKLIGHT_PIN, LOW);
+    debug("Turn OFF backlight");
+    backlight = false;
+    tft.fillScreen(BLACK);
   }
 }

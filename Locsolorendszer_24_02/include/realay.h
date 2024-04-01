@@ -18,14 +18,14 @@ public:
     /**
      *  Constructor for arrays
      * */
-    Relay();                    
+    Relay();
     /**
      *  Constructor for instances
      * @param ID Relays identifier
      * @param start
      * @param duration
      * @param pin
-     * */                                                
+     * */
     Relay(int ID, TimeSpan start = TimeSpan(0), int duration = 0, int pin = -1);
     // - Getters -
     int getID() const;
@@ -40,7 +40,6 @@ public:
     void setStart(TimeSpan startTime);
     void setStart(int hour, int minute);
     // - Functions -
-    
 
 private:
     void UpdateEnd();

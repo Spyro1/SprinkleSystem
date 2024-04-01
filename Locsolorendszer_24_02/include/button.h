@@ -15,8 +15,25 @@ class TouchButton
 
 public:
     // -- Constructors --
-    TouchButton() {}
+    /**
+     * Default constructor of TocuhButton. Used for arrays.
+     */
+    TouchButton() : pos(0, 0), size(0, 0) {}
+    /**
+     * Constructor with basic parameters
+     * @param x top left corner of button
+     * @param y top left corner of button
+     * @param width width of the button
+     * @param height height of the button
+     * @param clickevent function to call when the button is pressed
+     */
     TouchButton(int x, int y, int width, int height, ClickEvent clickevent) : pos(x, y), size(width, height), func(clickevent) {}
+    /**
+     * Constructor with advanced parameters
+     * @param position top left corner of button
+     * @param size width and height of the button
+     * @param clickevent function to call when the button is pressed
+     */
     TouchButton(Point position, Size size, ClickEvent clickevent) : pos(position), size(size), func(clickevent) {}
     /**
      * Tests if the given coordinate is inside the button

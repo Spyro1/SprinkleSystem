@@ -32,7 +32,7 @@ void DrawMainScreen(MCUFRIEND_kbv &tft, SdFat &SD)
     PrintBmpOrRect(tft, SD, CLOCK_ICON, CENTER_H + x32 + 2 * M_H, bottomIconYCoord, x64, NAVY);                 // Jobb alsó ikon
     // Draw bottom button labels
     PrintLabel(tft, strBtnLeftBottom, CENTER_H - x64 - 2 * M_H, HEIGHT - FONT_2_V - M_V);
-    PrintLabel(tft, strBtnCenterBottom2, CENTER_H, HEIGHT - FONT_2_V - M_V);
+    PrintLabel(tft, strBtnCenterBottom2, CENTER_H, HEIGHT - FONT_2_V - M_V, 2);
     PrintLabel(tft, strBtnRightBottom, CENTER_H + x64 + 2 * M_H, HEIGHT - FONT_2_V - M_V);
     debugln("MainScreen_Drawed");
 }
@@ -79,19 +79,22 @@ void DrawPeriodSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
     PrintDoubleLine(tft, x32);
     // End of subtitle
     // Draw Period buttons
-    tft.drawRoundRect(SLOT_1_1 + 160, x64, RADIUS, CYAN);                                           // 1. időszak háttere
-    tft.drawRoundRect(SLOT_2_1 + 160, x64, RADIUS, CYAN);                                           // 2. időszak háttere
-    tft.drawRoundRect(SLOT_3_1 + 160, x64, RADIUS, CYAN);                                           // 3. időszak háttere
-    PrintLabel(tft, strFirstPeriod, CENTER_H - x64 - x16, SUBTITLE_H + M_V * 2 + x16, 2);           // 1. időszak szöveg
-    PrintLabel(tft, strSecondPeriod, CENTER_H - x64 - x16, SUBTITLE_H + M_V * 3 + x64 + x16, 2);    // 2. időszak szöveg
-    PrintLabel(tft, strThirdPeriod, CENTER_H - x64 - x16, SUBTITLE_H + M_V * 4 + x64 * 2 + x16, 2); // 3. időszak szöveg
+    tft.drawRoundRect(SLOT_1_2 + 80, x64, RADIUS, CYAN);                                // 1. időszak háttere
+    tft.drawRoundRect(SLOT_2_2 + 80, x64, RADIUS, CYAN);                                // 2. időszak háttere
+    tft.drawRoundRect(SLOT_3_2 + 80, x64, RADIUS, CYAN);                                // 3. időszak háttere
+    PrintLabel(tft, strFirstPeriod, CENTER_H, SUBTITLE_H + M_V * 2 + x16, 2);           // 1. időszak szöveg
+    PrintLabel(tft, strSecondPeriod, CENTER_H, SUBTITLE_H + M_V * 3 + x64 + x16, 2);    // 2. időszak szöveg
+    PrintLabel(tft, strThirdPeriod, CENTER_H, SUBTITLE_H + M_V * 4 + x64 * 2 + x16, 2); // 3. időszak szöveg
     // On-off Switches
-    PrintBmpOrRect(tft, SD, ON_SWITCH_LABEL, SLOT_1_4, GREEN);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH_LABEL, SLOT_1_4, RED);
     PrintBmpOrRect(tft, SD, OFF_SWITCH_LABEL, SLOT_2_4, RED);
     PrintBmpOrRect(tft, SD, OFF_SWITCH_LABEL, SLOT_3_4, RED);
+    PrintBmpOrRect(tft, SD, AUTOMATIC_ICON, SLOT_1_1, DARKCYAN);
+    PrintBmpOrRect(tft, SD, AUTOMATIC_ICON, SLOT_2_1, DARKCYAN);
+    PrintBmpOrRect(tft, SD, AUTOMATIC_ICON, SLOT_3_1, DARKCYAN);
     debugln("PeriodScreen_Drawed");
 }
-void DrawTimingSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
+void DrawRelayTimingSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
 {
     tft.fillScreen(BLACK);
     // Draw submenu title
