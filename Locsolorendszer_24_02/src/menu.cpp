@@ -96,7 +96,7 @@ void HumidityButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
   if (MH.State == mainMenu)
   {
     MH.State = subHumiditySetting;
-    DrawHumiditySubMenu(tft, SD);
+    DrawHumiditySubMenu(tft, SD, MH);
   }
 }
 void SettingsButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
@@ -105,7 +105,7 @@ void SettingsButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
   if (MH.State == mainMenu)
   {
     MH.State = subSettingsMenu;
-    DrawSettingsSubMenu(tft, SD);
+    DrawSettingsSubMenu(tft, SD, MH);
   }
 }
 void MainToggleButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
@@ -136,7 +136,7 @@ void ClockButton_Clicked(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
   debugln("ClockButton_Clicked");
   if (MH.State == mainMenu)
   {
-    MH.State = subSettingsMenu;
+    MH.State = subRealTimeSetting;
     DrawRTCSettingsSubMenu(tft, SD);
   }
 }
@@ -147,65 +147,83 @@ void ExecuteClickEvent(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH, Point cl
   switch (MH.State)
   {
   case subPeriodsChoser:
-    if (clickPos == BTN_1_4)
+    // Automatic timing button
+    if (clickPos == BTN_1_1 || clickPos == BTN_2_1 || clickPos == BTN_3_1)
     {
-      if (MH.periods[0].isActive)
+      debugln("AutomaticTiming_Clicked");
+      MH.State = subAutomaticTiming;
+      MH.currentPeriod = clickPos.y;
+      DrawAutomaticTimingSubMenu(tft, SD, MH);
+    }
+    // Period On/Off buttons
+    else if (clickPos == BTN_1_4 || clickPos == BTN_2_4 || clickPos == BTN_3_4)
+    {
+      int indexer = clickPos.y - 1;
+      if (MH.periods[indexer].isActive)
       {
-        PrintBmpOrRect(tft, SD, OFF_SWITCH_LABEL, SLOT_1_4, RED);
-        MH.periods[0].isActive = false;
+        PrintBmpOrRect(tft, SD, OFF_SWITCH_LABEL, SLOT_1_4 + indexer * 68, x64, RED);
+        MH.periods[indexer].isActive = false;
       }
       else
       {
-        PrintBmpOrRect(tft, SD, ON_SWITCH_LABEL, SLOT_1_4, GREEN);
-        MH.periods[0].isActive = true;
+        PrintBmpOrRect(tft, SD, ON_SWITCH_LABEL, SLOT_1_4 + indexer * 68, x64, GREEN);
+        MH.periods[indexer].isActive = true;
       }
     }
-    if (clickPos == BTN_2_4)
+    // Period editor
+    else if (clickPos == BTN_1_2 || clickPos == BTN_1_3 || clickPos == BTN_2_2 || clickPos == BTN_2_3 || clickPos == BTN_3_2 || clickPos == BTN_3_3)
     {
-      if (MH.periods[1].isActive)
-      {
-        PrintBmpOrRect(tft, SD, OFF_SWITCH_LABEL, SLOT_2_4, RED);
-        MH.periods[1].isActive = false;
-      }
-      else
-      {
-        PrintBmpOrRect(tft, SD, ON_SWITCH_LABEL, SLOT_2_4, GREEN);
-        MH.periods[1].isActive = true;
-      }
-    }
-    if (clickPos == BTN_3_4)
-    {
-      if (MH.periods[2].isActive)
-      {
-        PrintBmpOrRect(tft, SD, OFF_SWITCH_LABEL, SLOT_3_4, RED);
-        MH.periods[2].isActive = false;
-      }
-      else
-      {
-        PrintBmpOrRect(tft, SD, ON_SWITCH_LABEL, SLOT_3_4, GREEN);
-        MH.periods[2].isActive = true;
-      }
+      MH.currentPeriod = clickPos.y;
+      MH.State = subChoseRelay;
+      DrawRelayChooserSubMenu(tft, SD, MH.currentPeriod);
     }
     break;
   case subChoseRelay:
-    if (MH.page == 0)
+    if (clickPos == BTN_3_1 || clickPos == BTN_3_4)
     {
+      MH.page = MH.page == 1 ? 2 : 1;
+      PrintRelayChoserNumbering(tft, SD, MH.page, BLACK);
     }
-    else if (MH.page == 1)
+    else if (clickPos.y < 3)
     {
+      MH.State = subTimingRelay;
+      MH.currentRelay = ((MH.page - 1) * 8) + clickPos.x + (clickPos.y - 1) * 4;
+      DrawRelayTimingSubMenu(tft, SD, MH);
     }
     break;
   case subTimingRelay:
+    if (clickPos == BTN_1_1)
+      MH.getCurrentRelay().ChangeStartHour(1);
+    else if (clickPos == BTN_3_1)
+      MH.getCurrentRelay().ChangeStartHour(-1);
+    else if (clickPos == BTN_1_2)
+      MH.getCurrentRelay().ChangeStartMinute(1);
+    else if (clickPos == BTN_3_2)
+      MH.getCurrentRelay().ChangeStartMinute(-1);
+    else if (clickPos == BTN_1_3)
+      MH.getCurrentRelay().ChangeDuration(1);
+    else if (clickPos == BTN_3_3)
+      MH.getCurrentRelay().ChangeDuration(-1);
+    PrintNumberField(tft, 1, MH.getCurrentRelay().getStart().hours());   // Hour
+    PrintNumberField(tft, 2, MH.getCurrentRelay().getStart().minutes()); // Minute
+    PrintNumberField(tft, 3, MH.getCurrentRelay().getDuration());        // Duration
     break;
   case subAutomaticTiming:
+    if (clickPos == BTN_3_4) // Back
+    {
+      MH.State = subPeriodsChoser;
+      DrawPeriodSubMenu(tft, SD);
+    }
     break;
   case subChainSprinkle:
     break;
   case subTesting:
-    if (MH.page == 0)
+    if (clickPos == BTN_3_1 || clickPos == BTN_3_4)
     {
+      MH.page = MH.page == 1 ? 2 : 1;
+      PrintRelayChoserNumbering(tft, SD, MH.page, BLACK);
     }
-    else if (MH.page == 1)
+    else
     {
     }
     break;

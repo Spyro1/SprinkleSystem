@@ -52,3 +52,27 @@ void Relay::UpdateEnd()
 {
     end = start + duration * 60; // Convert duration from inutes to seconds
 }
+
+/* -- Functions -- */
+void Relay::SetRelayState(bool value)
+{
+    if (value)
+        digitalWrite(pin, HIGH);
+    else
+        digitalWrite(pin, LOW);
+}
+void Relay::ChangeStartHour(int byValue)
+{
+    start = start + TimeSpan(byValue * 3600);
+    UpdateEnd();
+}
+void Relay::ChangeStartMinute(int byValue)
+{
+    start = start + TimeSpan(byValue * 60);
+    UpdateEnd();
+}
+void Relay::ChangeDuration(int byValue)
+{
+    duration += duration + byValue;
+    UpdateEnd();
+}

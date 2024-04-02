@@ -22,9 +22,9 @@ public:
     /**
      *  Constructor for instances
      * @param ID Relays identifier
-     * @param start
-     * @param duration
-     * @param pin
+     * @param start Start time of automated sprinkling
+     * @param duration Duration of the sprinkleing in minutes
+     * @param pin Pin of the relay on board
      * */
     Relay(int ID, TimeSpan start = TimeSpan(0), int duration = 0, int pin = -1);
     // - Getters -
@@ -40,6 +40,10 @@ public:
     void setStart(TimeSpan startTime);
     void setStart(int hour, int minute);
     // - Functions -
+    void SetRelayState(bool value);
+    void ChangeStartHour(int byValue);
+    void ChangeDuration(int byValue);
+    void ChangeStartMinute(int byValue);
 
 private:
     void UpdateEnd();

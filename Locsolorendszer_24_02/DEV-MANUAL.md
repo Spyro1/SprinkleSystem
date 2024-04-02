@@ -4,16 +4,40 @@
 
 ---
 
-## Menürendszer
+## Teendők
 
+- [ ] Képernyők Dinamikus frissítése
 - MainScreen
-  - Locsolás (BTN)
-  - Sorban (BTN)
-  - Tesztelés (BTN)
-  - Nedvesség (BTN)
-  - Beállítások (BTN)
-  - Ki/Be (BTN)
-  - Idő (BTN)
+  - Locsolás időzítés
+    - [ ] Automatikus locsolás
+      - [ ] Funkcionalitás
+      - [ ] Szám mezők dinamikus változtatása
+      - [x] Kijelzés
+      - [ ] Vissza
+    - [ ] Relénkénti beállítás
+      - [ ] Állító gombok funkcionalitása
+      - [ ] Automatikusból mentés és vissza text
+      - [x] Title beállítása
+  - Sorban locsolás
+    - [ ] Funkcionalitás a gombokhoz
+    - [ ] Szám mezők dinamikus változtatása
+  - Tesztelés
+    - [ ] Funkcionalitás a gombokhoz
+  - Nedvesség
+    - [ ] Funkcionalitás a gombokhoz
+    - [ ] Szám mezők dinamikus változtatása
+  - Beállítások
+  - Ki/Be kapcsoló gomb
+    - [ ]
+  - Idő beállítás
+    - [ ] Funkcionalitás a gombokhoz
+    - [ ] Szám mezők dinamikus változtatása
+
+## Hibák
+
+- Időszak gomb title hiba
+- Relé időzítésénél title hiba
+- Relé számok eltolása balra kicsit
 
 ## Gombok
 

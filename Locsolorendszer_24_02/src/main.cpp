@@ -1,7 +1,8 @@
 #include <Adafruit_GFX.h> // Core graphics library
 #include <MCUFRIEND_kbv.h>
-#include <Adafruit_TFTLCD.h>
 #include <TouchScreen.h>
+#include <SPI.h>   // f.k. for Arduino-1.5.2
+#include <SdFat.h> // Use the SdFat library
 #include "menu.h"
 #include "display.h"
 
@@ -27,27 +28,24 @@
 #define MINPRESSURE 10
 #define MAXPRESSURE 1000
 
-#include <SPI.h> // f.k. for Arduino-1.5.2
-// #define USE_SDFAT
-#include <SdFat.h>                 // Use the SdFat library
+// ----- Static variable declarations -----
 SoftSpiDriver<12, 11, 13> softSpi; // Bit-Bang on the Shield pins SDFat.h v2
 SdFat SD;
 #define SD_CS SdSpiConfig(10, DEDICATED_SPI, SD_SCK_MHZ(0), &softSpi)
-// ----- Static variable declarations -----
 
 // For better pressure precision, we need to know the resistance between X+ and X- Use any multimeter to read it For the one we're using, its 300 ohms across the X plate
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
 // Make TFT Display
 MCUFRIEND_kbv tft;
+
 // Create Menu
 Menu menuSystem(tft, SD);
 
 // Display sleeping mode
 unsigned long lastTouched;
 bool backlight = true;
-#define BACKLIGHT_PIN 3
-#define BACKLIGHT_COOLDOWN 30000
+#define BACKLIGHT_COOLDOWN 60000
 
 void setup(void)
 {
@@ -58,7 +56,6 @@ void setup(void)
   uint16_t identifier = tft.readID(); // Found ILI9341 LCD driver
   tft.begin(identifier);
   pinMode(13, OUTPUT);
-  pinMode(BACKLIGHT_PIN, OUTPUT); // Backlight switching pin
   tft.setRotation(1);
   tft.fillScreen(BLACK);
 
@@ -91,6 +88,10 @@ void setup(void)
   }
   menuSystem.RunMenu();
   lastTouched = millis();
+  debug("Size of Relay: ");
+  debugvln(sizeof(Relay));
+  debug("Size of Period: ");
+  debugvln(sizeof(Period));
 }
 
 void loop()
@@ -126,9 +127,8 @@ void loop()
   }
   if (backlight && (millis() - lastTouched) > BACKLIGHT_COOLDOWN)
   {
-    // digitalWrite(BACKLIGHT_PIN, LOW);
-    debug("Turn OFF backlight");
     backlight = false;
     tft.fillScreen(BLACK);
+    debug("Turn OFF backlight");
   }
 }

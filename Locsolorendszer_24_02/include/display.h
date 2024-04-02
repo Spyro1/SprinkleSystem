@@ -60,18 +60,18 @@
 #define SUBMENUICON_POS 4, 0
 #define SUBMENUHOME_POS 284, 0
 // Submenu table corners
-#define SLOT_1_1 8, 36, x64
-#define SLOT_1_2 88, 36, x64
-#define SLOT_1_3 168, 36, x64
-#define SLOT_1_4 248, 36, x64
-#define SLOT_2_1 8, 104, x64
-#define SLOT_2_2 88, 104, x64
-#define SLOT_2_3 168, 104, x64
-#define SLOT_2_4 248, 104, x64
-#define SLOT_3_1 8, 172, x64
-#define SLOT_3_2 88, 172, x64
-#define SLOT_3_3 168, 172, x64
-#define SLOT_3_4 248, 172, x64
+#define SLOT_1_1 8, 36
+#define SLOT_1_2 88, 36
+#define SLOT_1_3 168, 36
+#define SLOT_1_4 248, 36
+#define SLOT_2_1 8, 104
+#define SLOT_2_2 88, 104
+#define SLOT_2_3 168, 104
+#define SLOT_2_4 248, 104
+#define SLOT_3_1 8, 172
+#define SLOT_3_2 88, 172
+#define SLOT_3_3 168, 172
+#define SLOT_3_4 248, 172
 // SUBMENU NUM FILD POSITIONS
 #define COL_1_CENTER 40, 120
 #define COL_1_LABEL 40, 154
@@ -82,7 +82,7 @@
 #define COL_1_2_SEPERATOR 80, 120
 #define COL_2_3_SEPERATOR 160, 120
 #define COL_4_LABEL_T 280, 104
-#define COL_4_LABEL_B 280, 150
+#define COL_4_LABEL_B 280, 154
 // BITMAPS x64
 #define UP_ARROW "arw-up.bmp"
 #define DOWN_ARROW "arw-dw.bmp"
@@ -128,11 +128,11 @@
 #define strBtnCenterBottom2 "Ki"       // Bekapcsolt állapot
 #define strBtnRightBottom "Ido"        // Idő beállítás
 // Submenu string macros
-#define strEmpty "  "
 #define strRealTimeSettings "Ido beallitas" // Idő beállítás almenő cím
 #define strHour "Ora"
 #define strMinute "Perc"
-#define strRelay "Releszam"
+#define strRelaynum "Releszam"
+#define strRelay "Rele"
 #define strDurationShort "Idot."
 #define strPreiodSettings "Idozitesek" // Időzítések be-ki kapcsolási menüje
 #define strFirstPeriod "1. Idoszak"
@@ -141,6 +141,11 @@
 #define strFromRelay "Reletol"
 #define strToRelay "Releig"
 #define strDuration "Idotartam"
+#define strSenitivity "Erzekenyseg"
+#define strReset "Visszaallitas"
+#define strSave "Mentes"
+#define strBack "Vissza"
+#define strStart "Start"
 
 /* ---- Drawing fucntions ---- */
 /**
@@ -166,13 +171,13 @@ void DrawPeriodSubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
  * @param tft Reference to tft display
  * @param SD Reference to SD card
  */
-void DrawRelayChooserSubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
+void DrawRelayChooserSubMenu(MCUFRIEND_kbv &tft, SdFat &SD, int periodNumber);
 /**
  * Draws the relay's time and duration setting submenu
  * @param tft Reference to tft display
  * @param SD Reference to SD card
  */
-void DrawRelayTimingSubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
+void DrawRelayTimingSubMenu(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
 /**
  * Draws chain sprinkle setting submenu
  * @param tft Reference to tft display
@@ -190,14 +195,20 @@ void DrawTestSubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
  * @param tft Reference to tft display
  * @param SD Reference to SD card
  */
-void DrawSettingsSubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
+void DrawSettingsSubMenu(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
 /**
  * Draws the humidity sensitivity settings for the system
  * @param tft Reference to tft display
  * @param SD Reference to SD card
  */
-void DrawHumiditySubMenu(MCUFRIEND_kbv &tft, SdFat &SD);
-
+void DrawHumiditySubMenu(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
+/**
+ *  Draws the automatic timing setting submenu
+ * @param tft Reference to tft display
+ * @param SD Reference to SD card
+ * @param periodNumber Which period to set the timing to, and display the title
+ */
+void DrawAutomaticTimingSubMenu(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH);
 /* ---- Common used drawing blocks ---- */
 
 /**
@@ -223,7 +234,8 @@ void PrintSubMenuTitle(MCUFRIEND_kbv &tft, const char *title, int fontSize, cons
  * @param fontSize Text font size
  * @param color Color of the text
  */
-void PrintLabel(MCUFRIEND_kbv &tft, const char *label, short x, short y, int fontSize = 1, const uint16_t color = WHITE);
+void PrintLabel(MCUFRIEND_kbv &tft, const char *label, int x, int y, int fontSize = 1, const uint16_t color = WHITE);
+void PrintLabel(MCUFRIEND_kbv &tft, int labelValue, int x, int y, int fontSize = 1, const uint16_t color = WHITE);
 /**
  * Prints the Line below the submenu title
  * @param tft Reference to tft display
@@ -231,7 +243,9 @@ void PrintLabel(MCUFRIEND_kbv &tft, const char *label, short x, short y, int fon
  * @param width Width of the line, default is screen width
  * @param color Color of the line, default is WHITE
  */
-void PrintDoubleLine(MCUFRIEND_kbv &tft, const short y, const int width = 320, const uint16_t color = WHITE);
+void PrintDoubleLine(MCUFRIEND_kbv &tft, const int y, const int width = 320, const uint16_t color = WHITE);
+void PrintRelayChoserNumbering(MCUFRIEND_kbv &tft, SdFat &SD, int pageNumber, const uint16_t color = WHITE);
+void PrintNumberField(MCUFRIEND_kbv &tft, const int column, int value = 0);
 /**
  * Calculates the text width in pixels of the given string
  * @param text Text calculate the width
@@ -239,6 +253,7 @@ void PrintDoubleLine(MCUFRIEND_kbv &tft, const short y, const int width = 320, c
  * @return Width of string in pixels
  */
 int GetTextWidth(const char *text, const int fontSize);
+int GetNumWidth(const int number, const int fontSize);
 /**
  * Prints the desired bitmap to the display at coordinates or a rounded square if not found on SD card
  * @param tft Reference to tft display
@@ -249,7 +264,7 @@ int GetTextWidth(const char *text, const int fontSize);
  * @param size
  * @param color
  */
-void PrintBmpOrRect(MCUFRIEND_kbv &tft, SdFat &SD, const char *text, const short x, const short y, const int size, const uint16_t color = CYAN);
+void PrintBmpOrRect(MCUFRIEND_kbv &tft, SdFat &SD, const char *text, const int x, const int y, const int size = x64, const uint16_t color = CYAN);
 
 /* ---- Drawing helper function ---- */
 /**
@@ -261,7 +276,7 @@ void PrintBmpOrRect(MCUFRIEND_kbv &tft, SdFat &SD, const char *text, const short
  * @param y Top left corner's y coordinate
  * @returns Success state of function
  */
-bool bmpDraw(MCUFRIEND_kbv &tft, SdFat &SD, const char *filename, short x, short y);
+bool bmpDraw(MCUFRIEND_kbv &tft, SdFat &SD, const char *filename, int x, int y);
 /**
  * @brief Draws a bitmap from the SD card to the tft display at the given coordinates.
  * @param tft Reference to tft display
@@ -271,7 +286,7 @@ bool bmpDraw(MCUFRIEND_kbv &tft, SdFat &SD, const char *filename, short x, short
  * @param y Top left corner's y coordinate
  * @return Success state of function encoded. 0 is success
  */
-uint8_t showBMP(MCUFRIEND_kbv &tft, SdFat &SD, const char *nm, short x, short y);
+uint8_t showBMP(MCUFRIEND_kbv &tft, SdFat &SD, const char *nm, int x, int y);
 /**
  * @brief Bitmap data reading funcion (16 bits)
  * Read 16- and 32-bit types from the SD card file. BMP data is stored little-endian, Arduino is little-endian too.
