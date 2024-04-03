@@ -744,3 +744,9 @@ uint8_t showBMP(MCUFRIEND_kbv &tft, SdFat &SD, const char *nm, int x, int y)
     bmpFile.close();
     return (ret);
 }
+
+void DrawIconRelay(MCUFRIEND_kbv &tft, const int x, const int y)
+{
+    tft.fillRect(x + 16, y, 33, x64, BLUE); // Háttér
+    tft.fillRect(x + 16, y + 11, )          // Fekete rész
+}
