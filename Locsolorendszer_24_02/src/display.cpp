@@ -254,8 +254,8 @@ void DrawHumiditySubMenu(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
     PrintDoubleLine(tft, x32);
     // End of subtitle
     // Humidity sensitivty button settings
-    PrintLabel(tft, strSenitivity, COL_2_LABEL, 2);      // Erzekenyseg label
-    PrintNumberField(tft, 2, MH.humiditySensitivity, 0); // Érzékenység szám
+    PrintLabel(tft, strSenitivity, COL_2_LABEL, 2);   // Erzekenyseg label
+    PrintNumberField(tft, 2, MH.humiditySensitivity); // Érzékenység szám
     PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_2);
     PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_2);
     debugln("HumidityScreen_Drawed");

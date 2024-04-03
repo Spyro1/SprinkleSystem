@@ -9,9 +9,9 @@ class Relay
     int id;  // Relay identifire
     int pin; // Connected pin on the arduino
     // -- Timed Sprinkleing --
-    int duration;   // Duration in minutes of sprinkleing
-    TimeSpan start; // Start time of sprinkleing
-    TimeSpan end;   // End time of sprinkleing (calcualted)
+    unsigned char duration; // Duration in minutes of sprinkleing
+    TimeSpan start;         // Start time of sprinkleing
+    TimeSpan end;           // End time of sprinkleing (calcualted)
 
 public:
     // -- Constrcutors --
@@ -30,13 +30,13 @@ public:
     // - Getters -
     int getID() const;
     int getPin() const;
-    int getDuration() const;
+    unsigned char getDuration() const;
     TimeSpan getStart() const;
     TimeSpan getEnd() const;
     // - Setters -
     void setID(int id);
     void setPin(int pinNumber);
-    void setDuration(int duration);
+    void setDuration(unsigned char duration);
     void setStart(TimeSpan startTime);
     void setStart(int hour, int minute);
     // - Functions -

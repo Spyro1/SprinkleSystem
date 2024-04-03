@@ -35,10 +35,6 @@
 
 ## Hibák
 
-- Időszak gomb title hiba
-- Relé időzítésénél title hiba
-- Relé számok eltolása balra kicsit
-
 ## Gombok
 
 - Általánosak: [] : vissza, mentés

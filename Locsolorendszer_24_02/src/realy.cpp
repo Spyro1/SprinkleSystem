@@ -25,7 +25,7 @@ Relay::Relay(int ID, TimeSpan start, int duration, int pin)
 
 int Relay::getID() const { return id; }
 int Relay::getPin() const { return pin; }
-int Relay::getDuration() const { return duration; }
+unsigned char Relay::getDuration() const { return duration; }
 TimeSpan Relay::getStart() const { return start; }
 TimeSpan Relay::getEnd() const { return end; }
 
@@ -33,7 +33,7 @@ TimeSpan Relay::getEnd() const { return end; }
 
 void Relay::setID(int id) { this->id = id; }
 void Relay::setPin(int pin) { this->pin = pin; }
-void Relay::setDuration(int duration)
+void Relay::setDuration(unsigned char duration)
 {
     this->duration = duration;
     UpdateEnd();

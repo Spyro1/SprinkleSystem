@@ -3,6 +3,7 @@
 #include <TouchScreen.h>
 #include <SPI.h>   // f.k. for Arduino-1.5.2
 #include <SdFat.h> // Use the SdFat library
+#include <RTClib.h>
 #include "menu.h"
 #include "display.h"
 
@@ -38,6 +39,9 @@ TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
 // Make TFT Display
 MCUFRIEND_kbv tft;
+
+// RTC module
+RTC_DS3231 rtcDS;
 
 // Create Menu
 Menu menuSystem(tft, SD);
