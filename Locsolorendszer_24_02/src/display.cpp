@@ -747,6 +747,20 @@ uint8_t showBMP(MCUFRIEND_kbv &tft, SdFat &SD, const char *nm, int x, int y)
 
 void DrawIconRelay(MCUFRIEND_kbv &tft, const int x, const int y)
 {
-    tft.fillRect(x + 16, y, 33, x64, BLUE); // Háttér
-    tft.fillRect(x + 16, y + 11, )          // Fekete rész
+    tft.fillRoundRect(x + 13, y, 38, x64, BLUE);    // Háttér
+    tft.fillRect(x + 24, y + 59, 16, 4, DARKGREY);  // Szürke Pin rész
+    tft.fillRect(x + 27, y + 60, 2, 2, LIGHTGREY);  // 1. pin
+    tft.fillRect(x + 31, y + 60, 2, 2, LIGHTGREY);  // 2. pin
+    tft.fillRect(x + 35, y + 60, 2, 2, LIGHTGREY);  // 3. pin
+    tft.fillRect(x + 20, y + 3, 24, 8, BLUE);       // Top pin holder
+    tft.fillCircle(x + 22, y + 4, 6, 6, LIGHTGREY); // Top left pin
+    tft.fillCircle(x + 29, y + 4, 6, 6, LIGHTGREY); // Top center pin
+    tft.fillCircle(x + 36, y + 4, 6, 6, LIGHTGREY); // Top right pin
+    tft.fillCircle(x + 14, y + 1, 4, 4, BALCK);     // Hole 1
+    tft.fillCircle(x + 14, y + 58, 4, 4, BALCK);    // Hole 2
+    tft.fillCircle(x + 46, y + 58, 4, 4, BALCK);    // Hole 3
+    tft.fillCircle(x + 46, y + 1, 4, 4, BALCK);     // Hole 4
+}
+void DrawIconX(MCUFRIEND_kbv &tft, const int x, const int y)
+{
 }
