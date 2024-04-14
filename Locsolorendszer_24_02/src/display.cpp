@@ -87,12 +87,12 @@ void DrawPeriodSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
     PrintLabel(tft, strSecondPeriod, CENTER_H, SUBTITLE_H + M_V * 3 + x64 + x16, 2);    // 2. időszak szöveg
     PrintLabel(tft, strThirdPeriod, CENTER_H, SUBTITLE_H + M_V * 4 + x64 * 2 + x16, 2); // 3. időszak szöveg
     // On-off Switches
-    PrintBmpOrRect(tft, SD, OFF_SWITCH_LABEL, SLOT_1_4, RED);
-    PrintBmpOrRect(tft, SD, OFF_SWITCH_LABEL, SLOT_2_4, RED);
-    PrintBmpOrRect(tft, SD, OFF_SWITCH_LABEL, SLOT_3_4, RED);
-    PrintBmpOrRect(tft, SD, AUTOMATIC_ICON, SLOT_1_1, DARKCYAN);
-    PrintBmpOrRect(tft, SD, AUTOMATIC_ICON, SLOT_2_1, DARKCYAN);
-    PrintBmpOrRect(tft, SD, AUTOMATIC_ICON, SLOT_3_1, DARKCYAN);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH_LABEL, SLOT_1_4, x64, RED);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH_LABEL, SLOT_2_4, x64, RED);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH_LABEL, SLOT_3_4, x64, RED);
+    PrintBmpOrRect(tft, SD, AUTOMATIC_ICON, SLOT_1_1, x64, DARKCYAN);
+    PrintBmpOrRect(tft, SD, AUTOMATIC_ICON, SLOT_2_1, x64, DARKCYAN);
+    PrintBmpOrRect(tft, SD, AUTOMATIC_ICON, SLOT_3_1, x64, DARKCYAN);
     debugln("PeriodScreen_Drawed");
 }
 void DrawRelayChooserSubMenu(MCUFRIEND_kbv &tft, SdFat &SD, int periodNumber)
@@ -112,19 +112,19 @@ void DrawRelayChooserSubMenu(MCUFRIEND_kbv &tft, SdFat &SD, int periodNumber)
     PrintDoubleLine(tft, x32);
     // End of subtitle
     // Draw Realy icons
-    PrintBmpOrRect(tft, SD, RELAY_ICON, SLOT_1_1, WHITE);
-    PrintBmpOrRect(tft, SD, RELAY_ICON, SLOT_1_2, WHITE);
-    PrintBmpOrRect(tft, SD, RELAY_ICON, SLOT_1_3, WHITE);
-    PrintBmpOrRect(tft, SD, RELAY_ICON, SLOT_1_4, WHITE);
-    PrintBmpOrRect(tft, SD, RELAY_ICON, SLOT_2_1, WHITE);
-    PrintBmpOrRect(tft, SD, RELAY_ICON, SLOT_2_2, WHITE);
-    PrintBmpOrRect(tft, SD, RELAY_ICON, SLOT_2_3, WHITE);
-    PrintBmpOrRect(tft, SD, RELAY_ICON, SLOT_2_4, WHITE);
+    PrintBmpOrRect(tft, SD, RELAY_ICON, SLOT_1_1, x64, WHITE);
+    PrintBmpOrRect(tft, SD, RELAY_ICON, SLOT_1_2, x64, WHITE);
+    PrintBmpOrRect(tft, SD, RELAY_ICON, SLOT_1_3, x64, WHITE);
+    PrintBmpOrRect(tft, SD, RELAY_ICON, SLOT_1_4, x64, WHITE);
+    PrintBmpOrRect(tft, SD, RELAY_ICON, SLOT_2_1, x64, WHITE);
+    PrintBmpOrRect(tft, SD, RELAY_ICON, SLOT_2_2, x64, WHITE);
+    PrintBmpOrRect(tft, SD, RELAY_ICON, SLOT_2_3, x64, WHITE);
+    PrintBmpOrRect(tft, SD, RELAY_ICON, SLOT_2_4, x64, WHITE);
     // Print Relay Numbers
     PrintRelayChoserNumbering(tft, SD, 1, BLACK);
     // Bottom navigation buttons
-    PrintBmpOrRect(tft, SD, LEFT_ARROW, SLOT_3_1, BLUE);
-    PrintBmpOrRect(tft, SD, RIGHT_ARROW, SLOT_3_4, BLUE);
+    PrintBmpOrRect(tft, SD, LEFT_ARROW, SLOT_3_1, x64, BLUE);
+    PrintBmpOrRect(tft, SD, RIGHT_ARROW, SLOT_3_4, x64, BLUE);
     debugv(periodNumber);
     debugln(" - RelayChooserScreen_Drawed");
 }
@@ -153,14 +153,14 @@ void DrawRelayTimingSubMenu(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
     PrintNumberField(tft, 2, MH.getCurrentRelay().getStart().minutes()); // Minute
     PrintNumberField(tft, 3, MH.getCurrentRelay().getDuration());        // Duration
     // Draw Hour Up and Down buttons
-    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_1);
-    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_2);
-    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_3);
-    PrintBmpOrRect(tft, SD, OK_ICON, SLOT_1_4, GREEN);
-    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_1);
-    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_2);
-    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_3);
-    PrintBmpOrRect(tft, SD, EXIT_ICON, SLOT_3_4, RED);
+    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_1, x64);
+    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_2, x64);
+    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_3, x64);
+    PrintBmpOrRect(tft, SD, OK_ICON, SLOT_1_4, x64, GREEN);
+    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_1, x64);
+    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_2, x64);
+    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_3, x64);
+    PrintBmpOrRect(tft, SD, EXIT_ICON, SLOT_3_4, x64, RED);
     debugv(MH.currentPeriod);
     debug("/");
     debugv(MH.currentRelay);
@@ -189,13 +189,13 @@ void DrawChainSprinkleSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
     PrintLabel(tft, "->", COL_1_2_SEPERATOR, 3);       // Nyíl label
     PrintLabel(tft, strStart, COL_4_LABEL_B + x16, 2); // Indítás label
     // Draw Hour Up and Down buttons
-    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_1);
-    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_2);
-    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_3);
-    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_1);
-    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_2);
-    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_3);
-    PrintBmpOrRect(tft, SD, START_ICON, SLOT_2_4, GREEN);
+    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_1, x64);
+    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_2, x64);
+    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_3, x64);
+    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_1, x64);
+    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_2, x64);
+    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_3, x64);
+    PrintBmpOrRect(tft, SD, START_ICON, SLOT_2_4, x64, GREEN);
     debugln("ChainScreen_Drawed");
 }
 void DrawTestSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
@@ -210,20 +210,20 @@ void DrawTestSubMenu(MCUFRIEND_kbv &tft, SdFat &SD)
     PrintDoubleLine(tft, x32);
     // End of subtitle
     // Draw test switches
-    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_1_1, LIGHTGREY);
-    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_1_2, LIGHTGREY);
-    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_1_3, LIGHTGREY);
-    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_1_4, LIGHTGREY);
-    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_2_1, LIGHTGREY);
-    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_2_2, LIGHTGREY);
-    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_2_3, LIGHTGREY);
-    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_2_4, LIGHTGREY);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_1_1, x64, LIGHTGREY);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_1_2, x64, LIGHTGREY);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_1_3, x64, LIGHTGREY);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_1_4, x64, LIGHTGREY);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_2_1, x64, LIGHTGREY);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_2_2, x64, LIGHTGREY);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_2_3, x64, LIGHTGREY);
+    PrintBmpOrRect(tft, SD, OFF_SWITCH, SLOT_2_4, x64, LIGHTGREY);
     // Print Relay Numbers
     PrintRelayChoserNumbering(tft, SD, 1, BLACK);
     // Bottom navigation buttons
-    PrintBmpOrRect(tft, SD, LEFT_ARROW, SLOT_3_1, BLUE);
-    PrintBmpOrRect(tft, SD, BTN_INACTIVE, SLOT_3_2, RED);
-    PrintBmpOrRect(tft, SD, RIGHT_ARROW, SLOT_3_4, BLUE);
+    PrintBmpOrRect(tft, SD, LEFT_ARROW, SLOT_3_1, x64, CYAN);
+    PrintBmpOrRect(tft, SD, BTN_INACTIVE, SLOT_3_2, x64, RED);
+    PrintBmpOrRect(tft, SD, RIGHT_ARROW, SLOT_3_4, x64, CYAN);
     PrintLabel(tft, strReset, COL_3_LABEL + x32, 1);
     debugln("TestScreen_Drawed");
 }
@@ -256,8 +256,8 @@ void DrawHumiditySubMenu(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
     // Humidity sensitivty button settings
     PrintLabel(tft, strSenitivity, COL_2_LABEL, 2);   // Erzekenyseg label
     PrintNumberField(tft, 2, MH.humiditySensitivity); // Érzékenység szám
-    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_2);
-    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_2);
+    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_2, x64);
+    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_2, x64);
     debugln("HumidityScreen_Drawed");
 }
 
@@ -278,14 +278,14 @@ void DrawAutomaticTimingSubMenu(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH)
     PrintDoubleLine(tft, x32);
     // End of subtitle
     // Draw Hour Up and Down buttons
-    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_1);
-    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_2);
-    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_3);
-    PrintBmpOrRect(tft, SD, OK_ICON, SLOT_1_4, GREEN);
-    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_1);
-    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_2);
-    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_3);
-    PrintBmpOrRect(tft, SD, EXIT_ICON, SLOT_3_4, RED);
+    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_1, x64);
+    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_2, x64);
+    PrintBmpOrRect(tft, SD, UP_ARROW, SLOT_1_3, x64);
+    PrintBmpOrRect(tft, SD, OK_ICON, SLOT_1_4, x64, GREEN);
+    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_1, x64);
+    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_2, x64);
+    PrintBmpOrRect(tft, SD, DOWN_ARROW, SLOT_3_3, x64);
+    PrintBmpOrRect(tft, SD, EXIT_ICON, SLOT_3_4, x64, RED);
     // Filed labels
     PrintLabel(tft, strHour, COL_1_LABEL, 1);     // Óra label
     PrintLabel(tft, strMinute, COL_2_LABEL, 1);   // Perc label
@@ -307,6 +307,7 @@ void PrintRTCToMainScreen(MCUFRIEND_kbv &tft, const TimeSpan &realTime)
 {
     char temp[9];
     sprintf(temp, "%02d:%02d:%02d", realTime.hours(), realTime.minutes(), realTime.seconds());
+    tft.drawRect(CENTER_H - GetTextWidth(temp, 2) / 2, M_V * 9 + x64 + FONT_1_V + FONT_3_V, GetTextWidth(temp, 2), FONT_2_V, BLACK);
     PrintLabel(tft, temp, CENTER_H, M_V * 9 + x64 + FONT_1_V + FONT_3_V, 2);
 }
 void PrintSubMenuTitle(MCUFRIEND_kbv &tft, const char *title, const int fontSize, const uint16_t color)
@@ -325,6 +326,7 @@ void PrintLabel(MCUFRIEND_kbv &tft, const char *label, const int x, const int y,
 }
 void PrintLabel(MCUFRIEND_kbv &tft, int labelValue, const int x, const int y, const int fontSize, const uint16_t color)
 {
+    // tft.fillRect(x - GetNumWidth(labelValue, fontSize) / 2, y, GetNumWidth(labelValue, fontSize), FONT_1_V * fontSize, BLACK); // Clear background
     tft.setCursor(x - GetNumWidth(labelValue, fontSize) / 2, y);
     tft.setTextColor(color);
     tft.setTextSize(fontSize);
@@ -352,17 +354,17 @@ void PrintNumberField(MCUFRIEND_kbv &tft, const int column, int value)
 {
     if (column == 1)
     {
-        tft.fillRect(-x16 + COL_1_CENTER, x32, x32, BLACK);
+        tft.fillRect(-x32 + COL_1_CENTER, x64, x32, BLACK);
         PrintLabel(tft, value, COL_1_CENTER, 3);
     }
     else if (column == 2)
     {
-        tft.fillRect(-x16 + COL_2_CENTER, x32, x32, BLACK);
+        tft.fillRect(-x32 + COL_2_CENTER, x64, x32, BLACK);
         PrintLabel(tft, value, COL_2_CENTER, 3);
     }
     else if (column == 3)
     {
-        tft.fillRect(-x16 + COL_3_CENTER, x32, x32, BLACK);
+        tft.fillRect(-x32 + COL_3_CENTER, x64, x32, BLACK);
         PrintLabel(tft, value, COL_3_CENTER, 3);
     }
 }
@@ -743,4 +745,24 @@ uint8_t showBMP(MCUFRIEND_kbv &tft, SdFat &SD, const char *nm, int x, int y)
     }
     bmpFile.close();
     return (ret);
+}
+
+void DrawIconRelay(MCUFRIEND_kbv &tft, const int x, const int y)
+{
+    tft.fillRoundRect(x + 13, y, 38, x64, x64, BLUE); // Háttér
+    tft.fillRect(x + 24, y + 59, 16, 4, DARKGREY);    // Szürke Pin rész
+    tft.fillRect(x + 27, y + 60, 2, 2, LIGHTGREY);    // 1. pin
+    tft.fillRect(x + 31, y + 60, 2, 2, LIGHTGREY);    // 2. pin
+    tft.fillRect(x + 35, y + 60, 2, 2, LIGHTGREY);    // 3. pin
+    tft.fillRect(x + 20, y + 3, 24, 8, BLUE);         // Top pin holder
+    tft.fillCircle(x + 22, y + 4, 6, LIGHTGREY);      // Top left pin
+    tft.fillCircle(x + 29, y + 4, 6, LIGHTGREY);      // Top center pin
+    tft.fillCircle(x + 36, y + 4, 6, LIGHTGREY);      // Top right pin
+    tft.fillCircle(x + 14, y + 1, 4, BLACK);          // Hole 1
+    tft.fillCircle(x + 14, y + 58, 4, BLACK);         // Hole 2
+    tft.fillCircle(x + 46, y + 58, 4, BLACK);         // Hole 3
+    tft.fillCircle(x + 46, y + 1, 4, BLACK);          // Hole 4
+}
+void DrawIconX(MCUFRIEND_kbv &tft, const int x, const int y)
+{
 }

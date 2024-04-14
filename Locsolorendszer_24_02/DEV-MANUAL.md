@@ -50,12 +50,14 @@
 ## Osztályszerkezet
 
 ```mermaid
+---
+title: Sprinkle System v2024
+---
 classDiagram
-
     class main{
 
     }
-    class relay{
+    class Relay{
 
     }
     class Menu{
@@ -105,8 +107,19 @@ classDiagram
     }
 
     Menu *-- TouchButton
-
-    TouchButton o-- Point
-    TouchButton o-- Size
+    Menu o-- Point
+    Menu --> display
+    Menu *-- Period
+    Period *-- Relay
+    TouchButton *-- Point
+    TouchButton *-- Size
 
 ```
+
+## Memory handeling
+
+| Byte |     Változónév      | Leírása                        |
+| :--: | :-----------------: | ------------------------------ |
+|  0.  |     mainSwitch      | A locsolórendszer Főkapcsolója |
+|  1.  |      menuStyle      | A menu kinézeti szépsége       |
+|  2.  | humiditySensitivity | A nedvesség érzékenység        |

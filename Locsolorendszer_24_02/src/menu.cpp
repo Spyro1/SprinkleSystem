@@ -5,8 +5,9 @@
 #include "display.h"
 
 /* ---- Menu class definicions ---- */
-Menu::Menu(MCUFRIEND_kbv &tft, SdFat &SD) : tft(tft), SD(SD)
+Menu::Menu(MCUFRIEND_kbv &tft, SdFat &SD, RTC_DS3231 &RTC) : tft(tft), SD(SD), RTC(RTC)
 {
+  now = DateTime(1);
   // Main menu button clickevents
   mainScreenButtons[0] = TouchButton(8, 4, x64, x64, SprinkleButton_Clicked);
   mainScreenButtons[1] = TouchButton(88, 4, x64, x64, ChainButton_Clicked);
@@ -57,6 +58,19 @@ void Menu::Touched(int x, int y)
     for (size_t i = 0; i < subMenuButtonCount; i++)
     {
       subMenuButtons[i].ifPressedThenActivate(x, y, tft, SD, MH);
+    }
+  }
+}
+
+void Menu::UpdateClock()
+{
+  if (MH.State == mainMenu)
+  {
+    DateTime nextNow = RTC.now();
+    if (nextNow != now)
+    {
+      now = nextNow;
+      PrintRTCToMainScreen(tft, TimeSpan(0, now.hour(), now.minute(), now.second()));
     }
   }
 }
@@ -182,7 +196,7 @@ void ExecuteClickEvent(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH, Point cl
     if (clickPos == BTN_3_1 || clickPos == BTN_3_4)
     {
       MH.page = MH.page == 1 ? 2 : 1;
-      PrintRelayChoserNumbering(tft, SD, MH.page, BLACK);
+      PrintRelayChoserNumbering(tft, SD, MH.page, WHITE);
     }
     else if (clickPos.y < 3)
     {
@@ -192,28 +206,54 @@ void ExecuteClickEvent(MCUFRIEND_kbv &tft, SdFat &SD, menuHandeler &MH, Point cl
     }
     break;
   case subTimingRelay:
-    if (clickPos == BTN_1_1)
+    if (clickPos == BTN_1_1) // Increase hour field
       MH.getCurrentRelay().ChangeStartHour(1);
-    else if (clickPos == BTN_3_1)
+    else if (clickPos == BTN_3_1) // Decrease hour field
       MH.getCurrentRelay().ChangeStartHour(-1);
-    else if (clickPos == BTN_1_2)
+    else if (clickPos == BTN_1_2) // Increase minute field
       MH.getCurrentRelay().ChangeStartMinute(1);
-    else if (clickPos == BTN_3_2)
+    else if (clickPos == BTN_3_2) // Decrease minute field
       MH.getCurrentRelay().ChangeStartMinute(-1);
-    else if (clickPos == BTN_1_3)
+    else if (clickPos == BTN_1_3) // Increase duration field
       MH.getCurrentRelay().ChangeDuration(1);
-    else if (clickPos == BTN_3_3)
+    else if (clickPos == BTN_3_3) // Decrease duration field
       MH.getCurrentRelay().ChangeDuration(-1);
+    else if (clickPos == BTN_1_4 || clickPos == BTN_3_4) // Save and back
+    {
+      if (clickPos == BTN_1_4)
+        // MemoryHandeler::SaveToMemory(MH.getCurrentRelay(), MH.);
+        MH.State = subChoseRelay; //
+      DrawRelayChooserSubMenu(tft, SD, MH.currentPeriod);
+    }
     PrintNumberField(tft, 1, MH.getCurrentRelay().getStart().hours());   // Hour
     PrintNumberField(tft, 2, MH.getCurrentRelay().getStart().minutes()); // Minute
     PrintNumberField(tft, 3, MH.getCurrentRelay().getDuration());        // Duration
     break;
   case subAutomaticTiming:
-    if (clickPos == BTN_3_4) // Back
+    if (clickPos == BTN_1_1) // Increase hour field
+
+      MH.ChangeTempStartHour(1);
+    else if (clickPos == BTN_3_1) // Decrease hour field
+      MH.ChangeTempStartHour(-1);
+    else if (clickPos == BTN_1_2) // Increase minute field
+      MH.ChangeTempStartMinute(1);
+    else if (clickPos == BTN_3_2) // Decrease minute field
+      MH.ChangeTempStartMinute(-1);
+    else if (clickPos == BTN_1_3) // Increase duration field
+      MH.ChangeTempduration(1);
+    else if (clickPos == BTN_3_3) // Decrease duration field
+      MH.ChangeTempduration(-1);
+    else if (clickPos == BTN_1_4 || clickPos == BTN_3_4) // Save and back
     {
-      MH.State = subPeriodsChoser;
-      DrawPeriodSubMenu(tft, SD);
+      if (clickPos == BTN_1_4)
+      {
+      }
+      MH.State = subChoseRelay; //
+      DrawRelayChooserSubMenu(tft, SD, MH.currentPeriod);
     }
+    PrintNumberField(tft, 1, MH.getCurrentRelay().getStart().hours());   // Hour
+    PrintNumberField(tft, 2, MH.getCurrentRelay().getStart().minutes()); // Minute
+    PrintNumberField(tft, 3, MH.getCurrentRelay().getDuration());        // Duration
     break;
   case subChainSprinkle:
     break;

@@ -298,4 +298,11 @@ uint16_t read16(File &f);
  */
 uint32_t read32(File &f);
 // };
+
+/* ---- Icon Drawing Functions ---- */
+/**
+ * @param tft Reference to tft display
+ * @param p Top left corner of the icon
+ */
+void DrawIconRelay(MCUFRIEND_kbv &tft, const int x, const int y);
 #endif // DISPLAY_H

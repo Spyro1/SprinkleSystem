@@ -75,21 +75,33 @@ struct Period
     Relay realys[RELAY_COUNT]; // !EEPROM!
 };
 
-struct menuHandeler
+class menuHandeler
 {
+public:
     // ---- Menu Variables ----
-    menuStyle style;              // How beautiful the menu should be
-    menuStates State;             // Current state of menusystem
+    // -- Save config vars --
+    menuStyle style;              // !EEPROM! How beautiful the menu should be
     bool mainSwitch;              // !EEPROM! If true, then timing is processed, if false, then no automatic sprinkleing
-    unsigned char page;           // Current page of submenu
-    unsigned char currentPeriod;  // Which period is edited currently
-    unsigned char currentRelay;   // Which realy is edited currently
-    Period periods[PERIOD_COUNT]; // Time periods when automatic sprinkeling can happen
-    int humiditySensitivity;
+    uint16_t humiditySensitivity; // !EEPROM! Humidity sensitivity of the system
+    Period periods[PERIOD_COUNT]; // !EEPROM! Time periods when automatic sprinkeling can happen
+
+    // -- Running config vars --
+    menuStates State;            // Current state of menusystem
+    unsigned char page;          // Current page of submenu
+    unsigned char currentPeriod; // Which period is edited currently
+    unsigned char currentRelay;  // Which realy is edited currently
+    Period temporalPeriod;
+    TimeSpan temporalStart;
+    uint8_t temporalDuration;
+
     menuHandeler()
     {
+        style = quality;
         mainSwitch = false;
         humiditySensitivity = 0;
+
+        temporalStart = TimeSpan(0);
+        temporalDuration = 0;
         Reset();
     }
     void Reset()
@@ -120,6 +132,18 @@ struct menuHandeler
     Relay &getCurrentRelay()
     {
         return periods[currentPeriod].realys[currentRelay];
+    }
+    void ChangeTempStartHour(uint8_t byValue)
+    {
+        temporalStart = temporalStart + TimeSpan(3600 * byValue);
+    }
+    void ChangeTempStartMinute(uint8_t byValue)
+    {
+        temporalStart = temporalStart + TimeSpan(60 * byValue);
+    }
+    void ChangeTempduration(uint8_t byValue)
+    {
+        temporalDuration += byValue;
     }
 };
 
