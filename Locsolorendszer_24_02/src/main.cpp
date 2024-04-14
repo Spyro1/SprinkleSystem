@@ -44,7 +44,7 @@ MCUFRIEND_kbv tft;
 RTC_DS3231 rtcDS;
 
 // Create Menu
-Menu menuSystem(tft, SD);
+Menu menuSystem(tft, SD, rtcDS);
 
 // Display sleeping mode
 unsigned long lastTouched;
@@ -55,6 +55,7 @@ void setup(void)
 {
   Serial.begin(9600);
   Serial.println(F("Paint!"));
+
   // -- Set tft panel --
   tft.reset();
   uint16_t identifier = tft.readID(); // Found ILI9341 LCD driver
@@ -90,12 +91,12 @@ void setup(void)
     }
     dir.rewindDirectory();
   }
+
+  // -- Setup RTC module --
+  rtcDS.begin();
+
   menuSystem.RunMenu();
   lastTouched = millis();
-  debug("Size of Relay: ");
-  debugvln(sizeof(Relay));
-  debug("Size of Period: ");
-  debugvln(sizeof(Period));
 }
 
 void loop()
@@ -134,5 +135,9 @@ void loop()
     backlight = false;
     tft.fillScreen(BLACK);
     debug("Turn OFF backlight");
+  }
+  if (backlight)
+  {
+    menuSystem.UpdateClock();
   }
 }

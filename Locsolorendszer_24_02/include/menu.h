@@ -8,6 +8,7 @@
 #include "button.h"
 #include "display.h"
 #include "types.h"
+#include "memoryhandler.h"
 
 #define subMenuButtonCount 13
 #define mainScreenButtonCount 7
@@ -57,16 +58,20 @@ class Menu
 
     MCUFRIEND_kbv &tft; // Screen drawing reference
     SdFat &SD;          // SD card reading obj
-    menuHandeler MH;
+    RTC_DS3231 &RTC;    // Real Time Clock module reference
+    menuHandeler MH;    // menu handeler variables
+    DateTime now;
 
 public:
     // -- Constructor --
-    Menu(MCUFRIEND_kbv &tft, SdFat &SD);
+    Menu(MCUFRIEND_kbv &tft, SdFat &SD, RTC_DS3231 &RTC);
     // -- Functions --
     void RunMenu();
     void Touched(int x, int y);
+    void UpdateClock();
     // -- Setters --
     void setState(menuStates state) { MH.State = state; }
+    // -- Functions --
 };
 
 #endif // MENU_H
