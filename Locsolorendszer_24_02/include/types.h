@@ -22,11 +22,11 @@
 #define RELAY_COUNT 16
 // Relay Pins: 22,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51
 
-class Point
+struct Point
 {
-public:
-    int x, y;
-    Point(int x = 0, int y = 0) : x(x), y(y) {}
+    int x;
+    int y;
+    Point(int x_ = 0, int y_ = 0) : x(x_), y(y_) {}
     Point(const Point &p)
     {
         x = p.x;
@@ -42,13 +42,15 @@ public:
             y = p.y;
         }
         return *this;
-    }
+    };
 };
-struct Size
-{
-    int width, height;
-    Size(int width = 0, int height = 0) : width(width), height(height) {}
-};
+
+//struct Size :
+//{
+//    int width;
+//    int height;
+//    Size(int width_ = 0, int height_ = 0) : width(width_), height(height_) {}
+//};
 
 enum menuStates
 {
@@ -75,7 +77,7 @@ struct Period
     Relay realys[RELAY_COUNT]; // !EEPROM!
 };
 
-class menuHandeler
+class menuHandler
 {
 public:
     // ---- Menu Variables ----

@@ -38,17 +38,41 @@
 ```mermaid
 classDiagram
 
-    class main{
-
+    class menuStates{
+        <<enumeration>>
+        mainMenu, 
+        sprinkleProfiles, 
+        sprinkleRelays, 
+        sprinkleAuto
+        sprinkleSetter
+        chainSprinkler,
+        test,
+        humidity
+        settings,
+        clock
     }
-    class relay{
-
+    class menuStyle{
+        <<enumeration>>
+        easy,
+        medium,
+        quality
     }
-    class menu{
-
+    class Relay{
+        - idCounter: uint$
+        + id: uint
+        + pin: uint
+        + duration: uint 
+        + start: TimeSpan
+        + Relay()
+        + Relay(ID, Start, Duration, Pin)
+        + end() TimeSpan
+    }
+    class Profile{
+        + isActive: bool
+        + relays: Relay[]
     }
     class display{
-      <<functions>>
+      <<interface>>
         + DrawMainScreen()
         + DrawSprinkleSubMenu()
         + DrawChainSprinkleSubMenu()
@@ -58,11 +82,38 @@ classDiagram
     class Point{
       + x: int
       + y: int
+      + Point(x = 0, y = 0)
+      + op==() bool
+      + op!=() bool
+      + op=() Point&
     }
-    class Size{
-      + width: int
-      + height: int
+    
+    class System{
+        + style: menuStyle
+        + state: menuStates
+        + mainswitch: bool
+        + humiditySensitivity: uint
+        + profiles: Profile
+        + currentPage: uint
+        + currentProfile: uint
+        + currentRelay: uint
+        + temporalProfile: Profile
+        + temporalStart: TimeSpan
+        + temporalDuration: uint
+        + System()
+        + Reset()
+        + UpdateRelays(currentTime)
+        + getSelectedRelay()
+        
+        
     }
+    
+    
+    System --> menuStyle
+    System --> menuStates
+    System *-- Profile
+    
+    Profile *-- Relay
 
 ```
 
