@@ -45,12 +45,12 @@ struct Point
     };
 };
 
-//struct Size :
-//{
-//    int width;
-//    int height;
-//    Size(int width_ = 0, int height_ = 0) : width(width_), height(height_) {}
-//};
+struct Size
+{
+    int width;
+    int height;
+    Size(int width_ = 0, int height_ = 0) : width(width_), height(height_) {}
+};
 
 enum menuStates
 {
@@ -143,7 +143,7 @@ public:
     {
         temporalStart = temporalStart + TimeSpan(60 * byValue);
     }
-    void ChangeTempduration(uint8_t byValue)
+    void ChangeTempDuration(uint8_t byValue)
     {
         temporalDuration += byValue;
     }

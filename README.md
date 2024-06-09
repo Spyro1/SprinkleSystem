@@ -43,11 +43,11 @@ classDiagram
         mainMenu, 
         sprinkleProfiles, 
         sprinkleRelays, 
-        sprinkleAuto
-        sprinkleSetter
+        sprinkleAuto,
+        sprinkleSetter,
         chainSprinkler,
         test,
-        humidity
+        humidity,
         settings,
         clock
     }
@@ -73,19 +73,26 @@ classDiagram
     }
     class display{
       <<interface>>
-        + DrawMainScreen()
-        + DrawSprinkleSubMenu()
-        + DrawChainSprinkleSubMenu()
-        + DrawTestSubMenu()
-        + DrawPeriodSubMenu()
+        + DrawMainMenu()
+        + DrawSprinkleProfilesMenu()
+        + DrawSprinkleRelayChoser()
+        + DrawSprinkleSetter()
+        + DrawChainSprinkleMenu()
+        + DrawTestMenu()
+        + DrawHumidityMenu()
+        + DrawSettingsMenu()
+        + DrawClockMenu()
     }
     class Point{
       + x: int
       + y: int
-      + Point(x = 0, y = 0)
+      + Point(x, y)
       + op==() bool
       + op!=() bool
       + op=() Point&
+    }
+    class Size{
+      + Size(width, height)
     }
     
     class System{
@@ -112,8 +119,11 @@ classDiagram
     System --> menuStyle
     System --> menuStates
     System *-- Profile
+    System --> display
     
     Profile *-- Relay
+    
+    Point <|-- Size
 
 ```
 
