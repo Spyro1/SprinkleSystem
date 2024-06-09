@@ -3,19 +3,19 @@
 // ==== Relay ====
 struct Relay
 {
-  static uint8_t idCounter; // Max 256 relays avalible
+  static uint8_t idCounter; // Max 256 relays available
   uint8_t id;  // Relay identifier
   uint8_t pin; // Connected pin on the arduino
-  // -- Timed Sprinkleing --
-  uint8_t duration; // Duration in minutes of sprinkleing
-  TimeSpan start; // Start time of sprinkleing
+  // -- Timed Sprinkling --
+  uint8_t duration; // Duration in minutes of sprinkling
+  TimeSpan start; // Start time of sprinkling
 
-  // -- Constrcutors --
+  // -- Constructors --
   /**
     * Constructor for instances
     * @param pin Pin of the relay on board
     * @param start Start time of automated sprinkling
-    * @param duration Duration of the sprinkleing in minutes
+    * @param duration Duration of the sprinkling in minutes
     * */
   Relay::Relay(uint8_t pin = 0, TimeSpan start = 0, uint8_t duration = 0 ) : id(idCounter++), pin(pin), start(start), duration(duration)  { }
   // - Functions -

@@ -74,7 +74,7 @@ void loop()
 
     if (!backlight && x > 0 && x < WIDTH && y > 0 && y < HEIGHT)
     {
-      Controller.state = menuStates::mainMenu;
+      Controller.state = mainMenu;
       backlight = true;
       debugln("Backlight ON");
       Controller.DrawStateScreen();

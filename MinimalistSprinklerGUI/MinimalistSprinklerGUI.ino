@@ -30,7 +30,7 @@
 #define TS_MINY 80
 #define TS_MAXX 135
 #define TS_MAXY 915
-// ---- Touch Screen Preassure macros ----
+// ---- Touch Screen Pressure macros ----
 #define MINPRESSURE 10
 #define MAXPRESSURE 1000
 // ---- TFT Display macros ----
@@ -63,9 +63,9 @@
 #define BGDARKCYAN 0x032D // 0472
 // Menu spacing macros
 #define M_V 4    // Vertical margin
-#define M_H 8    // Horizonatal margin
+#define M_H 8    // Horizontal margin
 #define RADIUS 5 // Rounded rectangle corner radius
-#define x64 64   // Base Iconsize for buttons
+#define x64 64   // Base Icon size for buttons
 #define x32 x64 / 2
 #define x16 x64 / 4
 #define OPTIONSIZE 62 // Timing long button height
@@ -80,9 +80,25 @@
 #define FONT_1_V 7
 #define FONT_2_V FONT_1_V * 2
 #define FONT_3_V FONT_1_V * 3
+// Menu button counts
+#define subMenuButtonCount 13
+#define mainScreenButtonCount 7
+// Menu button locations
+#define BTN_1_1 Point(1, 1)
+#define BTN_1_2 Point(2, 1)
+#define BTN_1_3 Point(3, 1)
+#define BTN_1_4 Point(4, 1)
+#define BTN_2_1 Point(1, 2)
+#define BTN_2_2 Point(2, 2)
+#define BTN_2_3 Point(3, 2)
+#define BTN_2_4 Point(4, 2)
+#define BTN_3_1 Point(1, 3)
+#define BTN_3_2 Point(2, 3)
+#define BTN_3_3 Point(3, 3)
+#define BTN_3_4 Point(4, 3)
 // Small icon corners
-#define SUBMENUICON_POS 4, 0
-#define SUBMENUHOME_POS 284, 0
+#define SUBMENU_ICON_POS 4, 0
+#define SUBMENU_HOME_POS 284, 0
 // Submenu table corners
 #define SLOT_1_1 8, 36
 #define SLOT_1_2 88, 36
@@ -103,8 +119,8 @@
 #define COL_2_LABEL 120, 154
 #define COL_3_CENTER 200, 120
 #define COL_3_LABEL 200, 154
-#define COL_1_2_SEPERATOR 80, 120
-#define COL_2_3_SEPERATOR 160, 120
+#define COL_1_2_SEPARATOR 80, 120
+#define COL_2_3_SEPARATOR 160, 120
 #define COL_4_LABEL_T 280, 104
 #define COL_4_LABEL_B 280, 154
 // BITMAPS x64
@@ -180,9 +196,12 @@ typedef uint8_t uint;
 typedef uint16_t ulong;
 // ======================== DECLARATIONS ========================
 
+struct Point;
+struct size;
 struct Relay;
 struct Profile;
-struct SystemController; 
+struct SystemController; // Not linking
+struct Memory;
 
 // ======================== STATIC VARIABLE DECLARATIONS ========================
 
@@ -199,9 +218,3 @@ RTC_DS3231 rtcDS;
 //SoftSpiDriver<12, 11, 13> softSpi; // Bit-Bang on the Shield pins SDFat.h v2
 // SdFat SD;
 //#define SD_CS SdSpiConfig(10, DEDICATED_SPI, SD_SCK_MHZ(0), &softSpi)
-
-
-// ------ Variables ------
-
-
-

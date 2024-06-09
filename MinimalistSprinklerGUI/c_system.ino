@@ -3,16 +3,17 @@
 struct SystemController {
   // ==== Menu Variables ====
   // -- Save config vars --
-  menuStyle style;               // !EEPROM! How beautiful the menu should be
-  bool mainSwitch;               // !EEPROM! If true, then timing is processed, if false, then no automatic sprinkleing
-  ulong humiditySensitivity;  // !EEPROM! Humidity sensitivity of the system
-  Profile profiles[PROFILE_COUNT]; // !EEPROM! Time profiles when automatic sprinkeling can happen
+  menuStyle style;                  // !EEPROM! How beautiful the menu should be
+  bool mainSwitch;                  // !EEPROM! If true, then timing is processed, if false, then no automatic sprinkling
+  ulong humiditySensitivity;        // !EEPROM! Humidity sensitivity of the system
+  Profile profiles[PROFILE_COUNT];  // !EEPROM! Time profiles when automatic sprinkling can happen
 
   // -- Running config vars --
-  menuStates state;            // Current state of menusystem
-  uint currentPage;   // Current page of submenu
+  DateTime now;        // Current real time
+  menuStates state;    // Current state of the menu
+  uint currentPage;    // Current page of submenu
   uint currentProfile; // Which period is edited currently
-  uint currentRelay;  // Which realy is edited currently
+  uint currentRelay;   // Which really is edited currently
 
   // -- Temporal settings for chain sprinkle and testing --
   Profile temporalProfile;
@@ -31,6 +32,9 @@ struct SystemController {
     currentPage = 0;
     currentProfile = 0;
     currentRelay = 0;
+    temporalProfile.isActive = false;
+    temporalDuration = 0;
+    temporalStart = 0;
   }
   /// Updates all relays. If current time is start, then activates, if end, then deactivates those relays. 
   void UpdateRelays(TimeSpan currentTime) {
@@ -42,8 +46,8 @@ struct SystemController {
         bool toDeactivate = currentTime.hours() == profiles[p].relays[r].end().hours() && currentTime.minutes() == profiles[p].relays[r].end().minutes();
         // Set Relay State
         if (toActivate != toDeactivate) {
-          if (toActivate)  { profiles[p].relays[r].SetRelayState(true); debugv(p); debug("/"); debugv(r); debug(" Realy Activated"); }
-          if (toDeactivate) { profiles[p].relays[r].SetRelayState(false); debugv(p); debug("/"); debugv(r); debug(" Realy Deactivated"); }
+          if (toActivate)  { profiles[p].relays[r].SetRelayState(true); debugv(p); debug("/"); debugv(r); debug(" Relay Activated"); }
+          if (toDeactivate) { profiles[p].relays[r].SetRelayState(false); debugv(p); debug("/"); debugv(r); debug(" Relay Deactivated"); }
         }
       }
       // === Update temporal profile ===
@@ -52,8 +56,8 @@ struct SystemController {
       bool toDeactivateTemp = currentTime.hours() == temporalProfile.relays[r].end().hours() && currentTime.minutes() == temporalProfile.relays[r].end().minutes();
       // Set Relay State
       if (toActivateTemp != toDeactivateTemp) {
-        if (toActivateTemp)  { temporalProfile.relays[r].SetRelayState(true); debug("Temp/"); debugv(r); debug(" Realy Activated"); }
-        if (toDeactivateTemp) { temporalProfile.relays[r].SetRelayState(false); debug("Temp/"); debugv(r); debug(" Realy Deactivated"); }
+        if (toActivateTemp)  { temporalProfile.relays[r].SetRelayState(true); debug("Temp/"); debugv(r); debug(" Relay Activated"); }
+        if (toDeactivateTemp) { temporalProfile.relays[r].SetRelayState(false); debug("Temp/"); debugv(r); debug(" Relay Deactivated"); }
       }
     }
   }
@@ -94,10 +98,13 @@ struct SystemController {
         break;
     } 
   }
+  void UpdateStatesScreen(){
+
+  }
   void Touched(uint x, uint y){
 
   }
-  Relay& getCurrentRelay() { return profiles[currentProfile].relays[currentRelay]; }
+  Relay& CurrentRelay() { return profiles[currentProfile].relays[currentRelay]; }
   void ChangeTempStartHour(uint byValue) { temporalStart = temporalStart + TimeSpan(3600 * byValue); }
   void ChangeTempStartMinute(uint byValue) { temporalStart = temporalStart + TimeSpan(60 * byValue); }
   void ChangeTempDuration(uint byValue) { temporalDuration += byValue; }

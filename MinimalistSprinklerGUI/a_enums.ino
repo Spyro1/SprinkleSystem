@@ -1,4 +1,4 @@
-// ******** menu.ino ********
+// ******** enums.ino ********
 
 enum menuStates {
   mainMenu, 
@@ -17,12 +17,3 @@ enum menuStyle {
   medium,
   quality
 };
-
-// ==== Declaration ====
-
-// ==== Menu functions ====
-
-void RunMenu(){
-  DrawMainMenu();
-}
-
