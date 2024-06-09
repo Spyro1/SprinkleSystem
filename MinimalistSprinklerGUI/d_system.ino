@@ -66,7 +66,7 @@ struct SystemController {
         DrawSprinkleProfilesMenu();
         break;
       case sprinkleRelays:
-        DrawSprinkleRelayChoser();
+        DrawSprinkleRelayChooser();
         break;
       case sprinkleAuto:
         DrawSprinkleAutomatic();

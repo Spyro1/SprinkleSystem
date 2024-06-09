@@ -6,7 +6,7 @@ void DrawMainMenu(){
 void DrawSprinkleProfilesMenu(){
 
 }
-void DrawSprinkleRelayChoser(){
+void DrawSprinkleRelayChooser(){
 
 }
 void DrawSprinkleSetter(){

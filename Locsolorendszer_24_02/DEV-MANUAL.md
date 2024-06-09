@@ -119,7 +119,7 @@ classDiagram
 ## Memory handeling
 
 | Byte |     Változónév      | Leírása                        |
-| :--: | :-----------------: | ------------------------------ |
+| :--: |:-------------------:| ------------------------------ |
 |  0.  |     mainSwitch      | A locsolórendszer Főkapcsolója |
-|  1.  |      menuStyle      | A menu kinézeti szépsége       |
+|  1.  |       menuStyle     | A menu kinézeti szépsége       |
 |  2.  | humiditySensitivity | A nedvesség érzékenység        |
