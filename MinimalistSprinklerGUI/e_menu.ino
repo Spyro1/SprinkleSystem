@@ -8,8 +8,8 @@ void RunMenu(){
   DrawMainMenu();
 }
 
-void ExecuteClickEvent(Point clickPos) {
-  switch(state) {
+void ExecuteClickEvent(const struct Point& clickPos) {
+  switch(Controller.state) {
     case sprinkleProfiles:
       // Automatic timing button
       if (clickPos == BTN_1_1 || clickPos == BTN_2_1 || clickPos == BTN_3_1) {
@@ -81,23 +81,67 @@ void ExecuteClickEvent(Point clickPos) {
       else if (clickPos == BTN_3_3) Controller.ChangeTempDuration(-1);
       // Save and back
       else if (clickPos == BTN_1_4 || clickPos == BTN_3_4) {
+        // Save pressed
         if (clickPos == BTN_1_4) {
-          
+          for (int r = 0; r < RELAY_COUNT; r++) {
+            Controller.profiles[Controller.currentProfile].relays[r].start = Controller.temporalStart + Controller.temporalDuration * r; // set starting time in a automatic chain
+            Controller.profiles[Controller.currentProfile].relays[r].duration = Controller.temporalDuration * r; // set duration
+            SaveRelayData(Controller.profiles[Controller.currentProfile].relays[r], Controller.currentProfile, r); // Saves changed data to EEPROM
+          }
         }
         Controller.state = sprinkleProfiles;
         Controller.DrawStateScreen();
+        break; // Exit
       }
+      Controller.UpdateStatesScreen(); // Updates field numbers on screen (hour, minute, duration)
       break;
     case chainSprinkler:
+      // Increase hour field
+      if (clickPos == BTN_1_1) Controller.ChangeTempStartHour(1);
+      // Decrease hour field
+      else if (clickPos == BTN_3_1) Controller.ChangeTempStartHour(-1);
+      // Increase minute field
+      else if (clickPos == BTN_1_2) Controller.ChangeTempStartMinute(1);
+      // Decrease minute field
+      else if (clickPos == BTN_3_2) Controller.ChangeTempStartMinute(-1);
+      // Increase duration field
+      else if (clickPos == BTN_1_3) Controller.ChangeTempDuration(1);
+      // Decrease duration field
+      else if (clickPos == BTN_3_3) Controller.ChangeTempDuration(-1);
+      // Save and back
+      else if (clickPos == BTN_1_4 || clickPos == BTN_3_4) {
+        // Save pressed
+        if (clickPos == BTN_1_4) {
+          Controller.temporalProfile.isActive = true;
+          for (int r = 0; r < RELAY_COUNT; r++) {
+            Controller.temporalProfile.relays[r].start = Controller.temporalStart + Controller.temporalDuration * r; // set temporalkstarting times
+            Controller.temporalProfile.relays[r].duration = Controller.temporalDuration * r; // set temporal chain durations
+          }
+        }
+        Controller.state = sprinkleProfiles;
+        Controller.DrawStateScreen();
+        break; // Exit
+      }
+      Controller.UpdateStatesScreen(); // Updates field numbers on screen (hour, minute, duration)
       break;
     case test:
       // Navigating buttons < | >
       if (clickPos == BTN_3_1 || clickPos == BTN_3_4) {
         Controller.currentPage = Controller.currentPage == 1 ? 2 : 1;
-        Controller.DrawStateScreen();
+        Controller.UpdateStatesScreen(); // Updates numbers of test switches
       }
-      // else if (...) { // !!!!!!
-      // }
+      // Reset all switches to off
+      else if (clickPos == BTN_3_2){
+        for (int r = 0; r < RELAY_COUNT; r++){
+          Controller.temporalProfile.relays[r].SetRelayState(false);
+        }
+      }
+      // Test Relay chooser buttons
+      else if (clickPos.y < 3) {
+        Controller.currentRelay = ((Controller.currentPage - 1) * 8) + clickPos.x + (clickPos.y - 1) * 4;
+        Controller.temporalProfile.relays[Controller.currentRelay].SetRelayState(!Controller.temporalProfile.relays[Controller.currentRelay].state); // Switch state
+        Controller.UpdateStatesScreen(); // Updates the on/off state of a switch
+      }
       break;
     case humidity:
       break;
@@ -105,7 +149,6 @@ void ExecuteClickEvent(Point clickPos) {
       break;
     case clock:
       break;
-    // default:
-    //     break;
+
   }
 }

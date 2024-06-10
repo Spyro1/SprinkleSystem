@@ -5,7 +5,7 @@ struct SystemController {
   // -- Save config vars --
   menuStyle style;                  // !EEPROM! How beautiful the menu should be
   bool mainSwitch;                  // !EEPROM! If true, then timing is processed, if false, then no automatic sprinkling
-  ulong humiditySensitivity;        // !EEPROM! Humidity sensitivity of the system
+  int humiditySensitivity;        // !EEPROM! Humidity sensitivity of the system
   Profile profiles[PROFILE_COUNT];  // !EEPROM! Time profiles when automatic sprinkling can happen
 
   // -- Running config vars --
@@ -18,15 +18,25 @@ struct SystemController {
   // -- Temporal settings for chain sprinkle and testing --
   Profile temporalProfile;
   TimeSpan temporalStart;
-  uint8_t temporalDuration;
+  uint temporalDuration;
 
+  // -- Constructor --
   SystemController() : style(easy), mainSwitch(false), humiditySensitivity(0){
+    // Load variables from EEPROM
+    unsigned char helperStyle;
+    LoadStyle(helperStyle);
+    style = helperStyle;
+    LoadMainSwitch(mainSwitch);
+    LoadHumidity(humiditySensitivity);
+    // Reaset running config
     ResetMenu();
   }
+  // -- Functions --
   void StartMenu(){
     ResetMenu();
     RunMenu();
   }
+
   void ResetMenu() {
     state = menuStates::mainMenu;
     currentPage = 0;
@@ -39,7 +49,7 @@ struct SystemController {
   /// Updates all relays. If current time is start, then activates, if end, then deactivates those relays. 
   void UpdateRelays(TimeSpan currentTime) {
     for (int r = 0; r < RELAY_COUNT; r++) {
-      for (int p = 0; p < PROFILE_COUNT; p++) {
+      for (int p = 0; p < PROFILE_COUNT && profiles[p].isActive; p++) {
         // === Update timed profiles ===
         // Check if current time is in between the start and end of relay timing
         bool toActivate = currentTime.hours() == profiles[p].relays[r].start.hours() && currentTime.minutes() == profiles[p].relays[r].start.minutes();
@@ -51,13 +61,15 @@ struct SystemController {
         }
       }
       // === Update temporal profile ===
-      // Check if current time is in between the start and end of relay timing
-      bool toActivateTemp = currentTime.hours() == temporalProfile.relays[r].start.hours() && currentTime.minutes() == temporalProfile.relays[r].start.minutes();
-      bool toDeactivateTemp = currentTime.hours() == temporalProfile.relays[r].end().hours() && currentTime.minutes() == temporalProfile.relays[r].end().minutes();
-      // Set Relay State
-      if (toActivateTemp != toDeactivateTemp) {
-        if (toActivateTemp)  { temporalProfile.relays[r].SetRelayState(true); debug("Temp/"); debugv(r); debug(" Relay Activated"); }
-        if (toDeactivateTemp) { temporalProfile.relays[r].SetRelayState(false); debug("Temp/"); debugv(r); debug(" Relay Deactivated"); }
+      if (temporalProfile.isActive){
+        // Check if current time is in between the start and end of relay timing
+        bool toActivateTemp = currentTime.hours() == temporalProfile.relays[r].start.hours() && currentTime.minutes() == temporalProfile.relays[r].start.minutes();
+        bool toDeactivateTemp = currentTime.hours() == temporalProfile.relays[r].end().hours() && currentTime.minutes() == temporalProfile.relays[r].end().minutes();
+        // Set Relay State
+        if (toActivateTemp != toDeactivateTemp) {
+          if (toActivateTemp)  { temporalProfile.relays[r].SetRelayState(true); debug("Temp/"); debugv(r); debug(" Relay Activated"); }
+          if (toDeactivateTemp) { temporalProfile.relays[r].SetRelayState(false); debug("Temp/"); debugv(r); debug(" Relay Deactivated"); }
+        }
       }
     }
   }

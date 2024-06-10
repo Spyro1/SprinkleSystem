@@ -192,16 +192,13 @@
 #define RELAY_COUNT 16 // Relay Pins: 22,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51
 
 // ======================== TYPE DEFINICIONS ========================
-typedef uint8_t uint;
+typedef unsigned char uint;
 typedef uint16_t ulong;
 // ======================== DECLARATIONS ========================
-
-struct Point;
-struct size;
-struct Relay;
-struct Profile;
-struct SystemController; // Not linking
-struct Memory;
+// struct Point;
+// struct Relay;
+// struct Profile;
+// struct SystemController;
 
 // ======================== STATIC VARIABLE DECLARATIONS ========================
 

@@ -1,0 +1,1 @@
+CMakeLists.txt not found in S:\Programozas\Arduino Projects\Locsolorendszer GUI 2024\Locsolorendszer-files\MinimalistSprinklerGUI Select CMakeLists.txt

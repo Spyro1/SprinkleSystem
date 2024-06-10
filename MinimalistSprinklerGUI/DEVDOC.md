@@ -128,4 +128,50 @@ classDiagram
 ```
 
 
+```mermaid
+stateDiagram
+%%    direction LR
+    state mainMenu{
+        sprinkle
+        chain
+        test
+        humidity
+        settings
+        mainSwitch
+        clock
+    }
+    sprinkle --> sprinkleProfiles
+    state sprinkleProfiles{
+        automatic_1_3
+        profile_1_3
+        profileSwitch_1_3
+    }
+    automatic_1_3 --> sprinkleAuto
+    state sprinkleAuto{
+        setHourAuto
+        setMinuteAuto
+        setDurationAuto
+        saveAutomatic
+    }
+    profile_1_3 --> sprinkleRelays
+    state sprinkleRelays{
+        relays_1_8
+        left
+        right
+    }
+    relays_1_8 --> sprinkleSetter
+    state sprinkleSetter{
+        setHour
+        setMinute
+        setDuration
+    }
+    chain --> chainSprinkle
+    state chainSprinkle{
+        setStartChain
+        setEndChain
+        setChainDuration
+    }
+    
+```
+
 
