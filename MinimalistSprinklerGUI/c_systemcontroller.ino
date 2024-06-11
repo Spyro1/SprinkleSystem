@@ -50,7 +50,7 @@ struct SystemController {
     // temporalStart = 0;
   }
   /// Updates all relays. If current time is start, then activates, if end, then deactivates those relays. 
-  void UpdateRelays(TimeSpan currentTime) {
+  void UpdateRelays(struct Time& currentTime) {
     for (int r = 0; r < RELAY_COUNT; r++) {
       for (int p = 0; p < PROFILE_COUNT && profiles[p].isActive; p++) {
         // === Update timed profiles ===

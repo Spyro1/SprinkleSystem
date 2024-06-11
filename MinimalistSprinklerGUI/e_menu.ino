@@ -46,17 +46,17 @@ void ExecuteClickEvent(const struct Point& clickPos) {
       break;
     case sprinkleSetter:
       // Increase hour field
-      if (clickPos == BTN_1_1) Controller.CurrentRelay().ChangeStartHour(1);
+      if (clickPos == BTN_1_1) Controller.CurrentRelay().start.hour++;
       // Decrease hour field
-      else if (clickPos == BTN_3_1) Controller.CurrentRelay().ChangeStartHour(-1);
+      else if (clickPos == BTN_3_1) Controller.CurrentRelay().start.hour--;
       // Increase minute field
-      else if (clickPos == BTN_1_2) Controller.CurrentRelay().ChangeStartMinute(1);
+      else if (clickPos == BTN_1_2) Controller.CurrentRelay().start.minute++;
       // Decrease minute field
-      else if (clickPos == BTN_3_2) Controller.CurrentRelay().ChangeStartMinute(-1);
+      else if (clickPos == BTN_3_2) Controller.CurrentRelay().start.minute--;
       // Increase duration field
-      else if (clickPos == BTN_1_3) Controller.CurrentRelay().ChangeDuration(1);
+      else if (clickPos == BTN_1_3) Controller.CurrentRelay().duration++;
       // Decrease duration field
-      else if (clickPos == BTN_3_3) Controller.CurrentRelay().ChangeDuration(-1);
+      else if (clickPos == BTN_3_3) Controller.CurrentRelay().duration--;
       // Save and back
       else if (clickPos == BTN_1_4 || clickPos == BTN_3_4) {
         // Save pressed
