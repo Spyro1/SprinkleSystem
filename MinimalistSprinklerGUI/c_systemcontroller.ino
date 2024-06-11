@@ -5,7 +5,7 @@ struct SystemController {
   // -- Save config vars --
   menuStyle style;                  // !EEPROM! How beautiful the menu should be
   bool mainSwitch;                  // !EEPROM! If true, then timing is processed, if false, then no automatic sprinkling
-  int humiditySensitivity;        // !EEPROM! Humidity sensitivity of the system
+  Range1024 humiditySensitivity;        // !EEPROM! Humidity sensitivity of the system
   Profile profiles[PROFILE_COUNT];  // !EEPROM! Time profiles when automatic sprinkling can happen
 
   // -- Running config vars --
@@ -17,8 +17,9 @@ struct SystemController {
 
   // -- Temporal settings for chain sprinkle and testing --
   Profile temporalProfile;
-  TimeSpan temporalStart;
-  uint temporalDuration;
+  Relay temporalSetter;
+  // Time temporalStart;
+  // uint temporalDuration;
 
   // -- Constructor --
   SystemController() : style(easy), mainSwitch(false), humiditySensitivity(0){
@@ -43,8 +44,10 @@ struct SystemController {
     currentProfile = 0;
     currentRelay = 0;
     temporalProfile.isActive = false;
-    temporalDuration = 0;
-    temporalStart = 0;
+    temporalSetter.start = Time(0,0);
+    temporalSetter.duration = 0;
+    // temporalDuration = 0;
+    // temporalStart = 0;
   }
   /// Updates all relays. If current time is start, then activates, if end, then deactivates those relays. 
   void UpdateRelays(TimeSpan currentTime) {
@@ -117,9 +120,9 @@ struct SystemController {
 
   }
   Relay& CurrentRelay() { return profiles[currentProfile].relays[currentRelay]; }
-  void ChangeTempStartHour(uint byValue) { temporalStart = temporalStart + TimeSpan(3600 * byValue); }
-  void ChangeTempStartMinute(uint byValue) { temporalStart = temporalStart + TimeSpan(60 * byValue); }
-  void ChangeTempDuration(uint byValue) { temporalDuration += byValue; }
+  // void ChangeTempStartHour(uint byValue) { temporalStart = temporalStart + TimeSpan(3600 * byValue); }
+  // void ChangeTempStartMinute(uint byValue) { temporalStart = temporalStart + TimeSpan(60 * byValue); }
+  // void ChangeTempDuration(uint byValue) { temporalDuration += byValue; }
 };
 
 

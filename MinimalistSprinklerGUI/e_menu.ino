@@ -68,24 +68,24 @@ void ExecuteClickEvent(const struct Point& clickPos) {
       break;
     case sprinkleAuto:
       // Increase hour field
-      if (clickPos == BTN_1_1) Controller.ChangeTempStartHour(1);
+      if (clickPos == BTN_1_1) Controller.temporalSetter.start.hour++;
       // Decrease hour field
-      else if (clickPos == BTN_3_1) Controller.ChangeTempStartHour(-1);
+      else if (clickPos == BTN_3_1) Controller.temporalSetter.start.hour--;
       // Increase minute field
-      else if (clickPos == BTN_1_2) Controller.ChangeTempStartMinute(1);
+      else if (clickPos == BTN_1_2) Controller.temporalSetter.start.minute++;
       // Decrease minute field
-      else if (clickPos == BTN_3_2) Controller.ChangeTempStartMinute(-1);
+      else if (clickPos == BTN_3_2) Controller.temporalSetter.start.minute--;
       // Increase duration field
-      else if (clickPos == BTN_1_3) Controller.ChangeTempDuration(1);
+      else if (clickPos == BTN_1_3) Controller.temporalSetter.duration++;
       // Decrease duration field
-      else if (clickPos == BTN_3_3) Controller.ChangeTempDuration(-1);
+      else if (clickPos == BTN_3_3) Controller.temporalSetter.duration--;
       // Save and back
       else if (clickPos == BTN_1_4 || clickPos == BTN_3_4) {
         // Save pressed
         if (clickPos == BTN_1_4) {
-          for (int r = 0; r < RELAY_COUNT; r++) {
-            Controller.profiles[Controller.currentProfile].relays[r].start = Controller.temporalStart + Controller.temporalDuration * r; // set starting time in a automatic chain
-            Controller.profiles[Controller.currentProfile].relays[r].duration = Controller.temporalDuration * r; // set duration
+          for (uint r = 0; r < RELAY_COUNT; r++) {
+            Controller.profiles[Controller.currentProfile].relays[r].start = Controller.temporalSetter.start + Controller.temporalSetter.duration * r; // set starting time in a automatic chain
+            Controller.profiles[Controller.currentProfile].relays[r].duration = Controller.temporalSetter.duration; // set duration
             SaveRelayData(Controller.profiles[Controller.currentProfile].relays[r], Controller.currentProfile, r); // Saves changed data to EEPROM
           }
         }
@@ -97,25 +97,25 @@ void ExecuteClickEvent(const struct Point& clickPos) {
       break;
     case chainSprinkler:
       // Increase hour field
-      if (clickPos == BTN_1_1) Controller.ChangeTempStartHour(1);
+      if (clickPos == BTN_1_1) Controller.temporalSetter.start.hour++;
       // Decrease hour field
-      else if (clickPos == BTN_3_1) Controller.ChangeTempStartHour(-1);
+      else if (clickPos == BTN_3_1) Controller.temporalSetter.start.hour--;
       // Increase minute field
-      else if (clickPos == BTN_1_2) Controller.ChangeTempStartMinute(1);
+      else if (clickPos == BTN_1_2) Controller.temporalSetter.start.minute++;
       // Decrease minute field
-      else if (clickPos == BTN_3_2) Controller.ChangeTempStartMinute(-1);
+      else if (clickPos == BTN_3_2) Controller.temporalSetter.start.minute--;
       // Increase duration field
-      else if (clickPos == BTN_1_3) Controller.ChangeTempDuration(1);
+      else if (clickPos == BTN_1_3) Controller.temporalSetter.duration++;
       // Decrease duration field
-      else if (clickPos == BTN_3_3) Controller.ChangeTempDuration(-1);
+      else if (clickPos == BTN_3_3) Controller.temporalSetter.duration--;
       // Save and back
       else if (clickPos == BTN_1_4 || clickPos == BTN_3_4) {
         // Save pressed
         if (clickPos == BTN_1_4) {
           Controller.temporalProfile.isActive = true;
-          for (int r = 0; r < RELAY_COUNT; r++) {
-            Controller.temporalProfile.relays[r].start = Controller.temporalStart + Controller.temporalDuration * r; // set temporalkstarting times
-            Controller.temporalProfile.relays[r].duration = Controller.temporalDuration * r; // set temporal chain durations
+          for (uint r = 0; r < RELAY_COUNT; r++) {
+            Controller.temporalProfile.relays[r].start = Controller.temporalSetter.start + Controller.temporalSetter.duration * r; // set temporalkstarting times
+            Controller.temporalProfile.relays[r].duration = Controller.temporalSetter.duration; // set temporal chain durations
           }
         }
         Controller.state = sprinkleProfiles;
@@ -144,6 +144,9 @@ void ExecuteClickEvent(const struct Point& clickPos) {
       }
       break;
     case humidity:
+      // Change humidity sensitivity
+      if (clickPos == BTN_1_2) Controller.humiditySensitivity += 10;
+      else if (clickPos == BTN_3_2) Controller.humiditySensitivity -= 10;
       break;
     case settings:
       break;
