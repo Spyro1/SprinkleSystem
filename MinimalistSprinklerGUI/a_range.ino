@@ -4,8 +4,8 @@ template<int lowerLimit, int upperLimit>
 class RangeInt {
     int value;
 public:
-     static const int min = lowerLimit;
-     static const int max = lowerLimit;
+     static const int minLimit = lowerLimit;
+     static const int maxLimit = lowerLimit;
      static const int range = upperLimit - lowerLimit + 1;
     // Constructor to initialize the range and the initial value
     RangeInt(int value = 0) { setValue(value); }

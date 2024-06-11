@@ -7,7 +7,8 @@ bool backlight = true;
 
 // ======================== SETUP AND LOOP FUNCTIONS ========================
 
-void setup() {
+void setup()
+{
   // -- Start Serial Monitor --
   Serial.begin(9600);
   Serial.println(F("Paint!"));
@@ -50,11 +51,12 @@ void setup() {
   rtcDS.begin();
 
   Controller.StartMenu();
-  lastTouched = millis();  
+  lastTouched = millis();
 }
 
 void loop()
 {
+
   // -- Check touch --s
   digitalWrite(13, HIGH);
   TSPoint p = ts.getPoint();
@@ -82,7 +84,7 @@ void loop()
     }
     lastTouched = millis();
     Controller.Touched(x, y); // Call touch evaluating fucntion
-    delay(300); // Delay for touching
+    delay(300);               // Delay for touching
   }
   if (backlight && (millis() - lastTouched) > BACKLIGHT_COOLDOWN)
   {
@@ -94,5 +96,4 @@ void loop()
   {
     // menuSystem.UpdateClock();
   }
-
 }

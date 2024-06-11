@@ -10,25 +10,25 @@ struct Time {
   int minutes() const { return minute.getValue(); }
 
   Time& operator+=(int plusMin) {
-    if (minute.getValue() + plusMin > Range60::max) hour += plusMin / Range60::range;
+    if (minute.getValue() + plusMin > Range60::maxLimit) hour += plusMin / Range60::range;
     minute += plusMin;
     return *this;
   }
   Time& operator-=(int subMin) {
-    if (minute.getValue() - subMin <= Range60::min) hour -= subMin / Range60::range;
+    if (minute.getValue() - subMin <= Range60::minLimit) hour -= subMin / Range60::range;
     minute -= subMin;
     return *this;
   }  
   Time operator+(int plusMin) {
-      Time t(*this);
-      if (t.minute.getValue() + plusMin > Range60::max) t.hour += plusMin / Range60::range;
-      t.minute += plusMin;
-      return t;
+    Time t(*this);
+    if (t.minute.getValue() + plusMin > Range60::maxLimit) t.hour += plusMin / Range60::range;
+    t.minute += plusMin;
+    return t;
   }
   Time operator-(int subMin) {
-      Time t(*this);
-      if (t.minute.getValue() - subMin <= Range60::min) t.hour -= subMin / Range60::range;
-      t.minute -= subMin;
-      return t;
+    Time t(*this);
+    if (t.minute.getValue() - subMin <= Range60::minLimit) t.hour -= subMin / Range60::range;
+    t.minute -= subMin;
+    return t;
   }
 };

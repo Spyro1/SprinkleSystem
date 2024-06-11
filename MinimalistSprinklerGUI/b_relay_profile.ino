@@ -2,7 +2,7 @@
 
 // ==== Relay ====
 struct Relay {
-  static uint8_t idCounter; // Max 256 relays available
+  static uint idCounter; // Max 256 relays available
   uint id;  // Relay identifier
   uint pin; // Connected pin on the arduino
   bool state; // Iondicates wheter the relay is activated or not
@@ -36,4 +36,8 @@ uint8_t Relay::idCounter = 0; // Set default value to id counter
 struct Profile {
     bool isActive;             // !EEPROM!
     Relay relays[RELAY_COUNT]; // !EEPROM!
+
+    Profile() : isActive(false) {
+      
+    }
 };

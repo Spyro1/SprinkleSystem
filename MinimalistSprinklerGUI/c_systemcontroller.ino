@@ -24,11 +24,14 @@ struct SystemController {
   // -- Constructor --
   SystemController() : style(easy), mainSwitch(false), humiditySensitivity(0){
     // Load variables from EEPROM
-    unsigned char helperStyle;
-    LoadStyle(helperStyle);
-    style = helperStyle;
-    LoadMainSwitch(mainSwitch);
-    LoadHumidity(humiditySensitivity);
+      unsigned char helperStyle;
+      LoadStyle(helperStyle);
+      style = helperStyle;
+      LoadMainSwitch(mainSwitch);
+      LoadHumidity(humiditySensitivity);
+      for (uint p = 0; p < PROFILE_COUNT; p++){
+        LoadProfileData(profiles[p], p);
+      }
     // Reaset running config
     ResetMenu();
   }
@@ -46,8 +49,6 @@ struct SystemController {
     temporalProfile.isActive = false;
     temporalSetter.start = Time(0,0);
     temporalSetter.duration = 0;
-    // temporalDuration = 0;
-    // temporalStart = 0;
   }
   /// Updates all relays. If current time is start, then activates, if end, then deactivates those relays. 
   void UpdateRelays(struct Time& currentTime) {
