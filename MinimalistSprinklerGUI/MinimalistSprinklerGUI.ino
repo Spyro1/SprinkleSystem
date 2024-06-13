@@ -64,7 +64,7 @@
 // Menu spacing macros
 #define M_V 4    // Vertical margin
 #define M_H 8    // Horizontal margin
-#define RADIUS 5 // Rounded rectangle corner radius
+#define RADIUS 8 // Rounded rectangle corner radius
 #define x64 64   // Base Icon size for buttons
 #define x32 x64 / 2
 #define x16 x64 / 4
@@ -121,25 +121,25 @@
 // #define RELAY_ICON "valve.bmp"
 // #define OK_ICON "save.bmp"
 // BITMAPS x32
-#define AUTOMATIC_ICONx32 "automatic-32.bmp"
-#define CHAIN_ICONx32 "chain-32.bmp"
-#define CLOCK_ICONx32 "clock-32.bmp"
-#define HOME_ICONx32 "home-32.bmp"
-#define HUMIDITY_ICONx32 "humidity-32.bmp"
-#define SETTINGS_ICONx32 "settings-32.bmp"
-#define SPRINKLER_ICONx32 "sprk-32.bmp"
-#define TEST_ICONx32 "test-32.bmp"
-#define RELAY_ICONx32 "valve-32.bmp"
+// #define AUTOMATIC_ICONx32 "automatic-32.bmp"
+// #define CHAIN_ICONx32 "chain-32.bmp"
+// #define CLOCK_ICONx32 "clock-32.bmp"
+// #define HOME_ICONx32 "home-32.bmp"
+// #define HUMIDITY_ICONx32 "humidity-32.bmp"
+// #define SETTINGS_ICONx32 "settings-32.bmp"
+// #define SPRINKLER_ICONx32 "sprk-32.bmp"
+// #define TEST_ICONx32 "test-32.bmp"
+// #define RELAY_ICONx32 "valve-32.bmp"
 // MainScreen string macros
 #define strMainTitle "Locsolorendszer" // Locsolórendszer
-#define strBtnLeftTop "Locsolas"       // Locsolás
-#define strBtnLeftCenter "Sorban"      // Sorban locsoolás
-#define strBtnRightCenter "Teszteles"  // Tesztelés
-#define strBtnRightTop "Nedvesseg"     // Nedvesség
-#define strBtnLeftBottom "Beallitasok" // Beállítások
-#define strBtnCenterBottom1 "Be"       // Kikapcsolt állapot
-#define strBtnCenterBottom2 "Ki"       // Bekapcsolt állapot
-#define strBtnRightBottom "Ido"        // Idő beállítás
+#define strSprinkle "Locsolas"       // Locsolás
+#define strChain "Sorban"      // Sorban locsoolás
+#define strTest "Teszteles"  // Tesztelés
+#define strHumidity "Nedvesseg"     // Nedvesség
+#define strSettings "Beallitasok" // Beállítások
+#define strON "Be"       // Kikapcsolt állapot
+#define strOFF "Ki"       // Bekapcsolt állapot
+#define strClock "Ido"        // Idő beállítás
 // Submenu string macros
 #define strRealTimeSettings "Ido beallitas" // Idő beállítás almenő cím
 #define strHour "Ora"
@@ -185,7 +185,7 @@ TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 MCUFRIEND_kbv tft;
 
 // RTC module
-RTC_DS3231 rtcDS;
+RTC_DS3231 rtc;
 
 // SD Card 
 //SoftSpiDriver<12, 11, 13> softSpi; // Bit-Bang on the Shield pins SDFat.h v2

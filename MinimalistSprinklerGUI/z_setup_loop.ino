@@ -48,8 +48,16 @@ void setup()
   }*/
 
   // -- Setup RTC module --
-  rtcDS.begin();
-
+  if (!rtc.begin()) {
+    Serial.println("Couldn't find RTC");
+  }
+  else if (!rtc.lostPower()) {
+    Serial.println("RTC is NOT running, let's set the time!");
+    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  }
+  
+  // -- Setup Controller --
+  Controller.now = rtc.now();
   Controller.StartMenu();
   lastTouched = millis();
 }
@@ -95,5 +103,8 @@ void loop()
   if (backlight)
   {
     // menuSystem.UpdateClock();
+  }
+  if (millis() % 1000){
+    Controller.now = rtc.now();
   }
 }

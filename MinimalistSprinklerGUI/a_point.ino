@@ -13,6 +13,10 @@ typedef struct Point {
     }
     return *this;
   }
+
+  Point operator+(int pusher){
+    return Point(x+pusher, y+pusher);
+  }
 } Point;
 
 
@@ -21,13 +25,13 @@ typedef struct Point {
 Point SUBMENU_ICON_POS(4, 0);
 Point SUBMENU_HOME_POS(284, 0);
 // MainMenu button locations
-Point MAIN_1(8, 4);
-Point MAIN_2(88, 4);
-Point MAIN_3(168, 4);
-Point MAIN_4(248, 4);
-Point MAIN_5(48, 128);
-Point MAIN_6(128, 128);
-Point MAIN_7(208, 128);
+Point MAIN_1(8, 8);
+Point MAIN_2(88, 8);
+Point MAIN_3(168, 8);
+Point MAIN_4(248, 8);
+Point MAIN_5(48, 168);
+Point MAIN_6(128, 168);
+Point MAIN_7(208, 168);
 // Submenu table corners
 Point SLOT_1_1(8, 36);
 Point SLOT_1_2(88, 36);
