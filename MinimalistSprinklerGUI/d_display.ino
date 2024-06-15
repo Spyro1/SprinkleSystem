@@ -2,6 +2,7 @@
 
 // ======================== DECLARATIONS ========================
 void PrintLabel(const char* label, const int x, const int y, const int fontSize = 1, const uint16_t color = WHITE);
+void PrintLabel(const int labelValue, const int x, const int y, const int fontSize = 1, const uint16_t color = WHITE);
 
 // ======================== DRAW FUNCTIONS ========================
 
@@ -70,14 +71,14 @@ void PrintRTCToMainScreen()
     PrintLabel(temp, CENTER_H, CENTER_V + x16, 2);
 }
 
-void PrintLabel(const char* label, const int x, const int y, const int fontSize = 1, const uint16_t color = WHITE)
+void PrintLabel(const char* label, const int x, const int y, const int fontSize, const uint16_t color)
 {
     tft.setCursor(x - GetTextWidth(label, fontSize) / 2, y - GetTextHeight(fontSize) / 2);
     tft.setTextColor(color);
     tft.setTextSize(fontSize);
     tft.print(label);
 }
-void PrintLabel(const int labelValue, const int x, const int y, const int fontSize = 1, const uint16_t color = WHITE)
+void PrintLabel(const int labelValue, const int x, const int y, const int fontSize, const uint16_t color)
 {
     // tft.fillRect(x - GetNumWidth(labelValue, fontSize) / 2, y, GetNumWidth(labelValue, fontSize), FONT_1_V * fontSize, BLACK); // Clear background
     tft.setCursor(x - GetNumWidth(labelValue, fontSize) / 2, y);
@@ -90,10 +91,10 @@ void PrintDoubleLine(const int y, const int width, const uint16_t color)
     tft.drawFastHLine((WIDTH - width) / 2, y, width, color); // Dupla vonal
     // tft.drawFastHLine((WIDTH - width) / 2, y + 1, width, color); // Dupla vonal
 }
-void PrintRelayChoserNumbering(int pageNumber, const uint16_t color)
-{
-    int i = pageNumber == 1 ? 1 : 9;
-    const int fontsize = 2;
+// void PrintRelayChoserNumbering(int pageNumber, const uint16_t color)
+// {
+    // int i = pageNumber == 1 ? 1 : 9;
+    // const int fontsize = 2;
     // PrintLabel(tft, i++, x32 + SLOT_1_1 + x32, fontsize, color);
     // PrintLabel(tft, i++, x32 + SLOT_1_2 + x32, fontsize, color);
     // PrintLabel(tft, i++, x32 + SLOT_1_3 + x32, fontsize, color);
@@ -102,7 +103,7 @@ void PrintRelayChoserNumbering(int pageNumber, const uint16_t color)
     // PrintLabel(tft, i++, x32 + SLOT_2_2 + x32, fontsize, color);
     // PrintLabel(tft, i++, x32 + SLOT_2_3 + x32, fontsize, color);
     // PrintLabel(tft, i++, x32 + SLOT_2_4 + x32, fontsize, color);
-}
+// }
 void PrintNumberField(const int column, int value)
 {
     if (column == 1)

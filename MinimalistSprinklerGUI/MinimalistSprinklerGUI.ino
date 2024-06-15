@@ -55,6 +55,7 @@
 #define NAVY 0x000F
 #define OLIVE 0x7BE0
 #define ORANGE 0xFDA0
+#undef PINK
 #define PINK 0xFC9F
 #define PURPLE 0x780F
 #define RED 0xF800

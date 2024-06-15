@@ -26,7 +26,7 @@ struct SystemController {
     // Load variables from EEPROM
       unsigned char helperStyle;
       LoadStyle(helperStyle);
-      style = helperStyle;
+      style = (menuStyle)helperStyle;
       LoadMainSwitch(mainSwitch);
       LoadHumidity(humiditySensitivity);
       for (uint p = 0; p < PROFILE_COUNT; p++){
@@ -118,7 +118,7 @@ struct SystemController {
 
   }
   void Touched(uint x, uint y){
-
+    ExecuteClickEvent({x,y});
   }
   Relay& CurrentRelay() { return profiles[currentProfile].relays[currentRelay]; }
   // void ChangeTempStartHour(uint byValue) { temporalStart = temporalStart + TimeSpan(3600 * byValue); }

@@ -10,6 +10,8 @@ void RunMenu(){
 
 void ExecuteClickEvent(const struct Point& clickPos) {
   switch(Controller.state) {
+    case mainMenu:
+      break;
     case sprinkleProfiles:
       // Automatic timing button
       if (clickPos == BTN_1_1 || clickPos == BTN_2_1 || clickPos == BTN_3_1) {

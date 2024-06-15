@@ -17,10 +17,10 @@ struct Relay {
     * @param start Start time of automated sprinkling
     * @param duration Duration of the sprinkling in minutes
     * */
-  Relay::Relay(uint8_t pin = 0, struct Time start = 0, uint duration = 0 ) : id(idCounter++), pin(pin), start(start), duration(duration)  { }
+  Relay(uint8_t pin = 0, struct Time start = 0, uint duration = 0 ) : id(idCounter++), pin(pin), start(start), duration(duration)  { }
   // - Functions -
   Time end() { return start + duration; } // Convert duration from minutes to seconds
-  void Relay::SetRelayState(bool value) {
+  void SetRelayState(bool value) {
     state = value;
     if (state) digitalWrite(pin, HIGH);
     else digitalWrite(pin, LOW);
