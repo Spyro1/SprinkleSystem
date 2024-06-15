@@ -63,8 +63,7 @@
 #define YELLOW 0xFFE0
 #define BGDARKCYAN 0x032D // 0472
 // Menu spacing macros
-#define M_V 4    // Vertical margin
-#define M_H 8    // Horizontal margin
+#define MARGIN 8    // Margin
 #define RADIUS 8 // Rounded rectangle corner radius
 #define x64 64   // Base Icon size for buttons
 #define x32 x64 / 2
@@ -87,16 +86,16 @@
 // Small icon corners
 
 // SUBMENU NUM FILD POSITIONS
-#define COL_1_CENTER 40, 120
-#define COL_1_LABEL 40, 154
-#define COL_2_CENTER 120, 120
-#define COL_2_LABEL 120, 154
-#define COL_3_CENTER 200, 120
-#define COL_3_LABEL 200, 154
-#define COL_1_2_SEPARATOR 80, 120
-#define COL_2_3_SEPARATOR 160, 120
-#define COL_4_LABEL_T 280, 104
-#define COL_4_LABEL_B 280, 154
+// #define COL_1_CENTER 40, 120
+// #define COL_1_LABEL 40, 154
+// #define COL_2_CENTER 120, 120
+// #define COL_2_LABEL 120, 154
+// #define COL_3_CENTER 200, 120
+// #define COL_3_LABEL 200, 154
+// #define COL_1_2_SEPARATOR 80, 120
+// #define COL_2_3_SEPARATOR 160, 120
+// #define COL_4_LABEL_T 280, 104
+// #define COL_4_LABEL_B 280, 154
 // BITMAPS x64
 // #define UP_ARROW "arw-up.bmp"
 // #define DOWN_ARROW "arw-dw.bmp"
@@ -147,11 +146,12 @@
 #define strMinute "Perc"
 #define strRelaynum "Releszam"
 #define strRelay "Rele"
+#define strAuto "Auto"
 #define strDurationShort "Idot."
-#define strPreiodSettings "Idozitesek" // Időzítések be-ki kapcsolási menüje
-#define strFirstPeriod "1. Idoszak"
-#define strSecondPeriod "2. Idoszak"
-#define strThirdPeriod "3. Idoszak"
+#define strProfileSettings "Profilok" // Időzítések be-ki kapcsolási menüje
+#define strFirstProfile "1. Profil"
+#define strSecondProfile "2. Profil"
+#define strThirdProfile "3. Profil"
 #define strFromRelay "Reletol"
 #define strToRelay "Releig"
 #define strDuration "Idotartam"

@@ -7,8 +7,7 @@ bool backlight = true;
 
 // ======================== SETUP AND LOOP FUNCTIONS ========================
 
-void setup()
-{
+void setup() {
   // -- Start Serial Monitor --
   Serial.begin(9600);
   Serial.println(F("Paint!"));
@@ -62,8 +61,7 @@ void setup()
   lastTouched = millis();
 }
 
-void loop()
-{
+void loop() {
 
   // -- Check touch --s
   digitalWrite(13, HIGH);
@@ -106,5 +104,6 @@ void loop()
   }
   if (millis() % 1000){
     Controller.now = rtc.now();
+    if (Controller.state == mainMenu) UpdateMainMenu();
   }
 }

@@ -58,3 +58,5 @@ const Point BTN_3_1(1, 3);
 const Point BTN_3_2(2, 3);
 const Point BTN_3_3(3, 3);
 const Point BTN_3_4(4, 3);
+// Sizes
+const Point ICONSIZE(x64, x64);

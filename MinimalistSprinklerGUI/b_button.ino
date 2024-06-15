@@ -27,12 +27,23 @@ struct TouchButton {
      * @param y y coordinate
      * @return true if the coordinate is inside the button, false if outside
      */
-    bool isPressed(const int x, const int y) { return (x >= pos.x && x <= pos.x + size.x) && (y >= pos.y && y <= pos.y + size.y); }
+    bool isPressed(const int x, const int y) const { return (x >= pos.x && x <= pos.x + size.x) && (y >= pos.y && y <= pos.y + size.y); }
     /**
      * Tests if the given coordinate is inside the button
      * @param p coordinate point
      * @return true if the coordinate is inside the button, false if outside
      */
-    bool isPressed(const Point& p) { return isPressed(p.x, p.y); }
+    bool isPressed(const Point& p) const { return isPressed(p.x, p.y); }
 
 };
+
+const TouchButton mainBtns[mainScreenButtonCount] = { TouchButton(MAIN_1, ICONSIZE), TouchButton(MAIN_2, ICONSIZE), TouchButton(MAIN_3, ICONSIZE), TouchButton(MAIN_4, ICONSIZE), TouchButton(MAIN_5, ICONSIZE), TouchButton(MAIN_6, ICONSIZE), TouchButton(MAIN_7, ICONSIZE) };
+
+const TouchButton subMenuBtns[subMenuButtonCount] = {
+  TouchButton(SLOT_1_1, ICONSIZE), TouchButton(SLOT_1_2, ICONSIZE), TouchButton(SLOT_1_3, ICONSIZE), TouchButton(SLOT_1_4, ICONSIZE),
+  TouchButton(SLOT_2_1, ICONSIZE), TouchButton(SLOT_2_2, ICONSIZE), TouchButton(SLOT_2_3, ICONSIZE), TouchButton(SLOT_2_4, ICONSIZE),
+  TouchButton(SLOT_3_1, ICONSIZE), TouchButton(SLOT_3_2, ICONSIZE), TouchButton(SLOT_3_3, ICONSIZE), TouchButton(SLOT_3_4, ICONSIZE)
+};
+
+const TouchButton homeBtn(SUBMENU_HOME_POS, {x32, x32});
+

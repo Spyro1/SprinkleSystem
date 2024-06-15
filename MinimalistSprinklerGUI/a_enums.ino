@@ -7,10 +7,10 @@ enum menuStates {
   sprinkleAuto,
   sprinkleSetter,
   chainSprinkler,
-  test,
-  humidity,
+  testSprinkler,
+  humiditySetter,
   settings,
-  clock
+  clockSetter
 };
 enum menuStyle {
   easy,

@@ -79,9 +79,6 @@ struct SystemController {
   }
   void DrawStateScreen(){
     switch(state) {
-      case mainMenu:
-        DrawMainMenu();
-        break;
       case sprinkleProfiles:
         DrawSprinkleProfilesMenu();
         break;
@@ -97,28 +94,87 @@ struct SystemController {
       case chainSprinkler:
         DrawChainSprinkleMenu();
         break;
-      case test:
+      case testSprinkler:
         DrawTestMenu();
         break;
-      case humidity:
+      case humiditySetter:
         DrawHumidityMenu();
         break;
       case settings:
         DrawSettingsMenu();
         break;
-      case clock:
+      case clockSetter:
         DrawClockMenu();
         break;
+      case mainMenu:
       default:
         DrawMainMenu(); // Default case if none of the above matches
         break;
     } 
   }
   void UpdateStatesScreen(){
-
+    switch(state) {
+      case sprinkleProfiles:
+        UpdateSprinkleProfilesMenu();
+        break;
+      case sprinkleRelays:
+        UpdateSprinkleRelayChooser();
+        break;
+      case sprinkleAuto:
+        UpdateSprinkleAutomatic();
+        break;
+      case sprinkleSetter:
+        UpdateSprinkleSetter();
+        break;
+      case chainSprinkler:
+        DrawChainSprinkleMenu();
+        break;
+      case testSprinkler:
+        UpdateTestMenu();
+        break;
+      case humiditySetter:
+        UpdateHumidityMenu();
+        break;
+      case settings:
+        UpdateSettingsMenu();
+        break;
+      case clockSetter:
+        UpdateClockMenu();
+        break;
+      case mainMenu:
+      default:
+        UpdateMainMenu(); // Default case if none of the above matches
+        break;
+    } 
   }
   void Touched(uint x, uint y){
-    ExecuteClickEvent({x,y});
+    debug("State= "); debugvln(state);
+    // If the state is mainMenu 
+    if (state == mainMenu){
+      for (int i = 0; i < mainScreenButtonCount; i++){
+        if (mainBtns[i].isPressed(x, y)){
+          ExecuteMainMenuClickEvents(i);
+          break;
+        }
+      }
+    }
+    // If the state is a subMenu
+    else {
+      if (homeBtn.isPressed(x,y)){
+        state = mainMenu; // Go back to main Menu
+        DrawStateScreen();
+        debugln("Home Btn pressed"); 
+      }
+      else {
+        for (int i = 0; i < subMenuButtonCount; i++){
+          if (subMenuBtns[i].isPressed(x,y)){
+            ExecuteSubMenuClickEvents({i % 4, i / 3});
+            debug("Sub Btn pressed: "); debugv(i%4); debug(","); debugvln(i/3);
+            break;
+          }
+        }
+      }
+    }
   }
   Relay& CurrentRelay() { return profiles[currentProfile].relays[currentRelay]; }
   // void ChangeTempStartHour(uint byValue) { temporalStart = temporalStart + TimeSpan(3600 * byValue); }

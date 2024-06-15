@@ -8,14 +8,45 @@ void RunMenu(){
   DrawMainMenu();
 }
 
-void ExecuteClickEvent(const struct Point& clickPos) {
-  switch(Controller.state) {
-    case mainMenu:
+void ExecuteMainMenuClickEvents(const int idx){
+  switch (idx){
+    case 0: // Sprinkle btn
+      Controller.state = sprinkleProfiles;
+      Controller.DrawStateScreen();
       break;
+    case 1: // Chain btn
+      Controller.state = chainSprinkler;
+      Controller.DrawStateScreen();
+      break;
+    case 2: // Test btn
+      Controller.state = testSprinkler;
+      Controller.DrawStateScreen();
+      break;
+    case 3: // Humidity btn
+      Controller.state = humiditySetter;
+      Controller.DrawStateScreen();
+      break;
+    case 4: // Settings btn
+      Controller.state = settings;
+      Controller.DrawStateScreen();
+      break;
+    case 5: // On/Off btn
+      Controller.mainSwitch = !Controller.mainSwitch;
+      UpdateMainMenu();
+      break;
+    case 6: // Clock btn
+      Controller.state = clockSetter;
+      Controller.DrawStateScreen();
+      break;
+  }
+}
+
+void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
+  switch(Controller.state) {
     case sprinkleProfiles:
       // Automatic timing button
       if (clickPos == BTN_1_1 || clickPos == BTN_2_1 || clickPos == BTN_3_1) {
-        debugln("AutomaticTiming_Clicked");
+        debugv(clickPos.y); debugln(". AutoTiming_Clicked"); // Debug
         Controller.state = sprinkleAuto;
         Controller.currentProfile = clickPos.y;
         Controller.DrawStateScreen();
@@ -23,6 +54,7 @@ void ExecuteClickEvent(const struct Point& clickPos) {
       // Period On/Off buttons
       else if (clickPos == BTN_1_4 || clickPos == BTN_2_4 || clickPos == BTN_3_4) {
         int indexer = clickPos.y - 1;
+        debugv(clickPos.y); debugln(". Profile_Clicked"); // Debug
         Controller.profiles[indexer].isActive = !Controller.profiles[indexer].isActive;
         Controller.UpdateStatesScreen(); // Updates ON/OFF button text and color
       }
@@ -126,7 +158,7 @@ void ExecuteClickEvent(const struct Point& clickPos) {
       }
       Controller.UpdateStatesScreen(); // Updates field numbers on screen (hour, minute, duration)
       break;
-    case test:
+    case testSprinkler:
       // Navigating buttons < | >
       if (clickPos == BTN_3_1 || clickPos == BTN_3_4) {
         Controller.currentPage = Controller.currentPage == 1 ? 2 : 1;
@@ -145,15 +177,17 @@ void ExecuteClickEvent(const struct Point& clickPos) {
         Controller.UpdateStatesScreen(); // Updates the on/off state of a switch
       }
       break;
-    case humidity:
+    case humiditySetter:
       // Change humidity sensitivity
       if (clickPos == BTN_1_2) Controller.humiditySensitivity += 10;
       else if (clickPos == BTN_3_2) Controller.humiditySensitivity -= 10;
       break;
     case settings:
       break;
-    case clock:
+    case clockSetter:
       break;
-
+    case mainMenu: 
+    default: // No function here
+      break;
   }
 }
