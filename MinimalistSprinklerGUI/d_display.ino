@@ -28,62 +28,68 @@ void DrawMainMenu(){
   // === Clock Btn ===
   tft.fillRoundRect(MAIN_7.x, MAIN_7.y, x64, x64, RADIUS, LIGHTGREY);
   PrintLabel(strClock, MAIN_7.x + x32, MAIN_7.y + x32, 1, BLACK);
-
-  UpdateMainMenu(); // Prints real time and On/off button state
+  // === Update mainmenu state (real time and on/off btn state) ===
+  UpdateMainMenu();
 }
 void DrawSprinkleProfilesMenu(){
   tft.fillScreen(BLACK);
-  // Home Icon
+  // == Home Icon ==
   PrintHomeIcon();
-  // Subtitle
+  // == Subtitle ==
   PrintLabel(strProfileSettings, CENTER_H, 8, 2, WHITE);
-  // Line
+  // == Line ==
   PrintDoubleLine(x32, WIDTH, WHITE);
-  // 1. Profile
+  // == 1. Profile ==
   tft.fillRoundRect(SLOT_1_2.x, SLOT_1_2.y, x64 * 2 + MARGIN * 2, x64, RADIUS, LIGHTGREY); // Relay chooser large button
   tft.fillRoundRect(SLOT_1_1.x, SLOT_1_1.y, x64, x64, RADIUS, CYAN); // Automatic setter button
-  tft.fillRoundRect(SLOT_1_4.x, SLOT_1_4.y + x16, x64, x32, RADIUS, RED); // On / off switch for profile
   PrintLabel(strAuto, SLOT_1_1.x + x32, SLOT_1_1.y + x32, 2); // Automati label
   PrintLabel(strFirstProfile, CENTER_H, SLOT_1_2.y + x32, 2); // 1. Profil label
-  // 2. Profile
+  // == 2. Profile ==
   tft.fillRoundRect(SLOT_2_2.x, SLOT_2_2.y, x64 * 2 + MARGIN * 2, x64, RADIUS, LIGHTGREY); // Relay chooser large button
   tft.fillRoundRect(SLOT_2_1.x, SLOT_2_1.y, x64, x64, RADIUS, CYAN); // Automatic setter button
-  tft.fillRoundRect(SLOT_2_4.x, SLOT_2_4.y + x16, x64, x32, RADIUS, RED); // On / off switch for profile
   PrintLabel(strAuto, SLOT_2_1.x + x32, SLOT_2_1.y + x32, 2); // Automatic label
   PrintLabel(strSecondProfile, CENTER_H, SLOT_2_2.y + x32, 2); // 2. Profil label
-  // 3. Profile
+  // == 3. Profile ==
   tft.fillRoundRect(SLOT_3_2.x, SLOT_3_2.y, x64 * 2 + MARGIN * 2, x64, RADIUS, LIGHTGREY); // Relay chooser large button
   tft.fillRoundRect(SLOT_3_1.x, SLOT_3_1.y, x64, x64, RADIUS, CYAN); // Automatic setter button
-  tft.fillRoundRect(SLOT_3_4.x, SLOT_3_4.y + x16, x64, x32, RADIUS, RED); // On / off switch for profile
   PrintLabel(strAuto, SLOT_3_1.x + x32, SLOT_3_1.y + x32, 2); // Automatic label
   PrintLabel(strThirdProfile, CENTER_H, SLOT_3_2.y + x32, 2); // 3. Profil label
-
+  // === Update profile setter (profile states on/off btn) ===
   UpdateSprinkleProfilesMenu(); // Update on off switches
 }
 void DrawSprinkleRelayChooser(){
   tft.fillScreen(BLACK);
-  // Home Icon
+  // == Home Icon ==
   PrintHomeIcon();
-  // Subtitle
+  // == Subtitle ==
   if (Controller.currentProfile == 0) PrintLabel(strFirstProfile, CENTER_H, 8, 2, WHITE);
   else if (Controller.currentProfile == 1) PrintLabel(strSecondProfile, CENTER_H, 8, 2, WHITE);
   else if (Controller.currentProfile == 2) PrintLabel(strThirdProfile, CENTER_H, 8, 2, WHITE);
-  // Line
+  // == Line ==
   PrintDoubleLine(x32, WIDTH, WHITE);
-  // Relays 
-  // Code goes here ...
+  // == Arrows < | > ==
+  // < Left arrow
+  tft.fillCircle(SLOT_3_1.x, SLOT_3_1.y, x32, CYAN);
+  PrintLabel("<", SLOT_3_1.x + x32, SLOT_3_1.y + x32, 3, WHITE);
+  // > Right arrow
+  tft.fillCircle(SLOT_3_4.x, SLOT_3_4.y, x32, CYAN);
+  PrintLabel(">", SLOT_3_4.x + x32, SLOT_3_4.y + x32, 3, WHITE);
+  // == Draws relay buttons and numbers to them ==
+  UpdateSprinkleRelayChooser();
 }
 void DrawSprinkleSetter(){
   tft.fillScreen(BLACK);
-  // Home Icon
+  // == Home Icon ==
   PrintHomeIcon();
-  // Subtitle
+  // == Subtitle ==
   char temp[12];
   sprintf(temp, "%d/%d. Rele", Controller.currentProfile, Controller.currentRelay);
   PrintLabel(temp, CENTER_H, 8, 2, WHITE);
-  // Line  
+  // == Line ==
   PrintDoubleLine(x32, WIDTH, WHITE);
+
   // Code goes here ...
+
 }
 void DrawSprinkleAutomatic(){
   tft.fillScreen(BLACK);
@@ -131,35 +137,53 @@ void UpdateSprinkleProfilesMenu() {
   // Firs row
   if (Controller.profiles[0].isActive) {
     tft.fillRoundRect(SLOT_1_4.x, SLOT_1_4.y + x16, x64, x32, RADIUS, GREEN); // On / off switch for profile
-    PrintLabel(strON, SLOT_1_4.x + x32, SLOT_1_4.y + x32, 2);
+    PrintLabel(strON, SLOT_1_4.x + x32, SLOT_1_4.y + x32, 2); // ON label
   } 
   else {
     tft.fillRoundRect(SLOT_1_4.x, SLOT_1_4.y + x16, x64, x32, RADIUS, RED); // On / off switch for profile
-    PrintLabel(strOFF, SLOT_1_4.x + x32, SLOT_1_4.y + x32, 2);
+    PrintLabel(strOFF, SLOT_1_4.x + x32, SLOT_1_4.y + x32, 2); // OFF label
   } 
   // Second row
   if (Controller.profiles[1].isActive){
     tft.fillRoundRect(SLOT_2_4.x, SLOT_2_4.y + x16, x64, x32, RADIUS, GREEN); // On / off switch for profile
-    PrintLabel(strON, SLOT_2_4.x + x32, SLOT_2_4.y + x32, 2);
+    PrintLabel(strON, SLOT_2_4.x + x32, SLOT_2_4.y + x32, 2); // ON label
   } 
   else {
     tft.fillRoundRect(SLOT_2_4.x, SLOT_2_4.y + x16, x64, x32, RADIUS, RED); // On / off switch for profile
-    PrintLabel(strOFF, SLOT_2_4.x + x32, SLOT_2_4.y + x32, 2);
+    PrintLabel(strOFF, SLOT_2_4.x + x32, SLOT_2_4.y + x32, 2); // OFF label
   } 
   // Third row
   if (Controller.profiles[2].isActive) {
     tft.fillRoundRect(SLOT_3_4.x, SLOT_3_4.y + x16, x64, x32, RADIUS, GREEN); // On / off switch for profile
-    PrintLabel(strON, SLOT_3_4.x + x32, SLOT_3_4.y + x32, 2);
+    PrintLabel(strON, SLOT_3_4.x + x32, SLOT_3_4.y + x32, 2); // ON label
   }
   else {
     tft.fillRoundRect(SLOT_3_4.x, SLOT_3_4.y + x16, x64, x32, RADIUS, RED); // On / off switch for profile
-    PrintLabel(strOFF, SLOT_3_4.x + x32, SLOT_3_4.y + x32, 2);
+    PrintLabel(strOFF, SLOT_3_4.x + x32, SLOT_3_4.y + x32, 2); // OFF label
   }
 }
 
 void UpdateSprinkleRelayChooser() {
-
+  // === Relay background circles ===
+  tft.fillCircle(SLOT_1_1.x, SLOT_1_1.y, x32, MAROON);
+  tft.fillCircle(SLOT_1_2.x, SLOT_1_2.y, x32, MAROON);
+  tft.fillCircle(SLOT_1_3.x, SLOT_1_3.y, x32, MAROON);
+  tft.fillCircle(SLOT_1_4.x, SLOT_1_4.y, x32, MAROON);
+  tft.fillCircle(SLOT_2_1.x, SLOT_2_1.y, x32, MAROON);
+  tft.fillCircle(SLOT_2_2.x, SLOT_2_2.y, x32, MAROON);
+  tft.fillCircle(SLOT_2_3.x, SLOT_2_3.y, x32, MAROON);
+  tft.fillCircle(SLOT_2_4.x, SLOT_2_4.y, x32, MAROON);
+  // === Numbers ===
+  PrintLabel(Controller.currentPage * 8 + 1, SLOT_1_1.x + x32, SLOT_1_1.y + x32, 2, WHITE);
+  PrintLabel(Controller.currentPage * 8 + 2, SLOT_1_2.x + x32, SLOT_1_2.y + x32, 2, WHITE);
+  PrintLabel(Controller.currentPage * 8 + 3, SLOT_1_3.x + x32, SLOT_1_3.y + x32, 2, WHITE);
+  PrintLabel(Controller.currentPage * 8 + 4, SLOT_1_4.x + x32, SLOT_1_4.y + x32, 2, WHITE);
+  PrintLabel(Controller.currentPage * 8 + 5, SLOT_2_1.x + x32, SLOT_2_1.y + x32, 2, WHITE);
+  PrintLabel(Controller.currentPage * 8 + 6, SLOT_2_2.x + x32, SLOT_2_2.y + x32, 2, WHITE);
+  PrintLabel(Controller.currentPage * 8 + 7, SLOT_2_3.x + x32, SLOT_2_3.y + x32, 2, WHITE);
+  PrintLabel(Controller.currentPage * 8 + 8, SLOT_2_4.x + x32, SLOT_2_4.y + x32, 2, WHITE);
 }
+
 void UpdateSprinkleSetter() {
 
 }
