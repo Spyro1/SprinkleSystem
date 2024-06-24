@@ -8,7 +8,7 @@ struct Relay {
   bool state; // Iondicates wheter the relay is activated or not
   // -- Timed Sprinkling --
   Time start; // Start time of sprinkling
-  uint duration; // Duration in minutes of sprinkling
+  Range60 duration; // Duration in minutes of sprinkling
 
   // -- Constructors --
   /**
@@ -19,7 +19,7 @@ struct Relay {
     * */
   Relay(uint8_t pin = 0, struct Time start = 0, uint duration = 0 ) : id(idCounter++), pin(pin), start(start), duration(duration)  { }
   // - Functions -
-  Time end() { return start + duration; } // Convert duration from minutes to seconds
+  Time end() { return start + duration(); } // Convert duration from minutes to seconds
   void SetRelayState(bool value) {
     state = value;
     if (state) digitalWrite(pin, HIGH);
@@ -28,6 +28,7 @@ struct Relay {
   void reset(){
     start = 0;
     duration = 0;
+    state = false;
   }
 //  void Relay::ChangeStartHour(uint8_t byValue) { start.hour += byValue; }
 //  void Relay::ChangeStartMinute(uint8_t byValue) { start.minute += byValue; }

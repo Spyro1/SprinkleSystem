@@ -23,6 +23,8 @@ void ExecuteMainMenuClickEvents(const int idx){
       break;
     case 2: // Test btn
       Controller.state = testSprinkler;
+      for (uint i = 0; i < RELAY_COUNT; i++)
+        Controller.temporalProfile.relays[i].reset();
       Controller.DrawStateScreen();
       break;
     case 3: // Humidity btn
@@ -33,8 +35,8 @@ void ExecuteMainMenuClickEvents(const int idx){
       Controller.state = settings;
       Controller.DrawStateScreen();
       break;
-    case 5: // On/Off btn
-      Controller.mainSwitch = !Controller.mainSwitch;
+    case 5: // Save changes button
+      Controller.SaveChanges();
       UpdateMainMenu();
       break;
     case 6: // Clock btn
@@ -60,6 +62,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
         debugv(clickPos.y); debugln(". Profile_Clicked"); // Debug
         Controller.profiles[indexer].isActive = !Controller.profiles[indexer].isActive;
         Controller.UpdateStatesScreen(); // Updates ON/OFF button text and color
+        Controller.unsavedChanges = true; // New changes were made
       }
       // Period editor
       else if (clickPos == BTN_1_2 || clickPos == BTN_1_3 || clickPos == BTN_2_2 || clickPos == BTN_2_3 || clickPos == BTN_3_2 || clickPos == BTN_3_3) {
@@ -75,7 +78,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
         Controller.UpdateStatesScreen();
       }
       // Relay chooser buttons
-      else if (clickPos.y < 3) {
+      else if (clickPos.y < 2) {
         Controller.state = sprinkleSetter;
         Controller.currentRelay = ((Controller.currentPage) * 8) + (clickPos.y) * 4 + (clickPos.x);
         Controller.DrawStateScreen();
@@ -121,7 +124,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
         // Save pressed
         if (clickPos == BTN_1_4) {
           for (uint r = 0; r < RELAY_COUNT; r++) {
-            Controller.profiles[Controller.currentProfile].relays[r].start = Controller.temporalSetter.start + Controller.temporalSetter.duration * r; // set starting time in a automatic chain
+            Controller.profiles[Controller.currentProfile].relays[r].start = Controller.temporalSetter.start + Controller.temporalSetter.duration() * r; // set starting time in a automatic chain
             Controller.profiles[Controller.currentProfile].relays[r].duration = Controller.temporalSetter.duration; // set duration
             SaveRelayData(Controller.profiles[Controller.currentProfile].relays[r], Controller.currentProfile, r); // Saves changed data to EEPROM
           }
@@ -134,13 +137,13 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       break;
     case chainSprinkler:
       // Increase hour field
-      if (clickPos == BTN_1_1) Controller.temporalSetter.start.hour++;
+      if (clickPos == BTN_1_1 && Controller.temporalFromRelay < Controller.temporalToRelay && Controller.temporalFromRelay < RELAY_COUNT - 1) Controller.temporalFromRelay++;
       // Decrease hour field
-      else if (clickPos == BTN_3_1) Controller.temporalSetter.start.hour--;
+      else if (clickPos == BTN_3_1 && Controller.temporalFromRelay > 0) Controller.temporalFromRelay--;
       // Increase minute field
-      else if (clickPos == BTN_1_2) Controller.temporalSetter.start.minute++;
+      else if (clickPos == BTN_1_2 && Controller.temporalToRelay < RELAY_COUNT - 1) Controller.temporalToRelay++;
       // Decrease minute field
-      else if (clickPos == BTN_3_2) Controller.temporalSetter.start.minute--;
+      else if (clickPos == BTN_3_2 && Controller.temporalFromRelay < Controller.temporalToRelay && Controller.temporalToRelay > 0) Controller.temporalToRelay--;
       // Increase duration field
       else if (clickPos == BTN_1_3) Controller.temporalSetter.duration++;
       // Decrease duration field
@@ -149,7 +152,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       else if (clickPos == BTN_2_4) {
         Controller.temporalProfile.isActive = true;
         for (uint r = 0; r < RELAY_COUNT; r++) {
-          Controller.temporalProfile.relays[r].start = Controller.temporalSetter.start + Controller.temporalSetter.duration * r; // set temporalkstarting times
+          Controller.temporalProfile.relays[r].start = Controller.temporalSetter.start + Controller.temporalSetter.duration() * r; // set temporalkstarting times
           Controller.temporalProfile.relays[r].duration = Controller.temporalSetter.duration; // set temporal chain durations
         }        
         Controller.state = mainMenu;
@@ -171,7 +174,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
         }
       }
       // Test Relay chooser buttons
-      else if (clickPos.y < 3) {
+      else if (clickPos.y < 2) {
         Controller.currentRelay = ((Controller.currentPage) * 8) + (clickPos.x) + (clickPos.y) * 4;
         Controller.temporalProfile.relays[Controller.currentRelay].SetRelayState(!Controller.temporalProfile.relays[Controller.currentRelay].state); // Switch state
         Controller.UpdateStatesScreen(); // Updates the on/off state of a switch
@@ -179,10 +182,21 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       break;
     case humiditySetter:
       // Change humidity sensitivity
-      if (clickPos == BTN_1_2) Controller.humiditySensitivity += 10;
-      else if (clickPos == BTN_3_2) Controller.humiditySensitivity -= 10;
+      if (clickPos == BTN_1_2) {
+        Controller.humiditySensitivity += 10;
+        Controller.unsavedChanges = true; // New changes were made
+      }
+      else if (clickPos == BTN_3_2){
+        Controller.humiditySensitivity -= 10;
+        Controller.unsavedChanges = true; // New changes were made
+      }
       break;
     case settings:
+      if (clickPos == BTN_1_2){
+        Controller.mainSwitch = !Controller.mainSwitch;
+        Controller.unsavedChanges = true; // New changes were made
+        Controller.UpdateStatesScreen(); // Updates settings screen
+      }
       break;
     case clockSetter:
       break;

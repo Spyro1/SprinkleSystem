@@ -35,7 +35,7 @@ void LoadProfileData(struct Profile& profile, int profileNumber){
 void SaveRelayData(const struct Relay& rel, int profileNumber, int relayNumber) {
   EEPROM.update(profileStartAdress + profileNumber * profileDataSize + 1 + relayDataSize * relayNumber, (uint)rel.start.hours());
   EEPROM.update(profileStartAdress + profileNumber * profileDataSize + 1 + relayDataSize * relayNumber + 1, (uint)rel.start.minutes());
-  EEPROM.update(profileStartAdress + profileNumber * profileDataSize + 1 + relayDataSize * relayNumber + 2, rel.duration);
+  EEPROM.update(profileStartAdress + profileNumber * profileDataSize + 1 + relayDataSize * relayNumber + 2, rel.duration());
 }
 void LoadRelayData(struct Relay& rel, int profileNumber, int relayNumber) {
   int hour, min, dur;

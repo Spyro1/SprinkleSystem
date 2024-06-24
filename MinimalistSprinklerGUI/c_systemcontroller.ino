@@ -14,10 +14,13 @@ struct SystemController {
   uint currentPage;    // Current page of submenu
   uint currentProfile; // Which period is edited currently
   uint currentRelay;   // Which really is edited currently
+  bool unsavedChanges; // Indicates if there is unsaved changes
 
   // -- Temporal settings for chain sprinkle and testing --
   Profile temporalProfile;
   Relay temporalSetter;
+  uint temporalFromRelay;
+  uint temporalToRelay;
   // Time temporalStart;
   // uint temporalDuration;
 
@@ -49,6 +52,8 @@ struct SystemController {
     temporalProfile.isActive = false;
     temporalSetter.start = Time(0,0);
     temporalSetter.duration = 0;
+    temporalFromRelay = 0;
+    temporalToRelay = RELAY_COUNT - 1;
   }
   /// Updates all relays. If current time is start, then activates, if end, then deactivates those relays. 
   void UpdateRelays(struct Time& currentTime) {
@@ -127,7 +132,7 @@ struct SystemController {
         UpdateSprinkleSetter();
         break;
       case chainSprinkler:
-        DrawChainSprinkleMenu();
+        UpdateChainSprinkleMenu();
         break;
       case testSprinkler:
         UpdateTestMenu();
@@ -160,6 +165,7 @@ struct SystemController {
     // If the state is a subMenu
     else if (homeBtn.isPressed(x,y)){
       state = mainMenu; // Go back to main Menu
+      ResetMenu();
       DrawStateScreen();
       debugln("Home Btn pressed"); 
     }
@@ -167,17 +173,23 @@ struct SystemController {
       for (uint i = 0; i < subMenuButtonCount; i++){
         if (subMenuBtns[i].isPressed(x,y)){
           ExecuteSubMenuClickEvents({i % 4, i / 4}); // NOT COMMENT
-          debugv(i); debug(". Pressed: BTN_"); debugv(i/3+1); debug("_"); debugvln(i%4+1); // Debug
+          debugv(i); debug(". Pressed: BTN_"); debugv(i/4+1); debug("_"); debugvln(i%4+1); // Debug
           break;
         }
       }
     }
     debug("State= "); debugvln(state);
   }
+  void SaveChanges(){
+    SaveStyle(style);
+    SaveMainSwitch(mainSwitch);
+    SaveHumidity(humiditySensitivity);
+    for (uint p = 0; p < PROFILE_COUNT; p++){
+      SaveProfileData(profiles[p], p);
+    }
+    unsavedChanges = false;
+  }
   Relay& CurrentRelay() { return profiles[currentProfile].relays[currentRelay]; }
-  // void ChangeTempStartHour(uint byValue) { temporalStart = temporalStart + TimeSpan(3600 * byValue); }
-  // void ChangeTempStartMinute(uint byValue) { temporalStart = temporalStart + TimeSpan(60 * byValue); }
-  // void ChangeTempDuration(uint byValue) { temporalDuration += byValue; }
 };
 
 

@@ -74,3 +74,6 @@ struct Range60 : RangeInt<0,59>{
 struct Range24 : RangeInt<0,23>{
     Range24(int value = 0) : RangeInt<0,23>(value) {}
 };
+struct RangeRelays : RangeInt<0,RELAY_COUNT-1>{
+    RangeRelays(int value = 0) : RangeInt<0,RELAY_COUNT-1>(value) {}
+};

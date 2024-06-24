@@ -84,43 +84,6 @@
 // Menu button counts
 #define subMenuButtonCount 13
 #define mainScreenButtonCount 7
-// Small icon corners
-
-
-// BITMAPS x64
-// #define UP_ARROW "arw-up.bmp"
-// #define DOWN_ARROW "arw-dw.bmp"
-// #define LEFT_ARROW "arw-l.bmp"
-// #define RIGHT_ARROW "arw-r.bmp"
-// #define AUTOMATIC_ICON "automatic.bmp"
-// #define BTN_INACTIVE "btn-no.bmp"
-// #define BTN_ON "btn-on.bmp"
-// #define BTN_OFF "btn-off.bmp"
-// #define CHAIN_ICON "chain.bmp"
-// #define CLOCK_ICON "clock.bmp"
-// #define EXIT_ICON "exit.bmp"
-// #define HUMIDITY_ICON "humidity.bmp"
-// #define SETTINGS_ICON "settings.bmp"
-// #define SPRINKLER_ICON_ON "sprk-on.bmp"
-// #define SPRINKLER_ICON_OFF "sprk-off.bmp"
-// #define START_ICON "start.bmp"
-// #define OFF_SWITCH "sw-off.bmp"
-// #define OFF_SWITCH_LABEL "sw-off-l.bmp"
-// #define ON_SWITCH "sw-on.bmp"
-// #define ON_SWITCH_LABEL "sw-on-l.bmp"
-// #define TEST_ICON "test.bmp"
-// #define RELAY_ICON "valve.bmp"
-// #define OK_ICON "save.bmp"
-// BITMAPS x32
-// #define AUTOMATIC_ICONx32 "automatic-32.bmp"
-// #define CHAIN_ICONx32 "chain-32.bmp"
-// #define CLOCK_ICONx32 "clock-32.bmp"
-// #define HOME_ICONx32 "home-32.bmp"
-// #define HUMIDITY_ICONx32 "humidity-32.bmp"
-// #define SETTINGS_ICONx32 "settings-32.bmp"
-// #define SPRINKLER_ICONx32 "sprk-32.bmp"
-// #define TEST_ICONx32 "test-32.bmp"
-// #define RELAY_ICONx32 "valve-32.bmp"
 // MainScreen string macros
 #define strMainTitle "Locsolorendszer" // Locsolórendszer
 #define strSprinkle "Locsolas"       // Locsolás
@@ -149,8 +112,10 @@
 #define strSenitivity "Erzekenyseg"
 #define strReset "Visszaallitas"
 #define strSave "Mentes"
+#define strSaved "Mentve"
 #define strBack "Vissza"
 #define strStart "Start"
+#define strMainSwitch "Fokapcsolo:"
 
 // ======================== TYPE DEFINICIONS ========================
 typedef unsigned char uint;
@@ -162,11 +127,6 @@ typedef uint16_t ulong;
 uint RELAY_PINS[] = {22,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51};
 
 // ======================== DECLARATIONS ========================
-
-// struct Point;
-// struct Relay;
-// struct Profile;
-// struct SystemController;
 
 // ======================== STATIC VARIABLE DECLARATIONS ========================
 
