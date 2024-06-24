@@ -166,7 +166,7 @@ struct SystemController {
     else {
       for (uint i = 0; i < subMenuButtonCount; i++){
         if (subMenuBtns[i].isPressed(x,y)){
-          // ExecuteSubMenuClickEvents({i % 4 + 1, i / 3 + 1 + 1}); // NOT COMMENT
+          ExecuteSubMenuClickEvents({i % 4, i / 4}); // NOT COMMENT
           debugv(i); debug(". Pressed: BTN_"); debugv(i/3+1); debug("_"); debugvln(i%4+1); // Debug
           break;
         }

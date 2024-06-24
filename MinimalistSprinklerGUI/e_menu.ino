@@ -16,6 +16,9 @@ void ExecuteMainMenuClickEvents(const int idx){
       break;
     case 1: // Chain btn
       Controller.state = chainSprinkler;
+      Controller.temporalSetter.reset();
+      for (uint i = 0; i < RELAY_COUNT; i++)
+        Controller.temporalProfile.relays[i].reset();
       Controller.DrawStateScreen();
       break;
     case 2: // Test btn
@@ -48,19 +51,19 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       if (clickPos == BTN_1_1 || clickPos == BTN_2_1 || clickPos == BTN_3_1) {
         debugv(clickPos.y); debugln(". AutoTiming_Clicked"); // Debug
         Controller.state = sprinkleAuto;
-        Controller.currentProfile = clickPos.y - 1;
+        Controller.currentProfile = clickPos.y;
         Controller.DrawStateScreen();
       }
       // Period On/Off buttons
       else if (clickPos == BTN_1_4 || clickPos == BTN_2_4 || clickPos == BTN_3_4) {
-        int indexer = clickPos.y - 1;
+        int indexer = clickPos.y;
         debugv(clickPos.y); debugln(". Profile_Clicked"); // Debug
         Controller.profiles[indexer].isActive = !Controller.profiles[indexer].isActive;
         Controller.UpdateStatesScreen(); // Updates ON/OFF button text and color
       }
       // Period editor
       else if (clickPos == BTN_1_2 || clickPos == BTN_1_3 || clickPos == BTN_2_2 || clickPos == BTN_2_3 || clickPos == BTN_3_2 || clickPos == BTN_3_3) {
-        Controller.currentProfile = clickPos.y - 1;
+        Controller.currentProfile = clickPos.y;
         Controller.state = sprinkleRelays;
         Controller.DrawStateScreen();
       }
@@ -69,12 +72,12 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       // Navigating buttons < | >
       if (clickPos == BTN_3_1 || clickPos == BTN_3_4) {
         Controller.currentPage = Controller.currentPage == 0 ? 1 : 0;
-        Controller.DrawStateScreen();
+        Controller.UpdateStatesScreen();
       }
       // Relay chooser buttons
       else if (clickPos.y < 3) {
         Controller.state = sprinkleSetter;
-        Controller.currentRelay = ((Controller.currentPage) * 8) + (clickPos.y - 1) * 4 + (clickPos.x - 1);
+        Controller.currentRelay = ((Controller.currentPage) * 8) + (clickPos.y) * 4 + (clickPos.x);
         Controller.DrawStateScreen();
       }
       break;
@@ -142,17 +145,14 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       else if (clickPos == BTN_1_3) Controller.temporalSetter.duration++;
       // Decrease duration field
       else if (clickPos == BTN_3_3) Controller.temporalSetter.duration--;
-      // Save and back
-      else if (clickPos == BTN_1_4 || clickPos == BTN_3_4) {
-        // Save pressed
-        if (clickPos == BTN_1_4) {
-          Controller.temporalProfile.isActive = true;
-          for (uint r = 0; r < RELAY_COUNT; r++) {
-            Controller.temporalProfile.relays[r].start = Controller.temporalSetter.start + Controller.temporalSetter.duration * r; // set temporalkstarting times
-            Controller.temporalProfile.relays[r].duration = Controller.temporalSetter.duration; // set temporal chain durations
-          }
-        }
-        Controller.state = sprinkleProfiles;
+      // Start button pressed
+      else if (clickPos == BTN_2_4) {
+        Controller.temporalProfile.isActive = true;
+        for (uint r = 0; r < RELAY_COUNT; r++) {
+          Controller.temporalProfile.relays[r].start = Controller.temporalSetter.start + Controller.temporalSetter.duration * r; // set temporalkstarting times
+          Controller.temporalProfile.relays[r].duration = Controller.temporalSetter.duration; // set temporal chain durations
+        }        
+        Controller.state = mainMenu;
         Controller.DrawStateScreen();
         break; // Exit
       }
@@ -172,7 +172,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       }
       // Test Relay chooser buttons
       else if (clickPos.y < 3) {
-        Controller.currentRelay = ((Controller.currentPage) * 8) + (clickPos.x - 1) + (clickPos.y - 1) * 4;
+        Controller.currentRelay = ((Controller.currentPage) * 8) + (clickPos.x) + (clickPos.y) * 4;
         Controller.temporalProfile.relays[Controller.currentRelay].SetRelayState(!Controller.temporalProfile.relays[Controller.currentRelay].state); // Switch state
         Controller.UpdateStatesScreen(); // Updates the on/off state of a switch
       }

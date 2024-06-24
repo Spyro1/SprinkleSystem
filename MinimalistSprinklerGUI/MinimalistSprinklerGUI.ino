@@ -68,6 +68,7 @@
 #define x64 64   // Base Icon size for buttons
 #define x32 x64 / 2
 #define x16 x64 / 4
+#define x48 x16 + x32
 #define OPTIONSIZE 62 // Timing long button height
 #define SUBTITLE_H 38
 #define CENTER_H tft.width() / 2
