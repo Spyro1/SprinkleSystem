@@ -60,3 +60,15 @@ const Point BTN_3_3(3, 3);
 const Point BTN_3_4(4, 3);
 // Sizes
 const Point ICONSIZE(x64, x64);
+
+// SUBMENU NUM FIELD POSITIONS
+const Point COL_1_CENTER(40, 120);
+const Point COL_1_LABEL(40, 154);
+const Point COL_2_CENTER(120, 120);
+const Point COL_2_LABEL(120, 154);
+const Point COL_3_CENTER(200, 120);
+const Point COL_3_LABEL(200, 154);
+const Point COL_1_2_SEPARATOR(80, 120);
+const Point COL_2_3_SEPARATOR(160, 120);
+const Point COL_4_LABEL_T(280, 104);
+const Point COL_4_LABEL_B(280, 154);

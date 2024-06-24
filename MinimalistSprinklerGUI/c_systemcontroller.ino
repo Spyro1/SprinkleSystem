@@ -147,11 +147,10 @@ struct SystemController {
         break;
     } 
   }
-  void Touched(uint x, uint y){
-    debug("State= "); debugvln(state);
+  void Touched(int x, int y){
     // If the state is mainMenu 
     if (state == mainMenu){
-      for (int i = 0; i < mainScreenButtonCount; i++){
+      for (uint i = 0; i < mainScreenButtonCount; i++){
         if (mainBtns[i].isPressed(x, y)){
           ExecuteMainMenuClickEvents(i);
           break;
@@ -159,22 +158,21 @@ struct SystemController {
       }
     }
     // If the state is a subMenu
+    else if (homeBtn.isPressed(x,y)){
+      state = mainMenu; // Go back to main Menu
+      DrawStateScreen();
+      debugln("Home Btn pressed"); 
+    }
     else {
-      if (homeBtn.isPressed(x,y)){
-        state = mainMenu; // Go back to main Menu
-        DrawStateScreen();
-        debugln("Home Btn pressed"); 
-      }
-      else {
-        for (int i = 0; i < subMenuButtonCount; i++){
-          if (subMenuBtns[i].isPressed(x,y)){
-            ExecuteSubMenuClickEvents({i % 4, i / 3});
-            debug("Sub Btn pressed: "); debugv(i%4); debug(","); debugvln(i/3);
-            break;
-          }
+      for (uint i = 0; i < subMenuButtonCount; i++){
+        if (subMenuBtns[i].isPressed(x,y)){
+          // ExecuteSubMenuClickEvents({i % 4 + 1, i / 3 + 1 + 1}); // NOT COMMENT
+          debugv(i); debug(". Pressed: BTN_"); debugv(i/3+1); debug("_"); debugvln(i%4+1); // Debug
+          break;
         }
       }
     }
+    debug("State= "); debugvln(state);
   }
   Relay& CurrentRelay() { return profiles[currentProfile].relays[currentRelay]; }
   // void ChangeTempStartHour(uint byValue) { temporalStart = temporalStart + TimeSpan(3600 * byValue); }

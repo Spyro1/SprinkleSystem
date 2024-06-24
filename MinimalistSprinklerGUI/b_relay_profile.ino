@@ -25,6 +25,10 @@ struct Relay {
     if (state) digitalWrite(pin, HIGH);
     else digitalWrite(pin, LOW);
   }
+  void reset(){
+    start = 0;
+    duration = 0;
+  }
 //  void Relay::ChangeStartHour(uint8_t byValue) { start.hour += byValue; }
 //  void Relay::ChangeStartMinute(uint8_t byValue) { start.minute += byValue; }
 //  void Relay::ChangeDuration(uint8_t byValue) { duration += byValue; }

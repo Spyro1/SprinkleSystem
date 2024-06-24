@@ -74,36 +74,34 @@ void loop() {
   pinMode(YP, OUTPUT);
 
   // -- Check pressed --
-  if (p.z > MINPRESSURE && p.z < MAXPRESSURE)
-  {
+  if (p.z > MINPRESSURE && p.z < MAXPRESSURE) {
     // Scale from 0->1023 to tft.width
     int y = map(p.x, TS_MINX, TS_MAXX, tft.height(), 0);
     int x = map(p.y, TS_MAXY, TS_MINY, tft.width(), 0);
 
-    if (!backlight && x > 0 && x < WIDTH && y > 0 && y < HEIGHT)
-    {
+    if (!backlight && x > 0 && x < WIDTH && y > 0 && y < HEIGHT) {
       Controller.state = mainMenu;
       backlight = true;
       debugln("Backlight ON");
       Controller.DrawStateScreen();
       // Call Menu Touch to evaluate touch
+    } 
+    else {
+      Controller.Touched(x, y); // Call touch evaluating fucntion
     }
     lastTouched = millis();
-    Controller.Touched(x, y); // Call touch evaluating fucntion
     delay(300);               // Delay for touching
+
   }
-  if (backlight && (millis() - lastTouched) > BACKLIGHT_COOLDOWN)
-  {
+  // -- Check to turn off backlight --
+  if (backlight && (millis() - lastTouched) > BACKLIGHT_COOLDOWN) {
     backlight = false;
     tft.fillScreen(BLACK);
     debugln("Backlight OFF");
   }
-  if (backlight)
-  {
-    // menuSystem.UpdateClock();
-  }
-  if (millis() % 1000){
+  // -- Update clock on main screen --
+  if (backlight && millis() % 1000 == 0) {
     Controller.now = rtc.now();
-    if (Controller.state == mainMenu) UpdateMainMenu();
+    if (Controller.state == mainMenu) PrintRTCToMainScreen();
   }
 }

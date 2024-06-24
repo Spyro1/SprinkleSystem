@@ -48,7 +48,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       if (clickPos == BTN_1_1 || clickPos == BTN_2_1 || clickPos == BTN_3_1) {
         debugv(clickPos.y); debugln(". AutoTiming_Clicked"); // Debug
         Controller.state = sprinkleAuto;
-        Controller.currentProfile = clickPos.y;
+        Controller.currentProfile = clickPos.y - 1;
         Controller.DrawStateScreen();
       }
       // Period On/Off buttons
@@ -60,7 +60,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       }
       // Period editor
       else if (clickPos == BTN_1_2 || clickPos == BTN_1_3 || clickPos == BTN_2_2 || clickPos == BTN_2_3 || clickPos == BTN_3_2 || clickPos == BTN_3_3) {
-        Controller.currentProfile = clickPos.y;
+        Controller.currentProfile = clickPos.y - 1;
         Controller.state = sprinkleRelays;
         Controller.DrawStateScreen();
       }
@@ -68,13 +68,13 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
     case sprinkleRelays:
       // Navigating buttons < | >
       if (clickPos == BTN_3_1 || clickPos == BTN_3_4) {
-        Controller.currentPage = Controller.currentPage == 1 ? 2 : 1;
+        Controller.currentPage = Controller.currentPage == 0 ? 1 : 0;
         Controller.DrawStateScreen();
       }
       // Relay chooser buttons
       else if (clickPos.y < 3) {
         Controller.state = sprinkleSetter;
-        Controller.currentRelay = ((Controller.currentPage - 1) * 8) + clickPos.x + (clickPos.y - 1) * 4;
+        Controller.currentRelay = ((Controller.currentPage) * 8) + (clickPos.y - 1) * 4 + (clickPos.x - 1);
         Controller.DrawStateScreen();
       }
       break;
@@ -161,7 +161,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
     case testSprinkler:
       // Navigating buttons < | >
       if (clickPos == BTN_3_1 || clickPos == BTN_3_4) {
-        Controller.currentPage = Controller.currentPage == 1 ? 2 : 1;
+        Controller.currentPage = Controller.currentPage == 0 ? 1 : 0;
         Controller.UpdateStatesScreen(); // Updates numbers of test switches
       }
       // Reset all switches to off
@@ -172,7 +172,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       }
       // Test Relay chooser buttons
       else if (clickPos.y < 3) {
-        Controller.currentRelay = ((Controller.currentPage - 1) * 8) + clickPos.x + (clickPos.y - 1) * 4;
+        Controller.currentRelay = ((Controller.currentPage) * 8) + (clickPos.x - 1) + (clickPos.y - 1) * 4;
         Controller.temporalProfile.relays[Controller.currentRelay].SetRelayState(!Controller.temporalProfile.relays[Controller.currentRelay].state); // Switch state
         Controller.UpdateStatesScreen(); // Updates the on/off state of a switch
       }
