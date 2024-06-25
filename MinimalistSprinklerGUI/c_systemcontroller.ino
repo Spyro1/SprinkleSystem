@@ -169,18 +169,18 @@ struct SystemController {
       state = mainMenu; // Go back to main Menu
       ResetMenu();
       DrawStateScreen();
-      debugln("Home Btn pressed"); 
+      //debugln("Home Btn pressed"); 
     }
     else {
       for (uint i = 0; i < subMenuButtonCount; i++){
         if (subMenuBtns[i].isPressed(x,y)){
           ExecuteSubMenuClickEvents({i % 4, i / 4}); // NOT COMMENT
-          debugv(i); debug(". Pressed: BTN_"); debugv(i/4+1); debug("_"); debugvln(i%4+1); // Debug
+          //debugv(i); debug(". Pressed: BTN_"); debugv(i/4+1); debug("_"); debugvln(i%4+1); // Debug
           break;
         }
       }
     }
-    debug("State= "); debugvln(state);
+    // debug("State= "); debugvln(state);
   }
   void SaveChanges(){
     SaveStyle(style);

@@ -21,7 +21,7 @@ struct Relay {
   Time end() { return start + duration(); } // Convert duration from minutes to seconds
   void SetRelayState(bool value) {
     state = value;
-    if (state) digitalWrite(pin, HIGH);
+    if (!state) digitalWrite(pin, HIGH);
     else digitalWrite(pin, LOW);
   }
   void reset(){
@@ -40,7 +40,8 @@ struct Profile {
 
     Profile() : isActive(false) {
       for (uint i = 0; i < RELAY_COUNT; i++){
-        relays[i].pin = RELAY_PINS[relays[i].id];
+        relays[i].pin = RELAY_PINS[i]; // Set pins to relays
+        relays[i].SetRelayState(relays[i].state); // set default state
       }
     }
 };

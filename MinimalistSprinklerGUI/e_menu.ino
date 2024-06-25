@@ -55,24 +55,32 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
     case sprinkleProfiles:
       // Automatic timing button
       if (clickPos == BTN_1_1 || clickPos == BTN_2_1 || clickPos == BTN_3_1) {
-        debugv(clickPos.y); debugln(". AutoTiming_Clicked"); // Debug
+        // debugv(clickPos.y); debugln(". AutoTiming_Clicked"); // Debug
         Controller.state = sprinkleAuto;
         Controller.currentProfile = clickPos.y;
         Controller.temporalSetter = Controller.profiles[Controller.currentProfile].relays[0];
         Controller.DrawStateScreen();
       }
-      // Period On/Off buttons
+      // Profile On/Off buttons
       else if (clickPos == BTN_1_4 || clickPos == BTN_2_4 || clickPos == BTN_3_4) {
         int indexer = clickPos.y;
-        debugv(clickPos.y); debugln(". Profile_Clicked"); // Debug
+        // debugv(clickPos.y); debugln(". Profile_Clicked"); // Debug
         Controller.profiles[indexer].isActive = !Controller.profiles[indexer].isActive;
         Controller.UpdateStateScreen(); // Updates ON/OFF button text and color
         Controller.unsavedChanges = true; // New changes were made
       }
-      // Period editor
+      // Profile editor
       else if (clickPos == BTN_1_2 || clickPos == BTN_1_3 || clickPos == BTN_2_2 || clickPos == BTN_2_3 || clickPos == BTN_3_2 || clickPos == BTN_3_3) {
         Controller.currentProfile = clickPos.y;
         Controller.state = sprinkleRelays;
+        // Debug
+        for(int i = 0; i < RELAY_COUNT; i++){
+          char temp[50];
+          sprintf(temp, "%d/%d:\tid: %d\tP: %d\tS: %02d:%02d\tD: %d\tState: %d", Controller.currentProfile, i, Controller.profiles[Controller.currentProfile].relays[i].id, 
+          Controller.profiles[Controller.currentProfile].relays[i].pin, Controller.profiles[Controller.currentProfile].relays[i].start.hours(), Controller.profiles[Controller.currentProfile].relays[i].start.minutes(),
+          Controller.profiles[Controller.currentProfile].relays[i].duration(), Controller.profiles[Controller.currentProfile].relays[i].state);
+          debugvln(temp);
+        }
         Controller.DrawStateScreen();
       }
       break;
