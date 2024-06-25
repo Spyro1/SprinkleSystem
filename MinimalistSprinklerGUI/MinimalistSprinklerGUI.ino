@@ -118,6 +118,7 @@
 #define strMainSwitch "Fokapcsolo:"
 #define strFromTag "-tol"
 #define strByMinute "percenkent"
+#define strMinShort "perc"
 
 // ======================== TYPE DEFINICIONS ========================
 typedef unsigned char uint;

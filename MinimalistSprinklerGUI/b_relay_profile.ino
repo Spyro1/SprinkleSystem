@@ -27,7 +27,7 @@ struct Relay {
   void reset(){
     start = 0;
     duration = 0;
-    state = false;
+    // state = false;
   }
 };
 

@@ -5,9 +5,9 @@
 #define styleAdress 0
 #define switchAdress 1
 #define humidityAdress 2
-#define profileStartAdress 3 
+#define profileStartAdress 4 
 #define relayDataSize 3 // Start hour, start minute, duration in minutes
-#define profileDataSize relayDataSize * RELAY_COUNT + 1
+#define profileDataSize relayDataSize * RELAY_COUNT + 2
 
 // -- Style --
 void SaveStyle(const unsigned char style) { EEPROM.update(styleAdress, style); }

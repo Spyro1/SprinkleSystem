@@ -25,8 +25,14 @@ void ExecuteMainMenuClickEvents(const int idx){
       break;
     case 2: // Test btn
       Controller.state = testSprinkler;
-      for (uint i = 0; i < RELAY_COUNT; i++)
-        Controller.temporalProfile.relays[i].reset();
+      // Setup every switch for current state
+      // for (uint i = 0; i < RELAY_COUNT; i++) {
+      //   bool isActive = false;
+      //   for(uint p = 0; p < PROFILE_COUNT; p++){
+      //     if (Controller.profiles[p].relays[i].state) { isActive = true; break; }
+      //   }
+      //   Controller.temporalProfile.relays[i].state = isActive;
+      // }
       Controller.DrawStateScreen();
       break;
     case 3: // Humidity btn
@@ -53,7 +59,7 @@ void ExecuteMainMenuClickEvents(const int idx){
 void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
   switch(Controller.state) {
     case sprinkleProfiles:
-      // Automatic timing button
+      // Automatic timing buttons
       if (clickPos == BTN_1_1 || clickPos == BTN_2_1 || clickPos == BTN_3_1) {
         // debugv(clickPos.y); debugln(". AutoTiming_Clicked"); // Debug
         Controller.state = sprinkleAuto;
@@ -63,17 +69,16 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       }
       // Profile On/Off buttons
       else if (clickPos == BTN_1_4 || clickPos == BTN_2_4 || clickPos == BTN_3_4) {
-        int indexer = clickPos.y;
         // debugv(clickPos.y); debugln(". Profile_Clicked"); // Debug
-        Controller.profiles[indexer].isActive = !Controller.profiles[indexer].isActive;
+        Controller.profiles[clickPos.y].isActive = !Controller.profiles[clickPos.y].isActive;
         Controller.UpdateStateScreen(); // Updates ON/OFF button text and color
         Controller.unsavedChanges = true; // New changes were made
       }
       // Profile editor
       else if (clickPos == BTN_1_2 || clickPos == BTN_1_3 || clickPos == BTN_2_2 || clickPos == BTN_2_3 || clickPos == BTN_3_2 || clickPos == BTN_3_3) {
-        Controller.currentProfile = clickPos.y;
         Controller.state = sprinkleRelays;
-        // Debug
+        Controller.currentProfile = clickPos.y;
+        // --- Debug ---
         for(int i = 0; i < RELAY_COUNT; i++){
           char temp[50];
           sprintf(temp, "%d/%d:\tid: %d\tP: %d\tS: %02d:%02d\tD: %d\tState: %d", Controller.currentProfile, i, Controller.profiles[Controller.currentProfile].relays[i].id, 
@@ -81,7 +86,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
           Controller.profiles[Controller.currentProfile].relays[i].duration(), Controller.profiles[Controller.currentProfile].relays[i].state);
           debugvln(temp);
         }
-        Controller.DrawStateScreen();
+        Controller.DrawStateScreen(); // Draw relay chooser screen
       }
       break;
     case sprinkleRelays:
@@ -99,29 +104,33 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       else if (clickPos.y < 2) {
         Controller.state = sprinkleSetter;
         Controller.currentRelay = ((Controller.currentPage) * 8) + (clickPos.y) * 4 + (clickPos.x);
-        Controller.temporalSetter = Controller.profiles[Controller.currentProfile].relays[Controller.currentRelay];
+        Controller.temporalSetter = Controller.CurrentRelay(); // .profiles[Controller.currentProfile].relays[Controller.currentRelay];
         Controller.DrawStateScreen();
       }
       break;
     case sprinkleSetter:
       // Increase hour field
-      if (clickPos == BTN_1_1) Controller.CurrentRelay().start.hour++;
+      if (clickPos == BTN_1_1) Controller.temporalSetter.start.hour++;
       // Decrease hour field
-      else if (clickPos == BTN_3_1) Controller.CurrentRelay().start.hour--;
+      else if (clickPos == BTN_3_1) Controller.temporalSetter.start.hour--;
       // Increase minute field
-      else if (clickPos == BTN_1_2) Controller.CurrentRelay().start.minute++;
+      else if (clickPos == BTN_1_2) Controller.temporalSetter.start.minute++;
       // Decrease minute field
-      else if (clickPos == BTN_3_2) Controller.CurrentRelay().start.minute--;
+      else if (clickPos == BTN_3_2) Controller.temporalSetter.start.minute--;
       // Increase duration field
-      else if (clickPos == BTN_1_3) Controller.CurrentRelay().duration++;
+      else if (clickPos == BTN_1_3) Controller.temporalSetter.duration++;
       // Decrease duration field
-      else if (clickPos == BTN_3_3) Controller.CurrentRelay().duration--;
+      else if (clickPos == BTN_3_3) Controller.temporalSetter.duration--;
       // Save and back
       else if (clickPos == BTN_1_4 || clickPos == BTN_3_4) {
         // Save pressed
-        if (clickPos == BTN_1_4) Controller.unsavedChanges = true; // new changes were made // SaveRelayData(Controller.CurrentRelay(), Controller.currentRelay, Controller.currentProfile);
-        // Reload relay data upon exit
-        else if (clickPos == BTN_3_4) LoadRelayData(Controller.CurrentRelay(), Controller.currentRelay, Controller.currentProfile);
+        if (clickPos == BTN_1_4) {
+          Controller.CurrentRelay() = Controller.temporalSetter;
+          Controller.unsavedChanges = true; 
+        }
+          // new changes were made // SaveRelayData(Controller.CurrentRelay(), Controller.currentRelay, Controller.currentProfile);
+        // NOO // Reload relay data upon exit
+        //else if (clickPos == BTN_3_4) LoadRelayData(Controller.CurrentRelay(), Controller.currentRelay, Controller.currentProfile);
         Controller.state = sprinkleRelays;
         Controller.DrawStateScreen();
         break;

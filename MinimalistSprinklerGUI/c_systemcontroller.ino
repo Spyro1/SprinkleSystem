@@ -5,7 +5,7 @@ struct SystemController {
   // -- Save config vars --
   menuStyle style;                  // !EEPROM! How beautiful the menu should be
   bool mainSwitch;                  // !EEPROM! If true, then timing is processed, if false, then no automatic sprinkling
-  Range1024 humiditySensitivity;        // !EEPROM! Humidity sensitivity of the system
+  Range1024 humiditySensitivity;    // !EEPROM! Humidity sensitivity of the system
   Profile profiles[PROFILE_COUNT];  // !EEPROM! Time profiles when automatic sprinkling can happen
 
   // -- Running config vars --
@@ -52,7 +52,7 @@ struct SystemController {
     temporalProfile.isActive = false;
     temporalSetter.start = Time(0,0);
     for (uint i = 0; i < RELAY_COUNT; i++)
-        temporalProfile.relays[i].reset();
+      temporalProfile.relays[i].reset();
     temporalSetter.duration = 0;
     temporalFromRelay = 0;
     temporalToRelay = RELAY_COUNT - 1;
