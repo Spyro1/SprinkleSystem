@@ -70,5 +70,6 @@ const Point COL_3_CENTER(200, 120);
 const Point COL_3_LABEL(200, 160);
 const Point COL_1_2_SEPARATOR(80, 136);
 const Point COL_2_3_SEPARATOR(160, 136);
+const Point COL_3_4_SEPARATOR(240, 136);
 const Point COL_4_LABEL_T(280, 110);
 const Point COL_4_LABEL_B(280, 160);

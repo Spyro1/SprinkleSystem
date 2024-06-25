@@ -116,6 +116,8 @@
 #define strBack "Vissza"
 #define strStart "Start"
 #define strMainSwitch "Fokapcsolo:"
+#define strFromTag "-tol"
+#define strByMinute "percenkent"
 
 // ======================== TYPE DEFINICIONS ========================
 typedef unsigned char uint;

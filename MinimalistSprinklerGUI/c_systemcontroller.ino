@@ -40,17 +40,19 @@ struct SystemController {
   }
   // -- Functions --
   void StartMenu(){
+    state = menuStates::mainMenu;
     ResetMenu();
     RunMenu();
   }
 
   void ResetMenu() {
-    state = menuStates::mainMenu;
     currentPage = 0;
     currentProfile = 0;
     currentRelay = 0;
     temporalProfile.isActive = false;
     temporalSetter.start = Time(0,0);
+    for (uint i = 0; i < RELAY_COUNT; i++)
+        temporalProfile.relays[i].reset();
     temporalSetter.duration = 0;
     temporalFromRelay = 0;
     temporalToRelay = RELAY_COUNT - 1;
@@ -117,7 +119,7 @@ struct SystemController {
         break;
     } 
   }
-  void UpdateStatesScreen(){
+  void UpdateStateScreen(){
     switch(state) {
       case sprinkleProfiles:
         UpdateSprinkleProfilesMenu();

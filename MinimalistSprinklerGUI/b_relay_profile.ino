@@ -10,7 +10,6 @@ struct Relay {
   Time start; // Start time of sprinkling
   Range60 duration; // Duration in minutes of sprinkling
 
-  // -- Constructors --
   /**
     * Constructor for instances
     * @param pin Pin of the relay on board
@@ -30,9 +29,6 @@ struct Relay {
     duration = 0;
     state = false;
   }
-//  void Relay::ChangeStartHour(uint8_t byValue) { start.hour += byValue; }
-//  void Relay::ChangeStartMinute(uint8_t byValue) { start.minute += byValue; }
-//  void Relay::ChangeDuration(uint8_t byValue) { duration += byValue; }
 };
 
 uint8_t Relay::idCounter = 0; // Set default value to id counter
@@ -43,6 +39,8 @@ struct Profile {
     Relay relays[RELAY_COUNT]; // !EEPROM!
 
     Profile() : isActive(false) {
-      
+      for (uint i = 0; i < RELAY_COUNT; i++){
+        relays[i].pin = RELAY_PINS[relays[i].id];
+      }
     }
 };
