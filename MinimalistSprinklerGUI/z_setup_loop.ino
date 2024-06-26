@@ -62,6 +62,8 @@ void setup() {
 }
 
 void loop() {
+  // -- Update Real Time -- 
+  Controller.now = rtc.now();
   // -- Check touch --
   digitalWrite(13, HIGH);
   TSPoint p = ts.getPoint();
@@ -100,12 +102,10 @@ void loop() {
   }
   // --- Update clock on main screen ---
   if (backlight && millis() % 1000 == 0) {
-    Controller.now = rtc.now();
     if (Controller.state == mainMenu) PrintRTCToMainScreen();
   }
   // --- Update relays every minute ---
   if (Controller.now.second() == 0) {
     Controller.UpdateRelays();
-    delay(1000);
   }
 }
