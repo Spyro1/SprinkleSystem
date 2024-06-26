@@ -17,20 +17,17 @@ void DrawMainMenu(){
   tft.fillRoundRect(MAIN_1.x, MAIN_1.y, x64, x64, RADIUS, CYAN);
   PrintLabel(strSprinkle, MAIN_1.x + x32, MAIN_1.y + x32, 1, BLACK);
   // === Chain Btn ===
-  tft.fillRoundRect(MAIN_2.x, MAIN_2.y, x64, x64, RADIUS, DARKCYAN);
-  PrintLabel(strChain, MAIN_2.x + x32, MAIN_2.y + x32, 1, BLACK);
+  tft.fillRoundRect(MAIN_2.x, MAIN_2.y, x64, x64, RADIUS, MAGENTA);
+  PrintLabel(strChain, MAIN_2.x + x32, MAIN_2.y + x32, 1, WHITE);
   // === Test Btn ===
-  tft.fillRoundRect(MAIN_3.x, MAIN_3.y, x64, x64, RADIUS, GREEN);
-  PrintLabel(strTest, MAIN_3.x + x32, MAIN_3.y + x32, 1, BLACK);
-  // === Humidity Btn ===
-  tft.fillRoundRect(MAIN_4.x, MAIN_4.y, x64, x64, RADIUS, BLUE);
-  PrintLabel(strHumidity, MAIN_4.x + x32, MAIN_4.y + x32, 1, WHITE);
+  tft.fillRoundRect(MAIN_3.x, MAIN_3.y, x64, x64, RADIUS, BLUE);
+  PrintLabel(strTest, MAIN_3.x + x32, MAIN_3.y + x32, 1, WHITE);
   // === Settings Btn ===
-  tft.fillRoundRect(MAIN_5.x, MAIN_5.y, x64, x64, RADIUS, DARKGREY);
-  PrintLabel(strSettings, MAIN_5.x + x32, MAIN_5.y + x32);
+  tft.fillRoundRect(MAIN_4.x, MAIN_4.y, x64, x64, RADIUS, DARKGREY);
+  PrintLabel(strSettings, MAIN_4.x + x32, MAIN_4.y + x32, 1, WHITE);
   // === Clock Btn ===
-  tft.fillRoundRect(MAIN_7.x, MAIN_7.y, x64, x64, RADIUS, LIGHTGREY);
-  PrintLabel(strClock, MAIN_7.x + x32, MAIN_7.y + x32, 1, BLACK);
+  tft.fillRoundRect(MAIN_6.x, MAIN_6.y, x64, x64, RADIUS, NAVY);
+  PrintLabel(strClock, MAIN_6.x + x32, MAIN_6.y + x32);
   // === Update mainmenu state (real time and on/off btn state) ===
   UpdateMainMenu();
 }
@@ -228,26 +225,6 @@ void DrawTestMenu(){
   // == Draws relay switches and numbers and labels to them ==
   UpdateTestMenu();
 }
-void DrawHumidityMenu(){
-  tft.fillScreen(BLACK);
-  // == Home Icon ==
-  PrintHomeIcon();
-  // == Subtitle ==
-  PrintLabel(strHumidity, CENTER_H, x16, 2, WHITE);
-  // == Line ==
-  PrintDoubleLine(x32, WIDTH, WHITE);
-  // -- Humidity setter --
-  tft.fillRoundRect(SLOT_1_1.x, SLOT_1_1.y, x64, x64, x16, LIGHTGREY); // Increase hour
-  PrintChar('+', SLOT_1_1.x + x32, SLOT_1_1.y + x32, 4, BLACK); // +
-  PrintLabel(strSenitivity, COL_1_LABEL.x, COL_1_LABEL.y, 1); // Label
-  tft.fillRoundRect(SLOT_3_1.x, SLOT_3_1.y, x64, x64, x16, LIGHTGREY); // Decrease hour
-  PrintChar('-', SLOT_3_1.x + x32, SLOT_3_1.y + x32, 4, BLACK); // -
-  // -- Save Btn --
-  tft.fillRoundRect(SLOT_2_4.x, SLOT_2_4.y, x64, x64, x16, GREEN); // Save button
-  PrintLabel(strSave, SLOT_2_4.x + x32, SLOT_2_4.y + x32, 1, DARKGREEN); // Save label
-  // -- Update sensitivity --
-  UpdateHumidityMenu();
-}
 void DrawSettingsMenu(){
   tft.fillScreen(BLACK);
   // == Home Icon ==
@@ -258,6 +235,13 @@ void DrawSettingsMenu(){
   PrintDoubleLine(x32, WIDTH, WHITE);
   // -- Main Switch Label --
   PrintLabel(strMainSwitch, SLOT_1_1.x + x32, SLOT_1_1.y + x32, 1);
+  // -- Humidity setter --
+  tft.fillRoundRect(SLOT_1_3.x, SLOT_1_3.y, x64, x64, x16, LIGHTGREY); // Increase hour
+  PrintChar('+', SLOT_1_3.x + x32, SLOT_1_3.y + x32, 4, BLACK); // +
+  PrintLabel(strHumidity, COL_3_LABEL.x, SLOT_1_3.y + 8, 1); // Label
+  PrintLabel(strSenitivity, COL_3_LABEL.x, COL_3_LABEL.y, 1); // Label
+  tft.fillRoundRect(SLOT_3_3.x, SLOT_3_3.y, x64, x64, x16, LIGHTGREY); // Decrease hour
+  PrintChar('-', SLOT_3_3.x + x32, SLOT_3_3.y + x32, 4, BLACK); // -
   // -- Update changes settings --
   UpdateSettingsMenu();
 }
@@ -295,12 +279,12 @@ void UpdateMainMenu() {
   PrintRTCToMainScreen();
   // === Save Btn ===
   if (Controller.unsavedChanges) {
-    tft.fillRoundRect(MAIN_6.x, MAIN_6.y, x64, x64, RADIUS * 2, DARKCYAN);
-    PrintLabel(strSave, MAIN_6.x + x32, MAIN_6.y + x32, 1, WHITE);
+    tft.fillRoundRect(MAIN_5.x, MAIN_5.y, x64, x64, RADIUS * 2, DARKCYAN);
+    PrintLabel(strSave, MAIN_5.x + x32, MAIN_5.y + x32, 1, WHITE);
   }
   else {
-    tft.fillRoundRect(MAIN_6.x, MAIN_6.y, x64, x64, RADIUS * 2, GREEN);
-    PrintLabel(strSaved, MAIN_6.x + x32, MAIN_6.y + x32, 1, BLACK);
+    tft.fillRoundRect(MAIN_5.x, MAIN_5.y, x64, x64, RADIUS * 2, GREEN);
+    PrintLabel(strSaved, MAIN_5.x + x32, MAIN_5.y + x32, 1, BLACK);
   }
 }
 
@@ -482,11 +466,9 @@ void UpdateTestMenu() {
     PrintLabel(strOFF, SLOT_2_4.x + x32, SLOT_2_4.y + x48, 2, BLACK); // OFF label
   }
 }
-void UpdateHumidityMenu() {
-  // -- Humidity sensitivity number --
-  tft.fillRect(SLOT_2_1.x, SLOT_2_1.y + x16, x64, x32, BLACK);
-  PrintLabel(Controller.humiditySensitivity(), SLOT_2_1.x + x32, SLOT_2_1.y + x32, 3);
-}
+// void UpdateHumidityMenu() {
+  
+// }
 void UpdateSettingsMenu() {
   // === Main Switch ===
   if (Controller.mainSwitch){
@@ -497,6 +479,9 @@ void UpdateSettingsMenu() {
     tft.fillRoundRect(SLOT_1_2.x, SLOT_1_2.y, x64, x64, RADIUS * 2, RED);
     PrintLabel(strOFF, SLOT_1_2.x + x32, SLOT_1_2.y + x32, 3);
   }
+  // -- Humidity sensitivity number --
+  tft.fillRect(SLOT_2_3.x, SLOT_2_3.y + x16, x64, x32, BLACK);
+  PrintLabel(Controller.humiditySensitivity, SLOT_2_3.x + x32, SLOT_2_3.y + x32, 3);
 }
 void UpdateClockMenu() {
   // -- Hour setter number --

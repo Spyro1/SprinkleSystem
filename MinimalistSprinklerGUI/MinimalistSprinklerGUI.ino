@@ -83,7 +83,7 @@
 #define FONT_3_V FONT_1_V * 3
 // Menu button counts
 #define subMenuButtonCount 13
-#define mainScreenButtonCount 7
+#define mainScreenButtonCount 6
 // MainScreen string macros
 #define strMainTitle "Locsolorendszer" // Locsolórendszer
 #define strSprinkle "Locsolas"       // Locsolás

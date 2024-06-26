@@ -37,7 +37,7 @@ struct TouchButton {
 
 };
 
-const TouchButton mainBtns[mainScreenButtonCount] = { TouchButton(MAIN_1, ICONSIZE), TouchButton(MAIN_2, ICONSIZE), TouchButton(MAIN_3, ICONSIZE), TouchButton(MAIN_4, ICONSIZE), TouchButton(MAIN_5, ICONSIZE), TouchButton(MAIN_6, ICONSIZE), TouchButton(MAIN_7, ICONSIZE) };
+const TouchButton mainBtns[mainScreenButtonCount] = { TouchButton(MAIN_1, ICONSIZE), TouchButton(MAIN_2, ICONSIZE), TouchButton(MAIN_3, ICONSIZE), TouchButton(MAIN_4, ICONSIZE), TouchButton(MAIN_5, ICONSIZE), TouchButton(MAIN_6, ICONSIZE) };
 
 const TouchButton subMenuBtns[subMenuButtonCount] = {
   TouchButton(SLOT_1_1, ICONSIZE), TouchButton(SLOT_1_2, ICONSIZE), TouchButton(SLOT_1_3, ICONSIZE), TouchButton(SLOT_1_4, ICONSIZE),

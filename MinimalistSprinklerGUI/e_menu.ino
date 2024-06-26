@@ -7,7 +7,6 @@
 void RunMenu(){
   DrawMainMenu();
 }
-
 void ExecuteMainMenuClickEvents(const int idx){
   switch (idx){
     case 0: // Sprinkle btn
@@ -35,19 +34,15 @@ void ExecuteMainMenuClickEvents(const int idx){
       // }
       Controller.DrawStateScreen();
       break;
-    case 3: // Humidity btn
-      Controller.state = humiditySetter;
-      Controller.DrawStateScreen();
-      break;
-    case 4: // Settings btn
+    case 3: // Settings btn
       Controller.state = settings;
       Controller.DrawStateScreen();
       break;
-    case 5: // Save changes button
+    case 4: // Save changes button
       Controller.SaveChanges();
       UpdateMainMenu();
       break;
-    case 6: // Clock btn
+    case 5: // Clock btn
       Controller.state = clockSetter;
       Controller.temporalSetter.start.hour = Controller.now.hour();
       Controller.temporalSetter.start.minute = Controller.now.minute();
@@ -213,27 +208,20 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
         Controller.UpdateStateScreen(); // Updates the on/off state of a switch
       }
       break;
-    case humiditySetter:
-      // Change humidity sensitivity
-      if (clickPos == BTN_1_2) {
-        Controller.humiditySensitivity += 10;
-        Controller.unsavedChanges = true; // New changes were made
-      }
-      else if (clickPos == BTN_3_2){
-        Controller.humiditySensitivity -= 10;
-        Controller.unsavedChanges = true; // New changes were made
-      }
-      // Save changes
-      else if (clickPos == BTN_2_4) {
-        Controller.state = mainMenu;
-        Controller.DrawStateScreen();
-        break;
-      }
-      Controller.UpdateStateScreen(); // Updates field numbers on screen (hour, minute, duration)
-      break;
     case settings:
       if (clickPos == BTN_1_2){
         Controller.mainSwitch = !Controller.mainSwitch;
+        Controller.unsavedChanges = true; // New changes were made
+        Controller.UpdateStateScreen(); // Updates settings screen
+      }
+      // Change humidity sensitivity
+      if (clickPos == BTN_1_3) {
+        Controller.humiditySensitivity += 4;
+        Controller.unsavedChanges = true; // New changes were made
+        Controller.UpdateStateScreen(); // Updates settings screen
+      }
+      else if (clickPos == BTN_3_3){
+        Controller.humiditySensitivity -= 4;
         Controller.unsavedChanges = true; // New changes were made
         Controller.UpdateStateScreen(); // Updates settings screen
       }

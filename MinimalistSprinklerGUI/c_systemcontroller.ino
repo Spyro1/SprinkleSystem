@@ -5,7 +5,7 @@ struct SystemController {
   // -- Save config vars --
   menuStyle style;                  // !EEPROM! How beautiful the menu should be
   bool mainSwitch;                  // !EEPROM! If true, then timing is processed, if false, then no automatic sprinkling
-  Range1024 humiditySensitivity;    // !EEPROM! Humidity sensitivity of the system
+  uint humiditySensitivity;         // !EEPROM! Humidity sensitivity of the system
   Profile profiles[PROFILE_COUNT];  // !EEPROM! Time profiles when automatic sprinkling can happen
 
   // -- Running config vars --
@@ -104,8 +104,6 @@ struct SystemController {
       case testSprinkler:
         DrawTestMenu();
         break;
-      case humiditySetter:
-        DrawHumidityMenu();
         break;
       case settings:
         DrawSettingsMenu();
@@ -138,9 +136,6 @@ struct SystemController {
         break;
       case testSprinkler:
         UpdateTestMenu();
-        break;
-      case humiditySetter:
-        UpdateHumidityMenu();
         break;
       case settings:
         UpdateSettingsMenu();

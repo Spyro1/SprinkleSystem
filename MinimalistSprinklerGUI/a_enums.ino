@@ -8,7 +8,6 @@ enum menuStates {
   sprinkleSetter,
   chainSprinkler,
   testSprinkler,
-  humiditySetter,
   settings,
   clockSetter
 };
