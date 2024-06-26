@@ -58,28 +58,24 @@ struct SystemController {
     temporalToRelay = RELAY_COUNT - 1;
   }
   /// Updates all relays. If current time is start, then activates, if end, then deactivates those relays. 
-  void UpdateRelays(struct Time& currentTime) {
-    for (int r = 0; r < RELAY_COUNT; r++) {
-      for (int p = 0; p < PROFILE_COUNT && profiles[p].isActive; p++) {
-        // === Update timed profiles ===
-        // Check if current time is in between the start and end of relay timing
-        bool toActivate = currentTime.hours() == profiles[p].relays[r].start.hours() && currentTime.minutes() == profiles[p].relays[r].start.minutes();
-        bool toDeactivate = currentTime.hours() == profiles[p].relays[r].end().hours() && currentTime.minutes() == profiles[p].relays[r].end().minutes();
-        // Set Relay State
-        if (toActivate != toDeactivate) {
-          if (toActivate)  { profiles[p].relays[r].SetRelayState(true); debugv(p); debug("/"); debugv(r); debug(" Relay Activated"); }
-          if (toDeactivate) { profiles[p].relays[r].SetRelayState(false); debugv(p); debug("/"); debugv(r); debug(" Relay Deactivated"); }
+  void UpdateRelays() {
+    if (mainSwitch) { // If the main switch is on
+      for (uint r = 0; r < RELAY_COUNT; r++) {
+        for (uint p = 0; p < PROFILE_COUNT && profiles[p].isActive; p++) {
+          // === Update timed profiles ===
+          bool toActivate = now.hour() == profiles[p].relays[r].start.hours() && now.minute() == profiles[p].relays[r].start.minutes();
+          if (toActivate)  { profiles[p].relays[r].SetRelayState(true); debugv(p); debug("/"); debugv(r); debugln(" Relay Activated"); }
+          
+          bool toDeactivate = now.hour() == profiles[p].relays[r].end().hours() && now.minute() == profiles[p].relays[r].end().minutes();
+          if (toDeactivate) { profiles[p].relays[r].SetRelayState(false); debugv(p); debug("/"); debugv(r); debugln(" Relay Deactivated"); }
         }
-      }
-      // === Update temporal profile ===
-      if (temporalProfile.isActive){
-        // Check if current time is in between the start and end of relay timing
-        bool toActivateTemp = currentTime.hours() == temporalProfile.relays[r].start.hours() && currentTime.minutes() == temporalProfile.relays[r].start.minutes();
-        bool toDeactivateTemp = currentTime.hours() == temporalProfile.relays[r].end().hours() && currentTime.minutes() == temporalProfile.relays[r].end().minutes();
-        // Set Relay State
-        if (toActivateTemp != toDeactivateTemp) {
-          if (toActivateTemp)  { temporalProfile.relays[r].SetRelayState(true); debug("Temp/"); debugv(r); debug(" Relay Activated"); }
-          if (toDeactivateTemp) { temporalProfile.relays[r].SetRelayState(false); debug("Temp/"); debugv(r); debug(" Relay Deactivated"); }
+        // === Update temporal profile ===
+        if (temporalProfile.isActive){
+          bool toActivateTemp = now.hour() == temporalProfile.relays[r].start.hours() && now.minute() == temporalProfile.relays[r].start.minutes();
+          if (toActivateTemp)  { temporalProfile.relays[r].SetRelayState(true); debug("Temp/"); debugv(r); debugln(" Relay Activated"); }
+          
+          bool toDeactivateTemp = now.hour() == temporalProfile.relays[r].end().hours() && now.minute() == temporalProfile.relays[r].end().minutes();
+          if (toDeactivateTemp) { temporalProfile.relays[r].SetRelayState(false); debug("Temp/"); debugv(r); debugln(" Relay Deactivated"); }
         }
       }
     }

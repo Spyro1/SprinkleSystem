@@ -20,14 +20,14 @@ struct Time {
     return *this;
   }  
   Time operator+(int plusMin) {
-    Time t(*this);
-    if (t.minute.getValue() + plusMin > Range60::maxLimit) t.hour += plusMin / Range60::range;
+    Time t(hours(), minutes());
+    if (t.minutes() + plusMin > Range60::maxLimit) t.hour += plusMin / Range60::range;
     t.minute += plusMin;
     return t;
   }
   Time operator-(int subMin) {
-    Time t(*this);
-    if (t.minute.getValue() - subMin <= Range60::minLimit) t.hour -= subMin / Range60::range;
+     Time t(hours(), minutes());
+    if (t.minutes() - subMin <= Range60::minLimit) t.hour -= subMin / Range60::range;
     t.minute -= subMin;
     return t;
   }

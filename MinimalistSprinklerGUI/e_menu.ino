@@ -18,8 +18,11 @@ void ExecuteMainMenuClickEvents(const int idx){
       Controller.temporalFromRelay = 0;
       Controller.temporalToRelay = RELAY_COUNT - 1;
       Controller.temporalSetter.duration = 0;
-      for (uint i = 0; i < RELAY_COUNT; i++)
+      Controller.temporalProfile.isActive = false;
+      for (uint i = 0; i < RELAY_COUNT; i++){
         Controller.temporalProfile.relays[i].reset();
+        Controller.temporalProfile.relays[i].SetRelayState(false);
+      }
       Controller.DrawStateScreen();
       break;
     case 2: // Test btn
@@ -178,10 +181,19 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       // Start button pressed
       else if (clickPos == BTN_2_4) {
         Controller.temporalProfile.isActive = true;
+        Controller.temporalSetter.start = Time(Controller.now.hour(), Controller.now.minute());
         for (uint r = 0; r < RELAY_COUNT; r++) {
           Controller.temporalProfile.relays[r].start = Controller.temporalSetter.start + Controller.temporalSetter.duration() * r; // set temporalkstarting times
           Controller.temporalProfile.relays[r].duration = Controller.temporalSetter.duration; // set temporal chain durations
         }        
+        // --- Debug ---
+        debugln("Chain Temp:");
+        for(int i = 0; i < RELAY_COUNT; i++){
+          char temp[50];
+          sprintf(temp, "%d:\tid: %d\tP: %d\tS: %02d:%02d\tD: %d\tState: %d", i, Controller.temporalProfile.relays[i].id, Controller.temporalProfile.relays[i].pin,
+          Controller.temporalProfile.relays[i].start.hours(), Controller.temporalProfile.relays[i].start.minutes(), Controller.temporalProfile.relays[i].duration(), Controller.temporalProfile.relays[i].state);
+          debugvln(temp);
+        }
         Controller.state = mainMenu;
         Controller.DrawStateScreen();
         break; // Exit

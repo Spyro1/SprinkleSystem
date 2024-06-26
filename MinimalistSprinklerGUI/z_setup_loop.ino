@@ -62,8 +62,7 @@ void setup() {
 }
 
 void loop() {
-
-  // -- Check touch --s
+  // -- Check touch --
   digitalWrite(13, HIGH);
   TSPoint p = ts.getPoint();
   digitalWrite(13, LOW);
@@ -99,9 +98,14 @@ void loop() {
     tft.fillScreen(BLACK);
     debugln("Backlight OFF");
   }
-  // -- Update clock on main screen --
+  // --- Update clock on main screen ---
   if (backlight && millis() % 1000 == 0) {
     Controller.now = rtc.now();
     if (Controller.state == mainMenu) PrintRTCToMainScreen();
+  }
+  // --- Update relays every minute ---
+  if (Controller.now.second() == 0) {
+    Controller.UpdateRelays();
+    delay(1000);
   }
 }

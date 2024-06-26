@@ -21,7 +21,7 @@ void LoadHumidity(unsigned char& humidity) { humidity = EEPROM.read(humidityAdre
 // -- Profile --
 void SaveProfileData(const struct Profile& profile, int profileNumber){
   EEPROM.update(profileStartAdress + profileNumber * (profileDataSize+1), profile.isActive ? 1 : 0);
-  debug("SaveProfile: "); debugv(profileNumber); debug(". IsActive: "); debugvln(profileStartAdress + profileNumber * (profileDataSize+1));
+  // debug("SaveProfile: "); debugv(profileNumber); debug(". IsActive: "); debugvln(profileStartAdress + profileNumber * (profileDataSize+1));
   for (int r = 0; r < RELAY_COUNT; r++){
     SaveRelayData(profile.relays[r], profileNumber, r);
   }
@@ -38,8 +38,8 @@ void SaveRelayData(const struct Relay& rel, int profileNumber, int relayNumber) 
   EEPROM.update(profileStartAdress + profileNumber * (profileDataSize+1) + 1 + relayDataSize * relayNumber, (uint)rel.start.hours());
   EEPROM.update(profileStartAdress + profileNumber * (profileDataSize+1) + 1 + relayDataSize * relayNumber + 1, (uint)rel.start.minutes());
   EEPROM.update(profileStartAdress + profileNumber * (profileDataSize+1) + 1 + relayDataSize * relayNumber + 2, rel.duration());
-  debug("Save: "); debugv(profileNumber); debug("/"); debugv(relayNumber); debug(":: H: "); debugv(profileStartAdress + profileNumber * (profileDataSize+1) + 1 + relayDataSize * relayNumber);
-  debug(" M: "); debugv(profileStartAdress + profileNumber * (profileDataSize+1) + 1 + relayDataSize * relayNumber + 1); debug(" D: "); debugvln(profileStartAdress + profileNumber * (profileDataSize+1) + 1 + relayDataSize * relayNumber + 2);
+  // debug("Save: "); debugv(profileNumber); debug("/"); debugv(relayNumber); debug(":: H: "); debugv(profileStartAdress + profileNumber * (profileDataSize+1) + 1 + relayDataSize * relayNumber);
+  // debug(" M: "); debugv(profileStartAdress + profileNumber * (profileDataSize+1) + 1 + relayDataSize * relayNumber + 1); debug(" D: "); debugvln(profileStartAdress + profileNumber * (profileDataSize+1) + 1 + relayDataSize * relayNumber + 2);
 }
 void LoadRelayData(struct Relay& rel, int profileNumber, int relayNumber) {
   int hour, min, dur;
