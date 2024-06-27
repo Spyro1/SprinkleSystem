@@ -1,8 +1,6 @@
 #include <Adafruit_GFX.h> // Core graphics library
 #include <MCUFRIEND_kbv.h>
 #include <TouchScreen.h>
-#include <SPI.h>   // f.k. for Arduino-1.5.2
-#include <SdFat.h> // Use the SdFat library
 #include <RTClib.h>
 
 // ======================== M A C R O S ========================
@@ -63,24 +61,18 @@
 #define YELLOW 0xFFE0
 #define BGDARKCYAN 0x032D // 0472
 // Menu spacing macros
-#define MARGIN 8    // Margin
+#define MARGIN 8 // Margin
 #define RADIUS 8 // Rounded rectangle corner radius
 #define x64 64   // Base Icon size for buttons
 #define x32 x64 / 2
 #define x16 x64 / 4
 #define x48 x16 + x32
-#define OPTIONSIZE 62 // Timing long button height
-#define SUBTITLE_H 38
 #define CENTER_H tft.width() / 2
 #define CENTER_V tft.height() / 2
 #define HEIGHT tft.height()
 #define WIDTH tft.width()
 #define FONT_1_H 5
-#define FONT_2_H FONT_1_H * 2
-#define FONT_3_H FONT_1_H * 3
 #define FONT_1_V 7
-#define FONT_2_V FONT_1_V * 2
-#define FONT_3_V FONT_1_V * 3
 // Menu button counts
 #define subMenuButtonCount 13
 #define mainScreenButtonCount 6
@@ -122,7 +114,6 @@
 
 // ======================== TYPE DEFINICIONS ========================
 typedef unsigned char uint;
-typedef uint16_t ulong;
 
 // ---- Macros for functionality ----
 #define PROFILE_COUNT 3
@@ -140,8 +131,3 @@ MCUFRIEND_kbv tft;
 
 // RTC module
 RTC_DS3231 rtc;
-
-// SD Card 
-//SoftSpiDriver<12, 11, 13> softSpi; // Bit-Bang on the Shield pins SDFat.h v2
-// SdFat SD;
-//#define SD_CS SdSpiConfig(10, DEDICATED_SPI, SD_SCK_MHZ(0), &softSpi)
