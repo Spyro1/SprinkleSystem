@@ -195,8 +195,11 @@ void DrawChainSprinkleMenu(){
   // -- Minute short "p" label --
   PrintLabel(strMinShort, COL_3_4_SEPARATOR.x, COL_3_4_SEPARATOR.y, 2);
   // -- Start button --
-  tft.fillRoundRect(SLOT_2_4.x, SLOT_2_4.y, x64, x64, x16, GREEN);
-  PrintLabel(strStart, SLOT_2_4.x + x32, SLOT_2_4.y + x32, 2, BLACK);
+  tft.fillRoundRect(SLOT_1_4.x, SLOT_1_4.y, x64, x64, x16, GREEN);
+  PrintLabel(strStart, SLOT_1_4.x + x32, SLOT_1_4.y + x32, 1, DARKGREEN);
+  // -- Back Btn --
+  tft.fillRoundRect(SLOT_3_4.x, SLOT_3_4.y, x64, x64, x16, RED); // Back button
+  PrintLabel(strStop, SLOT_3_4.x + x32, SLOT_3_4.y + x32, 1, WHITE); // Back label
   // -- Update chain screen --
   UpdateChainSprinkleMenu();
 }
@@ -218,6 +221,12 @@ void DrawTestMenu(){
   // -- Reset Btn --
   tft.fillRoundRect(SLOT_3_4.x, SLOT_3_4.y, x64, x64, x16, RED); // Reset button
   PrintChar('X', SLOT_3_4.x + x32, SLOT_3_4.y + x32, 4, WHITE); // Reset label
+  // Preset the currently active relays
+  for (int r = 0; r < RELAY_COUNT; r++) {
+    for (int p = 0; p < PROFILE_COUNT; p++){
+      if (Controller.profiles[p].relays[r].state) {Controller.temporalProfile.relays[r].state = true; break;}
+    }
+  }
   // == Draws relay switches and numbers and labels to them ==
   UpdateTestMenu();
 }
@@ -243,6 +252,9 @@ void DrawSettingsMenu(){
   PrintLabel("Karban-", SLOT_3_1.x + x32, SLOT_3_1.y + x16, 1);
   PrintLabel("tartasi", SLOT_3_1.x + x32, SLOT_3_1.y + x32, 1);
   PrintLabel("panel", SLOT_3_1.x + x32, SLOT_3_1.y + x48, 1);
+  // -- Back Btn --
+  tft.fillRoundRect(SLOT_3_4.x, SLOT_3_4.y, x64, x64, x16, RED); // Back button
+  PrintLabel(strReset, SLOT_3_4.x + x32, SLOT_3_4.y + x32, 1, WHITE); // Back label
   // -- Update changes settings --
   UpdateSettingsMenu();
 }
@@ -298,7 +310,9 @@ void DrawDeveloperMenu(){
   tft.drawRoundRect(SLOT_1_4.x, SLOT_1_4.y, x64, x64, RADIUS, WHITE);
   PrintLabel("Relay", SLOT_1_4.x + x32, SLOT_1_4.y + x16);
   PrintLabel("Stats", SLOT_1_4.x + x32, SLOT_1_4.y + x32);
-
+  // -- Back Btn --
+  tft.drawRoundRect(SLOT_3_4.x, SLOT_3_4.y, x64, x64, x16, RED); // Back button
+  PrintLabel(strBack, SLOT_3_4.x + x32, SLOT_3_4.y + x32, 1, WHITE); // Back label
 }
 // ======================== UPDATE FUNCTIONS ========================
 

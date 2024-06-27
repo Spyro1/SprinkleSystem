@@ -2,7 +2,7 @@
 #include <EEPROM.h>
 
 // EEPROM system:
-#define styleAdress 0
+// #define styleAdress 0
 #define switchAdress 1
 #define humidityAdress 2
 #define profileStartAdress 3 
@@ -10,8 +10,8 @@
 #define profileDataSize relayDataSize * RELAY_COUNT 
 
 // -- Style --
-void SaveStyle(const unsigned char style) { EEPROM.update(styleAdress, style); }
-void LoadStyle(unsigned char& style) { style = EEPROM.read(styleAdress); }
+// void SaveStyle(const unsigned char style) { EEPROM.update(styleAdress, style); }
+// void LoadStyle(unsigned char& style) { style = EEPROM.read(styleAdress); }
 // -- mainSwitch --
 void SaveMainSwitch(const bool mainSwitch) { EEPROM.update(switchAdress, mainSwitch ? 1 : 0); }
 void LoadMainSwitch(bool& mainSwitch) { mainSwitch = EEPROM.read(switchAdress) != 0 ? true : false; }

@@ -3,7 +3,7 @@
 struct SystemController {
   // ==== Menu Variables ====
   // -- Save config vars --
-  menuStyle style;                  // !EEPROM! How beautiful the menu should be
+  // menuStyle style;                  // !EEPROM! How beautiful the menu should be
   bool mainSwitch;                  // !EEPROM! If true, then timing is processed, if false, then no automatic sprinkling
   uint humiditySensitivity;         // !EEPROM! Humidity sensitivity of the system
   Profile profiles[PROFILE_COUNT];  // !EEPROM! Time profiles when automatic sprinkling can happen
@@ -25,11 +25,11 @@ struct SystemController {
   // uint temporalDuration;
 
   // -- Constructor --
-  SystemController() : style(easy), mainSwitch(false), humiditySensitivity(0){
+  SystemController() : /* style(easy), */ mainSwitch(false), humiditySensitivity(0){
     // Load variables from EEPROM
-      unsigned char helperStyle;
-      LoadStyle(helperStyle);
-      style = (menuStyle)helperStyle;
+      // unsigned char helperStyle;
+      // LoadStyle(helperStyle);
+      // style = (menuStyle)helperStyle;
       LoadMainSwitch(mainSwitch);
       LoadHumidity(humiditySensitivity);
       for (uint p = 0; p < PROFILE_COUNT; p++){
@@ -49,10 +49,10 @@ struct SystemController {
     currentPage = 0;
     currentProfile = 0;
     currentRelay = 0;
-    temporalProfile.isActive = false;
     temporalSetter.start = Time(0,0);
-    for (uint i = 0; i < RELAY_COUNT; i++)
-      temporalProfile.relays[i].reset();
+    // temporalProfile.isActive = false;
+    // for (uint i = 0; i < RELAY_COUNT; i++)
+    //   temporalProfile.relays[i].reset();
     temporalSetter.duration = 0;
     temporalFromRelay = 0;
     temporalToRelay = RELAY_COUNT - 1;
@@ -83,7 +83,7 @@ struct SystemController {
           }
           // To deactivate
           if (now.hour() == temporalProfile.relays[r].end().hours() && now.minute() == temporalProfile.relays[r].end().minutes()) { 
-            temporalProfile.relays[r].SetRelayState(false); Serial.print(F("Temp/")); Serial.print(r); Serial.print(F(" Relay Deactivated"));  
+            temporalProfile.relays[r].SetRelayState(false); Serial.print(F("Temp/")); Serial.print(r); Serial.println(F(" Relay Deactivated"));  
             temporalProfile.relays[r].duration = 0;
           }
         }
@@ -116,7 +116,7 @@ struct SystemController {
     }
   }
   void SaveChanges(){
-    SaveStyle(style);
+    // SaveStyle(style);
     SaveMainSwitch(mainSwitch);
     SaveHumidity(humiditySensitivity);
     for (uint p = 0; p < PROFILE_COUNT; p++){

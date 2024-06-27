@@ -66,25 +66,23 @@ void loop() {
       Controller.Touched(x, y); // Call touch evaluating fucntion
     }
     lastTouched = millis();
-    delay(300);               // Delay for touching
-
+    delay(300); // Delay for touching
   }
-  // -- Check to turn off backlight --
-  if (backlight && (millis() - lastTouched) > BACKLIGHT_COOLDOWN) {
-    backlight = false;
-    tft.fillScreen(BLACK);
-    debugln("Backlight OFF");
-  }
-  // --- Update clock on main screen if backlight is on ---
-  if (backlight && millis() % 1000 == 0) {
-    if (Controller.state == mainMenu) PrintRTCToMainScreen();
+  if (backlight) {
+    // --- Update clock on main screen if backlight is on ---
+    if (Controller.state == mainMenu && millis() % 1000 == 0) PrintRTCToMainScreen();
+    // -- Check to turn off backlight --
+    if ((millis() - lastTouched) > BACKLIGHT_COOLDOWN) {
+      backlight = false;
+      tft.fillScreen(BLACK);
+      debugln("Backlight OFF");
+    }
   }
   // --- Update relays every minute ---
   if (!refreshed && Controller.now.second() == 0) {
     Controller.UpdateRelays();
     refreshed = true; // Set refreshed to true, to only run this code once every minute
     debugln("Relays refreshed = true");
-
   }
   // -- Set refreshed back to flase --
   if (refreshed && Controller.now.second() == 59){

@@ -17,3 +17,11 @@ Global variables use 1771 bytes (21%) of dynamic memory, leaving 6421 bytes for 
 Back
 Sketch uses 48218 bytes (18%) of program storage space. Maximum is 253952 bytes.
 Global variables use 2025 bytes (24%) of dynamic memory, leaving 6167 bytes for local variables. Maximum is 8192 bytes.
+------------------------
+Bascily done, style removed
+Sketch uses 48596 bytes (19%) of program storage space. Maximum is 253952 bytes.
+Global variables use 2031 bytes (24%) of dynamic memory, leaving 6161 bytes for local variables. Maximum is 8192 bytes.
+---------------------------
+Reset func implemented
+Sketch uses 48668 bytes (19%) of program storage space. Maximum is 253952 bytes.
+Global variables use 2041 bytes (24%) of dynamic memory, leaving 6151 bytes for local variables. Maximum is 8192 bytes.

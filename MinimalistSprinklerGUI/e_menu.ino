@@ -1,8 +1,8 @@
 // ******** menu.ino ********
 
-// ==== Declaration ====
-
 // ==== Menu functions ====
+
+void(* resetFunc) (void) = 0; //declare reset function @ address 0
 
 void RunMenu(){
   DrawMainMenu();
@@ -18,11 +18,11 @@ void ExecuteMainMenuClickEvents(const int idx){
       Controller.temporalFromRelay = 0;
       Controller.temporalToRelay = RELAY_COUNT - 1;
       Controller.temporalSetter.duration = 0;
-      Controller.temporalProfile.isActive = false;
-      for (uint i = 0; i < RELAY_COUNT; i++){
-        Controller.temporalProfile.relays[i].reset();
-        Controller.temporalProfile.relays[i].SetRelayState(false);
-      }
+      // Controller.temporalProfile.isActive = false;
+      // for (uint i = 0; i < RELAY_COUNT; i++){
+      //   Controller.temporalProfile.relays[i].reset();
+      //   Controller.temporalProfile.relays[i].SetRelayState(false);
+      // }
       DrawChainSprinkleMenu();
       break;
     case 2: // Test btn
@@ -51,7 +51,6 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
     case sprinkleProfiles:
       // Automatic timing buttons
       if (clickPos == BTN_1_1 || clickPos == BTN_2_1 || clickPos == BTN_3_1) {
-        // debugv(clickPos.y); debugln(". AutoTiming_Clicked"); // Debug
         Controller.state = sprinkleAuto;
         Controller.currentProfile = clickPos.y;
         Controller.temporalSetter = Controller.profiles[Controller.currentProfile].relays[0];
@@ -59,7 +58,6 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       }
       // Profile On/Off buttons
       else if (clickPos == BTN_1_4 || clickPos == BTN_2_4 || clickPos == BTN_3_4) {
-        // debugv(clickPos.y); debugln(". Profile_Clicked"); // Debug
         Controller.profiles[clickPos.y].isActive = !Controller.profiles[clickPos.y].isActive;
         UpdateSprinkleProfilesMenu(); // Updates ON/OFF button text and color
         Controller.unsavedChanges = true; // New changes were made
@@ -68,14 +66,16 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       else if (clickPos == BTN_1_2 || clickPos == BTN_1_3 || clickPos == BTN_2_2 || clickPos == BTN_2_3 || clickPos == BTN_3_2 || clickPos == BTN_3_3) {
         Controller.state = sprinkleRelays;
         Controller.currentProfile = clickPos.y;
-        // --- Debug ---
-        for(int i = 0; i < RELAY_COUNT; i++){
-          char temp[50];
-          sprintf(temp, "%d/%d:\tid: %d\tP: %d\tS: %02d:%02d\tD: %d\tState: %d", Controller.currentProfile, i, Controller.profiles[Controller.currentProfile].relays[i].id, 
-          Controller.profiles[Controller.currentProfile].relays[i].pin, Controller.profiles[Controller.currentProfile].relays[i].start.hours(), Controller.profiles[Controller.currentProfile].relays[i].start.minutes(),
-          Controller.profiles[Controller.currentProfile].relays[i].duration(), Controller.profiles[Controller.currentProfile].relays[i].state);
-          debugvln(temp);
-        }
+        #if DEBUG == 1
+          // --- Debug ---
+          for(int i = 0; i < RELAY_COUNT; i++){
+            char temp[50];
+            sprintf(temp, "%d/%d:\tid: %d\tP: %d\tS: %02d:%02d\tD: %d\tState: %d", Controller.currentProfile, i, Controller.profiles[Controller.currentProfile].relays[i].id, 
+            Controller.profiles[Controller.currentProfile].relays[i].pin, Controller.profiles[Controller.currentProfile].relays[i].start.hours(), Controller.profiles[Controller.currentProfile].relays[i].start.minutes(),
+            Controller.profiles[Controller.currentProfile].relays[i].duration(), Controller.profiles[Controller.currentProfile].relays[i].state);
+            debugvln(temp);
+          }
+        #endif
        DrawSprinkleRelayChooser(); // Draw relay chooser screen
       }
       break;
@@ -167,7 +167,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       // Decrease duration field
       else if (clickPos == BTN_3_3) Controller.temporalSetter.duration--;
       // Start button pressed
-      else if (clickPos == BTN_2_4) {
+      else if (clickPos == BTN_1_4) {
         Controller.temporalProfile.isActive = true;
         Controller.temporalSetter.start = Time(Controller.now.hour(), Controller.now.minute() + 1);
         for (uint r = 0; r < RELAY_COUNT; r++) {
@@ -193,6 +193,16 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
         Controller.state = mainMenu;
         DrawMainMenu();
         break; // Exit
+      }
+      // stop chain spriknle and turn off temporal profile
+      else if (clickPos == BTN_3_4){
+        Controller.temporalProfile.isActive = false;
+        for (uint r = 0; r < RELAY_COUNT; r++) {
+          Controller.temporalProfile.relays[r].SetRelayState(false);
+          Controller.temporalProfile.relays[r].start = 0;
+          Controller.temporalProfile.relays[r].duration = 0;
+        }
+        debugln("Chain stopped");
       }
       UpdateChainSprinkleMenu(); // Updates field numbers on screen (hour, minute, duration)
       break;
@@ -238,6 +248,9 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
         Controller.state = developer;
         DrawDeveloperMenu();
       }
+      else if (clickPos == BTN_3_4){
+        resetFunc();  //call reset
+      }
       break;
     case clockSetter:
       // Increase hour field
@@ -263,7 +276,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       if (clickPos == BTN_1_1) {
         Serial.println(F("= Idozitett profilok listaztasa ="));
         for (int p = 0; p < PROFILE_COUNT; p++) {
-          Serial.print(F("- Profil ")); Serial.print(p); Serial.println(F(". -"));
+          Serial.print(F("- Profil ")); Serial.print(p); Serial.print(F(" isActive: \t")); Serial.println(Controller.temporalProfile.isActive);Serial.println(F(". -"));
           for (int r = 0; r < RELAY_COUNT; r++) {
             char temp[50];
             sprintf(temp, " %d/%d:\tID: %d\tPin: %d \tS: %02d:%02d \tD: %d \tState: %d", p, r, Controller.profiles[p].relays[r].id, 
@@ -276,6 +289,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       // -- List temporal profiles button --
       else if (clickPos == BTN_1_2) {
         Serial.println(F("= Temporal profil listazasa ="));
+        Serial.print(F("isActive: \t")); Serial.println(Controller.temporalProfile.isActive);
         for(int i = 0; i < RELAY_COUNT; i++){
           char temp[50];
           sprintf(temp, " %d:\tID: %d\tPin: %d \tS: %02d:%02d \tD: %d \tState: %d", i, Controller.temporalProfile.relays[i].id, Controller.temporalProfile.relays[i].pin,
@@ -304,6 +318,10 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
             sprintf(temp, " Rele: %d \tPin: %d \tState: %d", r, RELAY_PINS[r], isActive);
             Serial.println(temp);
           }
+      }
+      else if (clickPos == BTN_3_4){
+        Controller.state = settings;
+        DrawSettingsMenu();
       }
       break;
     case mainMenu: 
