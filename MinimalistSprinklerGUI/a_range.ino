@@ -65,15 +65,12 @@ public:
     }
 };
 
-struct Range1024 : RangeInt<0,1023>{
-    Range1024(int value = 0) : RangeInt<0,1023>(value) {}
-};
 struct Range60 : RangeInt<0,59>{
     Range60(int value = 0) : RangeInt<0,59>(value) {}
 };
 struct Range24 : RangeInt<0,23>{
     Range24(int value = 0) : RangeInt<0,23>(value) {}
 };
-struct RangeRelays : RangeInt<0,RELAY_COUNT-1>{
-    RangeRelays(int value = 0) : RangeInt<0,RELAY_COUNT-1>(value) {}
-};
+// struct RangeRelays : RangeInt<0,RELAY_COUNT-1>{
+//     RangeRelays(int value = 0) : RangeInt<0,RELAY_COUNT-1>(value) {}
+// };

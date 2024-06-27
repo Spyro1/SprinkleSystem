@@ -3,7 +3,7 @@
 struct SystemController {
   // ==== Menu Variables ====
   // -- Save config vars --
-  // menuStyle style;                  // !EEPROM! How beautiful the menu should be
+  uint relayCount;                  // !EEPROM! Relay count
   bool mainSwitch;                  // !EEPROM! If true, then timing is processed, if false, then no automatic sprinkling
   uint humiditySensitivity;         // !EEPROM! Humidity sensitivity of the system
   Profile profiles[PROFILE_COUNT];  // !EEPROM! Time profiles when automatic sprinkling can happen
@@ -21,20 +21,16 @@ struct SystemController {
   Relay temporalSetter;
   uint temporalFromRelay;
   uint temporalToRelay;
-  // Time temporalStart;
-  // uint temporalDuration;
 
   // -- Constructor --
-  SystemController() : /* style(easy), */ mainSwitch(false), humiditySensitivity(0){
+  SystemController() : relayCount(MAX_RELAY_COUNT), mainSwitch(false), humiditySensitivity(0)  {
     // Load variables from EEPROM
-      // unsigned char helperStyle;
-      // LoadStyle(helperStyle);
-      // style = (menuStyle)helperStyle;
-      LoadMainSwitch(mainSwitch);
-      LoadHumidity(humiditySensitivity);
-      for (uint p = 0; p < PROFILE_COUNT; p++){
-        LoadProfileData(profiles[p], p);
-      }
+    LoadRelayCount(relayCount);
+    LoadMainSwitch(mainSwitch);
+    LoadHumidity(humiditySensitivity);
+    for (uint p = 0; p < PROFILE_COUNT; p++){
+      LoadProfileData(profiles[p], p);
+    }
     // Reaset running config
     ResetMenu();
   }
@@ -50,17 +46,14 @@ struct SystemController {
     currentProfile = 0;
     currentRelay = 0;
     temporalSetter.start = Time(0,0);
-    // temporalProfile.isActive = false;
-    // for (uint i = 0; i < RELAY_COUNT; i++)
-    //   temporalProfile.relays[i].reset();
     temporalSetter.duration = 0;
     temporalFromRelay = 0;
-    temporalToRelay = RELAY_COUNT - 1;
+    temporalToRelay = relayCount - 1;
   }
   /// Updates all relays. If current time is start, then activates, if end, then deactivates those relays. 
   void UpdateRelays() {
     if (mainSwitch) { // If the main switch is on
-      for (uint r = 0; r < RELAY_COUNT; r++) {
+      for (uint r = 0; r < relayCount; r++) {
         // === Update timed profiles ===
         for (uint p = 0; p < PROFILE_COUNT && profiles[p].isActive; p++) {
           // -- If the duration of the relay is greater than 0 --
@@ -116,7 +109,7 @@ struct SystemController {
     }
   }
   void SaveChanges(){
-    // SaveStyle(style);
+    SaveRelayCount(relayCount);
     SaveMainSwitch(mainSwitch);
     SaveHumidity(humiditySensitivity);
     for (uint p = 0; p < PROFILE_COUNT; p++){

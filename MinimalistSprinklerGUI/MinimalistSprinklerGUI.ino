@@ -105,6 +105,7 @@
 #define strThirdProfile "3. Profil"
 #define strFromRelay "Reletol"
 #define strToRelay "Releig"
+#define strRelayCount "Releszam"
 #define strDuration "Idotartam"
 #define strSenitivity "Erzekenyseg"
 #define strStop "Leallit"
@@ -113,7 +114,7 @@
 #define strSaved "Mentve"
 #define strBack "Vissza"
 #define strStart "Indit"
-#define strMainSwitch "Fokapcsolo:"
+#define strMainSwitch "Fokapcsolo"
 #define strFromTag "-tol"
 #define strByMinute "percenkent"
 #define strMinShort "p"
@@ -125,10 +126,9 @@ typedef uint16_t ulong;
 
 // ---- Macros for functionality ----
 #define PROFILE_COUNT 3
-#define RELAY_COUNT 16 // Relay Pins: 23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53
+// #define RELAY_COUNT 16 // Relay Pins: 23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53
+#define MAX_RELAY_COUNT 16
 uint RELAY_PINS[] = {23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53};
-
-// ======================== DECLARATIONS ========================
 
 // ======================== STATIC VARIABLE DECLARATIONS ========================
 

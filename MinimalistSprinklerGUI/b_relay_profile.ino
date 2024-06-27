@@ -36,10 +36,10 @@ uint8_t Relay::idCounter = 0; // Set default value to id counter
 // ==== Profile ====
 struct Profile {
     bool isActive;             // !EEPROM!
-    Relay relays[RELAY_COUNT]; // !EEPROM!
+    Relay relays[MAX_RELAY_COUNT]; // !EEPROM!
 
     Profile() : isActive(false) {
-      for (uint i = 0; i < RELAY_COUNT; i++){
+      for (uint i = 0; i < MAX_RELAY_COUNT; i++){
         relays[i].pin = RELAY_PINS[i]; // Set pins to relays
         relays[i].SetRelayState(relays[i].state); // set default state
       }

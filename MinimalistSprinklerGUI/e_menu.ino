@@ -16,10 +16,10 @@ void ExecuteMainMenuClickEvents(const int idx){
     case 1: // Chain btn
       Controller.state = chainSprinkler;
       Controller.temporalFromRelay = 0;
-      Controller.temporalToRelay = RELAY_COUNT - 1;
+      Controller.temporalToRelay = Controller.relayCount - 1;
       Controller.temporalSetter.duration = 0;
       // Controller.temporalProfile.isActive = false;
-      // for (uint i = 0; i < RELAY_COUNT; i++){
+      // for (uint i = 0; i < Controller.relayCount; i++){
       //   Controller.temporalProfile.relays[i].reset();
       //   Controller.temporalProfile.relays[i].SetRelayState(false);
       // }
@@ -68,7 +68,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
         Controller.currentProfile = clickPos.y;
         #if DEBUG == 1
           // --- Debug ---
-          for(int i = 0; i < RELAY_COUNT; i++){
+          for(int i = 0; i < Controller.relayCount; i++){
             char temp[50];
             sprintf(temp, "%d/%d:\tid: %d\tP: %d\tS: %02d:%02d\tD: %d\tState: %d", Controller.currentProfile, i, Controller.profiles[Controller.currentProfile].relays[i].id, 
             Controller.profiles[Controller.currentProfile].relays[i].pin, Controller.profiles[Controller.currentProfile].relays[i].start.hours(), Controller.profiles[Controller.currentProfile].relays[i].start.minutes(),
@@ -141,7 +141,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       else if (clickPos == BTN_1_4 || clickPos == BTN_3_4) {
         // Save pressed
         if (clickPos == BTN_1_4) {
-          for (uint r = 0; r < RELAY_COUNT; r++) {
+          for (uint r = 0; r < Controller.relayCount; r++) {
             Controller.profiles[Controller.currentProfile].relays[r].start = Controller.temporalSetter.start + (Controller.temporalSetter.duration() * r); // set starting time in a automatic chain
             Controller.profiles[Controller.currentProfile].relays[r].duration = Controller.temporalSetter.duration; // set duration
             Controller.unsavedChanges = true; // Modified automatic setting
@@ -155,11 +155,11 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       break;
     case chainSprinkler:
       // Increase hour field
-      if (clickPos == BTN_1_1 && Controller.temporalFromRelay < Controller.temporalToRelay && Controller.temporalFromRelay < RELAY_COUNT - 1) Controller.temporalFromRelay++;
+      if (clickPos == BTN_1_1 && Controller.temporalFromRelay < Controller.temporalToRelay && Controller.temporalFromRelay < Controller.relayCount - 1) Controller.temporalFromRelay++;
       // Decrease hour field
       else if (clickPos == BTN_3_1 && Controller.temporalFromRelay > 0) Controller.temporalFromRelay--;
       // Increase minute field
-      else if (clickPos == BTN_1_2 && Controller.temporalToRelay < RELAY_COUNT - 1) Controller.temporalToRelay++;
+      else if (clickPos == BTN_1_2 && Controller.temporalToRelay < Controller.relayCount - 1) Controller.temporalToRelay++;
       // Decrease minute field
       else if (clickPos == BTN_3_2 && Controller.temporalFromRelay < Controller.temporalToRelay && Controller.temporalToRelay > 0) Controller.temporalToRelay--;
       // Increase duration field
@@ -170,7 +170,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       else if (clickPos == BTN_1_4) {
         Controller.temporalProfile.isActive = true;
         Controller.temporalSetter.start = Time(Controller.now.hour(), Controller.now.minute() + 1);
-        for (uint r = 0; r < RELAY_COUNT; r++) {
+        for (uint r = 0; r < Controller.relayCount; r++) {
           if (r >= Controller.temporalFromRelay && r <= Controller.temporalToRelay) { // Set timing to selected range
             Controller.temporalProfile.relays[r].start = Controller.temporalSetter.start + Controller.temporalSetter.duration() * (r - Controller.temporalFromRelay); // set temporalkstarting times
             Controller.temporalProfile.relays[r].duration = Controller.temporalSetter.duration; // set temporal chain durations
@@ -183,7 +183,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
         #if DEBUG == 1
           // --- Debug ---
           debugln("Chain Temp:");
-          for(int i = 0; i < RELAY_COUNT; i++){
+          for(int i = 0; i < Controller.relayCount; i++){
             char temp[50];
             sprintf(temp, "%d:\tid: %d\tP: %d\tS: %02d:%02d\tD: %d\tState: %d", i, Controller.temporalProfile.relays[i].id, Controller.temporalProfile.relays[i].pin,
             Controller.temporalProfile.relays[i].start.hours(), Controller.temporalProfile.relays[i].start.minutes(), Controller.temporalProfile.relays[i].duration(), Controller.temporalProfile.relays[i].state);
@@ -197,7 +197,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       // stop chain spriknle and turn off temporal profile
       else if (clickPos == BTN_3_4){
         Controller.temporalProfile.isActive = false;
-        for (uint r = 0; r < RELAY_COUNT; r++) {
+        for (uint r = 0; r < Controller.relayCount; r++) {
           Controller.temporalProfile.relays[r].SetRelayState(false);
           Controller.temporalProfile.relays[r].start = 0;
           Controller.temporalProfile.relays[r].duration = 0;
@@ -214,7 +214,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       }
       // Reset all switches to off
       else if (clickPos == BTN_3_4){
-        for (int r = 0; r < RELAY_COUNT; r++){
+        for (int r = 0; r < Controller.relayCount; r++){
           Controller.temporalProfile.relays[r].SetRelayState(false);
         }
         UpdateTestMenu(); // Updates numbers of test switches
@@ -227,13 +227,24 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       }
       break;
     case settings:
-      if (clickPos == BTN_1_2){
+      if (clickPos == BTN_1_1){
         Controller.mainSwitch = !Controller.mainSwitch;
         Controller.unsavedChanges = true; // New changes were made
         UpdateSettingsMenu(); // Updates settings screen
       }
+      // Change relay count number
+      else if (clickPos == BTN_1_2 && Controller.relayCount < MAX_RELAY_COUNT) {
+        Controller.relayCount++;
+        Controller.unsavedChanges = true; // New changes were made
+        UpdateSettingsMenu(); // Updates settings screen
+      }
+      else if (clickPos == BTN_3_2 && Controller.relayCount > 1) {
+        Controller.relayCount--;
+        Controller.unsavedChanges = true; // New changes were made
+        UpdateSettingsMenu(); // Updates settings screen
+      }
       // Change humidity sensitivity
-      if (clickPos == BTN_1_3) {
+      else if (clickPos == BTN_1_3) {
         Controller.humiditySensitivity += 4;
         Controller.unsavedChanges = true; // New changes were made
         UpdateSettingsMenu(); // Updates settings screen
@@ -249,7 +260,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
         DrawDeveloperMenu();
       }
       else if (clickPos == BTN_3_4){
-        resetFunc();  //call reset
+        resetFunc(); // Reboot arduino
       }
       break;
     case clockSetter:
@@ -277,7 +288,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
         Serial.println(F("= Idozitett profilok listaztasa ="));
         for (int p = 0; p < PROFILE_COUNT; p++) {
           Serial.print(F("- Profil ")); Serial.print(p); Serial.print(F(" isActive: \t")); Serial.println(Controller.temporalProfile.isActive);Serial.println(F(". -"));
-          for (int r = 0; r < RELAY_COUNT; r++) {
+          for (int r = 0; r < Controller.relayCount; r++) {
             char temp[50];
             sprintf(temp, " %d/%d:\tID: %d\tPin: %d \tS: %02d:%02d \tD: %d \tState: %d", p, r, Controller.profiles[p].relays[r].id, 
             Controller.profiles[p].relays[r].pin, Controller.profiles[p].relays[r].start.hours(), Controller.profiles[p].relays[r].start.minutes(),
@@ -290,7 +301,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       else if (clickPos == BTN_1_2) {
         Serial.println(F("= Temporal profil listazasa ="));
         Serial.print(F("isActive: \t")); Serial.println(Controller.temporalProfile.isActive);
-        for(int i = 0; i < RELAY_COUNT; i++){
+        for(int i = 0; i < Controller.relayCount; i++){
           char temp[50];
           sprintf(temp, " %d:\tID: %d\tPin: %d \tS: %02d:%02d \tD: %d \tState: %d", i, Controller.temporalProfile.relays[i].id, Controller.temporalProfile.relays[i].pin,
           Controller.temporalProfile.relays[i].start.hours(), Controller.temporalProfile.relays[i].start.minutes(), Controller.temporalProfile.relays[i].duration(), Controller.temporalProfile.relays[i].state);
@@ -308,7 +319,7 @@ void ExecuteSubMenuClickEvents(const struct Point& clickPos) {
       }
       else if (clickPos == BTN_1_4) {
         Serial.println(F("= Relek állapota ="));
-        for (int r = 0; r < RELAY_COUNT; r++) {
+        for (int r = 0; r < Controller.relayCount; r++) {
             char temp[50];
             bool isActive = false;
             for (int p = 0; p < PROFILE_COUNT; p++){

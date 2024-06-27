@@ -222,7 +222,7 @@ void DrawTestMenu(){
   tft.fillRoundRect(SLOT_3_4.x, SLOT_3_4.y, x64, x64, x16, RED); // Reset button
   PrintChar('X', SLOT_3_4.x + x32, SLOT_3_4.y + x32, 4, WHITE); // Reset label
   // Preset the currently active relays
-  for (int r = 0; r < RELAY_COUNT; r++) {
+  for (int r = 0; r < Controller.relayCount; r++) {
     for (int p = 0; p < PROFILE_COUNT; p++){
       if (Controller.profiles[p].relays[r].state) {Controller.temporalProfile.relays[r].state = true; break;}
     }
@@ -239,7 +239,13 @@ void DrawSettingsMenu(){
   // == Line ==
   PrintDoubleLine(x32, WIDTH, WHITE);
   // -- Main Switch Label --
-  PrintLabel(strMainSwitch, SLOT_1_1.x + x32, SLOT_1_1.y + x32, 1);
+  PrintLabel(strMainSwitch, SLOT_2_1.x + x32, SLOT_2_1.y + 8, 1);
+  // -- Relay Count setter --
+  tft.fillRoundRect(SLOT_1_2.x, SLOT_1_2.y, x64, x64, x16, LIGHTGREY); // Increase hour
+  PrintChar('+', SLOT_1_2.x + x32, SLOT_1_2.y + x32, 4, BLACK); // +
+  PrintLabel(strRelayCount, COL_3_LABEL.x, COL_3_LABEL.y, 1); // Label
+  tft.fillRoundRect(SLOT_3_2.x, SLOT_3_2.y, x64, x64, x16, LIGHTGREY); // Decrease hour
+  PrintChar('-', SLOT_3_2.x + x32, SLOT_3_2.y + x32, 4, BLACK); // -
   // -- Humidity setter --
   tft.fillRoundRect(SLOT_1_3.x, SLOT_1_3.y, x64, x64, x16, LIGHTGREY); // Increase hour
   PrintChar('+', SLOT_1_3.x + x32, SLOT_1_3.y + x32, 4, BLACK); // +
@@ -329,7 +335,6 @@ void UpdateMainMenu() {
     PrintLabel(strSaved, MAIN_5.x + x32, MAIN_5.y + x32, 1, BLACK);
   }
 }
-
 void UpdateSprinkleProfilesMenu() {
   // === Update profile switches ==
   // Firs row
@@ -360,7 +365,6 @@ void UpdateSprinkleProfilesMenu() {
     PrintLabel(strOFF, SLOT_3_4.x + x32, SLOT_3_4.y + x32, 2); // OFF label
   }
 }
-
 void UpdateSprinkleRelayChooser() {
   // === Relay background circles ===
   tft.fillCircle(SLOT_1_1.x + x32, SLOT_1_1.y + x32, x32, MAROON);
@@ -381,7 +385,6 @@ void UpdateSprinkleRelayChooser() {
   PrintLabel(Controller.currentPage * 8 + 7, SLOT_2_3.x + x32, SLOT_2_3.y + x32, 2);
   PrintLabel(Controller.currentPage * 8 + 8, SLOT_2_4.x + x32, SLOT_2_4.y + x32, 2);
 }
-
 void UpdateSprinkleSetter() {
   // -- Hour setter number --
   tft.fillRect(SLOT_2_1.x + 8, SLOT_2_1.y + x16, x48, x32, BLACK);
@@ -508,19 +511,19 @@ void UpdateTestMenu() {
     PrintLabel(strOFF, SLOT_2_4.x + x32, SLOT_2_4.y + x48, 2, BLACK); // OFF label
   }
 }
-// void UpdateHumidityMenu() {
-  
-// }
 void UpdateSettingsMenu() {
   // === Main Switch ===
   if (Controller.mainSwitch){
-    tft.fillRoundRect(SLOT_1_2.x, SLOT_1_2.y, x64, x64, RADIUS * 2, GREEN);
-    PrintLabel(strON, SLOT_1_2.x + x32, SLOT_1_2.y + x32, 3, DARKGREEN);
+    tft.fillRoundRect(SLOT_1_1.x, SLOT_1_1.y, x64, x64, RADIUS * 2, GREEN);
+    PrintLabel(strON, SLOT_1_1.x + x32, SLOT_1_1.y + x32, 3, DARKGREEN);
   }
   else{
-    tft.fillRoundRect(SLOT_1_2.x, SLOT_1_2.y, x64, x64, RADIUS * 2, RED);
-    PrintLabel(strOFF, SLOT_1_2.x + x32, SLOT_1_2.y + x32, 3);
+    tft.fillRoundRect(SLOT_1_1.x, SLOT_1_1.y, x64, x64, RADIUS * 2, RED);
+    PrintLabel(strOFF, SLOT_1_1.x + x32, SLOT_1_1.y + x32, 3);
   }
+  // -- Relay count number --
+  tft.fillRect(SLOT_2_2.x, SLOT_2_2.y + x16, x64, x32, BLACK);
+  PrintLabel(Controller.relayCount, SLOT_2_2.x + x32, SLOT_2_2.y + x32, 3);
   // -- Humidity sensitivity number --
   tft.fillRect(SLOT_2_3.x, SLOT_2_3.y + x16, x64, x32, BLACK);
   PrintLabel(Controller.humiditySensitivity, SLOT_2_3.x + x32, SLOT_2_3.y + x32, 3);
