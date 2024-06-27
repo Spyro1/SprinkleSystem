@@ -12,15 +12,15 @@ void setup() {
   // -- Start Serial Monitor --
   Serial.begin(9600);
   Serial.println(F("Paint!"));
-
   // -- Setup tft panel --
   tft.reset();
+  debugln("Eljut1");
   uint16_t identifier = tft.readID(); // Found ILI9341 LCD driver
   tft.begin(identifier);
   pinMode(13, OUTPUT);
   tft.setRotation(1);
   tft.fillScreen(BLACK);
-
+  debugln("Eljut2");
   // -- Setup RTC module --
   if (!rtc.begin()) {
     Serial.println(F("Couldn't find RTC"));
@@ -32,6 +32,7 @@ void setup() {
   
   // -- Setup Controller --
   Controller.now = rtc.now();
+  debugln("Eljut3");
   Controller.StartMenu();
   lastTouched = millis();
 }
