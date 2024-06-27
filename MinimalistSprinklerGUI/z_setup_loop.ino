@@ -26,13 +26,14 @@ void setup() {
     Serial.println(F("Couldn't find RTC"));
   }
   else if (!rtc.lostPower()) {
+    debugln("Eljut3");
     Serial.println(F("RTC is NOT running, let's set the time!"));
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   }
   
   // -- Setup Controller --
   Controller.now = rtc.now();
-  debugln("Eljut3");
+  debugln("Eljut4");
   Controller.StartMenu();
   lastTouched = millis();
 }
