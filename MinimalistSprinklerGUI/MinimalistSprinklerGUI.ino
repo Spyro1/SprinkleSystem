@@ -10,15 +10,15 @@
 // ---- Debugger ---
 #define DEBUG 1 // Set this to 1 to enable debug printers, 0 to disable
 #if DEBUG == 1
-  #define debug(str) Serial.print(F(str))
-  #define debugv(V) Serial.print(V)
-  #define debugln(str) Serial.println(F(str))
-  #define debugvln(V) Serial.println(V)
+#define debug(str) Serial.print(F(str))
+#define debugv(V) Serial.print(V)
+#define debugln(str) Serial.println(F(str))
+#define debugvln(V) Serial.println(V)
 #else
-  #define debug(str)
-  #define debugv(V)
-  #define debugln(str)
-  #define debugvln(V)
+#define debug(str)
+#define debugv(V)
+#define debugln(str)
+#define debugvln(V)
 #endif
 
 // ---- Touch Screen macros ----
@@ -63,7 +63,7 @@
 #define YELLOW 0xFFE0
 #define BGDARKCYAN 0x032D // 0472
 // Menu spacing macros
-#define MARGIN 8    // Margin
+#define MARGIN 8 // Margin
 #define RADIUS 8 // Rounded rectangle corner radius
 #define x64 64   // Base Icon size for buttons
 #define x32 x64 / 2
@@ -86,14 +86,14 @@
 #define mainScreenButtonCount 6
 // MainScreen string macros
 #define strMainTitle "Locsolorendszer" // Locsolórendszer
-#define strSprinkle "Locsolas"       // Locsolás
-#define strChain "Sorban"      // Sorban locsoolás
-#define strTest "Teszteles"  // Tesztelés
-#define strHumidity "Nedvesseg"     // Nedvesség
-#define strSettings "Beallitasok" // Beállítások
-#define strON "Be"       // Kikapcsolt állapot
-#define strOFF "Ki"       // Bekapcsolt állapot
-#define strClock "Ido"        // Idő beállítás
+#define strSprinkle "Locsolas"         // Locsolás
+#define strChain "Sorban"              // Sorban locsoolás
+#define strTest "Teszteles"            // Tesztelés
+#define strHumidity "Nedvesseg"        // Nedvesség
+#define strSettings "Beallitasok"      // Beállítások
+#define strON "Be"                     // Kikapcsolt állapot
+#define strOFF "Ki"                    // Bekapcsolt állapot
+#define strClock "Ido"                 // Idő beállítás
 // Submenu string macros
 #define strRealTimeSettings "Ido beallitas" // Idő beállítás almenő cím
 #define strHour "Ora"
@@ -105,6 +105,7 @@
 #define strThirdProfile "3. Profil"
 #define strFromRelay "Reletol"
 #define strToRelay "Releig"
+#define strRelayCount "Releszam"
 #define strDuration "Idotartam"
 #define strSenitivity "Erzekenyseg"
 #define strStop "Leallit"
@@ -113,7 +114,7 @@
 #define strSaved "Mentve"
 #define strBack "Vissza"
 #define strStart "Indit"
-#define strMainSwitch "Fokapcsolo:"
+#define strMainSwitch "Fokapcsolo"
 #define strFromTag "-tol"
 #define strByMinute "percenkent"
 #define strMinShort "p"
@@ -125,8 +126,9 @@ typedef uint16_t ulong;
 
 // ---- Macros for functionality ----
 #define PROFILE_COUNT 3
-#define RELAY_COUNT 16 // Relay Pins: 23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53
-uint RELAY_PINS[] = {23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53};
+// #define RELAY_COUNT 16 // Relay Pins: 23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53
+#define MAX_RELAY_COUNT 16
+uint RELAY_PINS[] = {23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53};
 
 // ======================== DECLARATIONS ========================
 
@@ -141,7 +143,7 @@ MCUFRIEND_kbv tft;
 // RTC module
 RTC_DS3231 rtc;
 
-// SD Card 
-//SoftSpiDriver<12, 11, 13> softSpi; // Bit-Bang on the Shield pins SDFat.h v2
+// SD Card
+// SoftSpiDriver<12, 11, 13> softSpi; // Bit-Bang on the Shield pins SDFat.h v2
 // SdFat SD;
-//#define SD_CS SdSpiConfig(10, DEDICATED_SPI, SD_SCK_MHZ(0), &softSpi)
+// #define SD_CS SdSpiConfig(10, DEDICATED_SPI, SD_SCK_MHZ(0), &softSpi)

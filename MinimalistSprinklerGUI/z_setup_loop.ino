@@ -25,10 +25,11 @@ void setup() {
   if (!rtc.begin()) {
     Serial.println(F("Couldn't find RTC"));
   }
-  else if (!rtc.lostPower()) {
+  else if (rtc.lostPower()) {
     Serial.println(F("RTC is NOT running, let's set the time!"));
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   }
+  else Serial.println(F("RTC is running correctly!"));
   
   // -- Setup Controller --
   Controller.now = rtc.now();
