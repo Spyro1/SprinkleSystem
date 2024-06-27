@@ -268,14 +268,25 @@ void ExecuteSubMenuClickEvents(const struct Point &clickPos)
     }
     break;
   case settings:
-    if (clickPos == BTN_1_2)
+    if (clickPos == BTN_1_1)
     {
       Controller.mainSwitch = !Controller.mainSwitch;
       Controller.unsavedChanges = true; // New changes were made
       UpdateSettingsMenu();             // Updates settings screen
     }
+    // Change relay count number
+    else if (clickPos == BTN_1_2 && Controller.relayCount < MAX_RELAY_COUNT) {
+      Controller.relayCount++;
+      Controller.unsavedChanges = true; // New changes were made
+      UpdateSettingsMenu(); // Updates settings screen
+    }
+    else if (clickPos == BTN_3_2 && Controller.relayCount > 1) {
+      Controller.relayCount--;
+      Controller.unsavedChanges = true; // New changes were made
+      UpdateSettingsMenu(); // Updates settings screen
+    }
     // Change humidity sensitivity
-    if (clickPos == BTN_1_3)
+    else if (clickPos == BTN_1_3)
     {
       Controller.humiditySensitivity += 4;
       Controller.unsavedChanges = true; // New changes were made

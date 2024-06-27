@@ -65,15 +65,13 @@ public:
         return *this;
     }
     // Overloading the postfix increment operator
-    RangeInt operator++(int)
-    {
+    RangeInt operator++(int){
         RangeInt temp = *this;
         setValue(value + 1);
         return temp;
     }
     // Overloading the prefix decrement operator
-    RangeInt &operator--()
-    {
+    RangeInt &operator--() {
         setValue(value - 1);
         return *this;
     }

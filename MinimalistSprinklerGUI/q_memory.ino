@@ -8,14 +8,11 @@
 #define humidityAdress 2
 #define profileStartAdress 3
 #define relayDataSize 3 // Start hour, start minute, duration in minutes
-#define profileDataSize relayDataSize *MAX_RELAY_COUNT
+#define profileDataSize relayDataSize * MAX_RELAY_COUNT
 
-// -- Style --
-// void SaveStyle(const unsigned char style) { EEPROM.update(styleAdress, style); }
-// void LoadStyle(unsigned char& style) { style = EEPROM.read(styleAdress); }
 // -- Relay count --
 void SaveRelayCount(const unsigned char& relayCount) { EEPROM.update(relayCountAdress, relayCount); }
-unsigned char LoadRelayCount() { return EEPROM.read(relayCountAdress); }
+void LoadRelayCount(unsigned char& relayCount) { relayCount = EEPROM.read(relayCountAdress); }
 // -- mainSwitch --
 void SaveMainSwitch(const bool mainSwitch) { EEPROM.update(switchAdress, mainSwitch ? 1 : 0); }
 void LoadMainSwitch(bool &mainSwitch) { mainSwitch = EEPROM.read(switchAdress) != 0 ? true : false; }

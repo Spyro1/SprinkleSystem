@@ -4,7 +4,7 @@ struct SystemController
 {
   // ==== Menu Variables ====
   // -- Save config vars --
-  unsigned char relayCount;                 // !EEPROM!
+  unsigned char relayCount;        // !EEPROM!
   bool mainSwitch;                 // !EEPROM! If true, then timing is processed, if false, then no automatic sprinkling
   uint humiditySensitivity;        // !EEPROM! Humidity sensitivity of the system
   Profile profiles[PROFILE_COUNT]; // !EEPROM! Time profiles when automatic sprinkling can happen
@@ -22,14 +22,12 @@ struct SystemController
   Relay temporalSetter;
   uint temporalFromRelay;
   uint temporalToRelay;
-  // Time temporalStart;
-  // uint temporalDuration;
 
   // -- Constructor --
   SystemController() : relayCount(MAX_RELAY_COUNT), mainSwitch(false), humiditySensitivity(0)
   {
     // Load variables from EEPROM    
-    relayCount = LoadRelayCount();
+    LoadRelayCount(relayCount);
     LoadMainSwitch(mainSwitch);
     LoadHumidity(humiditySensitivity);
     for (uint p = 0; p < PROFILE_COUNT; p++)
