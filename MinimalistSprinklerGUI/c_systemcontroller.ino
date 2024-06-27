@@ -61,89 +61,34 @@ struct SystemController {
   void UpdateRelays() {
     if (mainSwitch) { // If the main switch is on
       for (uint r = 0; r < RELAY_COUNT; r++) {
+        // === Update timed profiles ===
         for (uint p = 0; p < PROFILE_COUNT && profiles[p].isActive; p++) {
-          // === Update timed profiles ===
-          bool toActivate = now.hour() == profiles[p].relays[r].start.hours() && now.minute() == profiles[p].relays[r].start.minutes();
-          if (toActivate)  { profiles[p].relays[r].SetRelayState(true); debugv(p); debug("/"); debugv(r); debugln(" Relay Activated"); }
-          
-          bool toDeactivate = now.hour() == profiles[p].relays[r].end().hours() && now.minute() == profiles[p].relays[r].end().minutes();
-          if (toDeactivate) { profiles[p].relays[r].SetRelayState(false); debugv(p); debug("/"); debugv(r); debugln(" Relay Deactivated"); }
+          // -- If the duration of the relay is greater than 0 --
+          if (profiles[p].relays[r].duration() > 0){
+            // To activate
+            if (now.hour() == profiles[p].relays[r].start.hours() && now.minute() == profiles[p].relays[r].start.minutes()) {
+              profiles[p].relays[r].SetRelayState(true); Serial.print(p); Serial.print(F("/")); Serial.print(r); Serial.println(F(" Relay Activated")); 
+            }
+            // To deactivate
+            if (now.hour() == profiles[p].relays[r].end().hours() && now.minute() == profiles[p].relays[r].end().minutes()) {
+              profiles[p].relays[r].SetRelayState(false); Serial.print(p); Serial.print(F("/")); Serial.print(r); Serial.println(F(" Relay Deactivated")); 
+            }
+          }
         }
         // === Update temporal profile ===
-        if (temporalProfile.isActive){
-          bool toActivateTemp = now.hour() == temporalProfile.relays[r].start.hours() && now.minute() == temporalProfile.relays[r].start.minutes();
-          if (toActivateTemp)  { temporalProfile.relays[r].SetRelayState(true); debug("Temp/"); debugv(r); debugln(" Relay Activated"); }
-          
-          bool toDeactivateTemp = now.hour() == temporalProfile.relays[r].end().hours() && now.minute() == temporalProfile.relays[r].end().minutes();
-          if (toDeactivateTemp) { temporalProfile.relays[r].SetRelayState(false); debug("Temp/"); debugv(r); debugln(" Relay Deactivated"); }
+        if (temporalProfile.isActive && temporalProfile.relays[r].duration() > 0){
+          // To activate
+          if (now.hour() == temporalProfile.relays[r].start.hours() && now.minute() == temporalProfile.relays[r].start.minutes()) {
+            temporalProfile.relays[r].SetRelayState(true); Serial.print(F("Temp/")); Serial.print(r); Serial.println(F(" Relay Activated")); 
+          }
+          // To deactivate
+          if (now.hour() == temporalProfile.relays[r].end().hours() && now.minute() == temporalProfile.relays[r].end().minutes()) { 
+            temporalProfile.relays[r].SetRelayState(false); Serial.print(F("Temp/")); Serial.print(r); Serial.print(F(" Relay Deactivated"));  
+            temporalProfile.relays[r].duration = 0;
+          }
         }
       }
     }
-  }
-  void DrawStateScreen(){
-    switch(state) {
-      case sprinkleProfiles:
-        DrawSprinkleProfilesMenu();
-        break;
-      case sprinkleRelays:
-        DrawSprinkleRelayChooser();
-        break;
-      case sprinkleAuto:
-        DrawSprinkleAutomatic();
-        break;
-      case sprinkleSetter:
-        DrawSprinkleSetter();
-        break;
-      case chainSprinkler:
-        DrawChainSprinkleMenu();
-        break;
-      case testSprinkler:
-        DrawTestMenu();
-        break;
-        break;
-      case settings:
-        DrawSettingsMenu();
-        break;
-      case clockSetter:
-        DrawClockMenu();
-        break;
-      case mainMenu:
-      default:
-        DrawMainMenu(); // Default case if none of the above matches
-        break;
-    } 
-  }
-  void UpdateStateScreen(){
-    switch(state) {
-      case sprinkleProfiles:
-        UpdateSprinkleProfilesMenu();
-        break;
-      case sprinkleRelays:
-        UpdateSprinkleRelayChooser();
-        break;
-      case sprinkleAuto:
-        UpdateSprinkleAutomatic();
-        break;
-      case sprinkleSetter:
-        UpdateSprinkleSetter();
-        break;
-      case chainSprinkler:
-        UpdateChainSprinkleMenu();
-        break;
-      case testSprinkler:
-        UpdateTestMenu();
-        break;
-      case settings:
-        UpdateSettingsMenu();
-        break;
-      case clockSetter:
-        UpdateClockMenu();
-        break;
-      case mainMenu:
-      default:
-        UpdateMainMenu(); // Default case if none of the above matches
-        break;
-    } 
   }
   void Touched(int x, int y){
     // If the state is mainMenu 
@@ -159,19 +104,16 @@ struct SystemController {
     else if (homeBtn.isPressed(x,y)){
       state = mainMenu; // Go back to main Menu
       ResetMenu();
-      DrawStateScreen();
-      //debugln("Home Btn pressed"); 
+      DrawMainMenu();
     }
     else {
       for (uint i = 0; i < subMenuButtonCount; i++){
         if (subMenuBtns[i].isPressed(x,y)){
           ExecuteSubMenuClickEvents({i % 4, i / 4}); // NOT COMMENT
-          //debugv(i); debug(". Pressed: BTN_"); debugv(i/4+1); debug("_"); debugvln(i%4+1); // Debug
           break;
         }
       }
     }
-    // debug("State= "); debugvln(state);
   }
   void SaveChanges(){
     SaveStyle(style);

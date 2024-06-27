@@ -4,6 +4,7 @@
 #define BACKLIGHT_COOLDOWN 60000
 unsigned long lastTouched;
 bool backlight = true;
+bool refreshed = false;
 
 // ======================== SETUP AND LOOP FUNCTIONS ========================
 
@@ -20,38 +21,12 @@ void setup() {
   tft.setRotation(1);
   tft.fillScreen(BLACK);
 
-  // -- Setup SD card --
-  /*pinMode(10, OUTPUT);    // change this to 53 on a mega  // don't follow this!!
-  digitalWrite(10, HIGH); // Add this line
-  Serial.print(F("Initializing SD card..."));
-  if (!SD.begin(SD_CS))  {
-    Serial.println(F("Failed!"));
-  }
-  else  {
-    Serial.println(F("OK!"));
-    // Print files
-    #if DEBUG == 1
-      File dir = SD.open("/");
-      while (true)
-      {
-        File entry = dir.openNextFile();
-        if (!entry)
-        {
-          dir.rewindDirectory();
-          break;
-        }
-        entry.close();
-      }
-      dir.rewindDirectory();
-    #endif
-  }*/
-
   // -- Setup RTC module --
   if (!rtc.begin()) {
-    Serial.println("Couldn't find RTC");
+    Serial.println(F("Couldn't find RTC"));
   }
   else if (!rtc.lostPower()) {
-    Serial.println("RTC is NOT running, let's set the time!");
+    Serial.println(F("RTC is NOT running, let's set the time!"));
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   }
   
@@ -84,7 +59,7 @@ void loop() {
       Controller.state = mainMenu;
       backlight = true;
       debugln("Backlight ON");
-      Controller.DrawStateScreen();
+      DrawMainMenu();
       // Call Menu Touch to evaluate touch
     } 
     else {
@@ -100,12 +75,20 @@ void loop() {
     tft.fillScreen(BLACK);
     debugln("Backlight OFF");
   }
-  // --- Update clock on main screen ---
+  // --- Update clock on main screen if backlight is on ---
   if (backlight && millis() % 1000 == 0) {
     if (Controller.state == mainMenu) PrintRTCToMainScreen();
   }
   // --- Update relays every minute ---
-  if (Controller.now.second() == 0) {
+  if (!refreshed && Controller.now.second() == 0) {
     Controller.UpdateRelays();
+    refreshed = true; // Set refreshed to true, to only run this code once every minute
+    debugln("Relays refreshed = true");
+
+  }
+  // -- Set refreshed back to flase --
+  if (refreshed && Controller.now.second() == 59){
+    refreshed = false;
+    debugln("Refreshed set back to false");
   }
 }

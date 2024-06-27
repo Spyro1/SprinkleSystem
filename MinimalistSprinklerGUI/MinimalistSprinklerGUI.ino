@@ -98,10 +98,10 @@
 #define strRealTimeSettings "Ido beallitas" // Idő beállítás almenő cím
 #define strHour "Ora"
 #define strMinute "Perc"
-#define strRelaynum "Releszam"
-#define strRelay "Rele"
+// #define strRelaynum "Releszam"
+// #define strRelay "Rele"
 #define strAuto "Auto"
-#define strDurationShort "Idot."
+// #define strDurationShort "Idot."
 #define strProfileSettings "Profilok" // Időzítések be-ki kapcsolási menüje
 #define strFirstProfile "1. Profil"
 #define strSecondProfile "2. Profil"
@@ -110,7 +110,7 @@
 #define strToRelay "Releig"
 #define strDuration "Idotartam"
 #define strSenitivity "Erzekenyseg"
-#define strReset "Visszaallitas"
+// #define strReset "Visszaallitas"
 #define strSave "Mentes"
 #define strSaved "Mentve"
 #define strBack "Vissza"
@@ -118,7 +118,8 @@
 #define strMainSwitch "Fokapcsolo:"
 #define strFromTag "-tol"
 #define strByMinute "percenkent"
-#define strMinShort "perc"
+#define strMinShort "p"
+#define strDeveloper "Rendszergazda"
 
 // ======================== TYPE DEFINICIONS ========================
 typedef unsigned char uint;

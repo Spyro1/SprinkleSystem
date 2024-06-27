@@ -9,7 +9,8 @@ enum menuStates {
   chainSprinkler,
   testSprinkler,
   settings,
-  clockSetter
+  clockSetter,
+  developer
 };
 enum menuStyle {
   easy,

@@ -1,0 +1,19 @@
+Before F()-ing
+Sketch uses 48220 bytes (18%) of program storage space. Maximum is 253952 bytes.
+Global variables use 2213 bytes (27%) of dynamic memory, leaving 5979 bytes for local variables. Maximum is 8192 bytes.
+------------------------------
+After Menu.ino
+Sketch uses 48264 bytes (19%) of program storage space. Maximum is 253952 bytes.
+Global variables use 1967 bytes (24%) of dynamic memory, leaving 6225 bytes for local variables. Maximum is 8192 bytes.
+------------------------------
+After display.ino
+Sketch uses 48340 bytes (19%) of program storage space. Maximum is 253952 bytes.
+Global variables use 1787 bytes (21%) of dynamic memory, leaving 6405 bytes for local variables. Maximum is 8192 bytes.
+------------------------------
+After every changed string
+Sketch uses 48318 bytes (19%) of program storage space. Maximum is 253952 bytes.
+Global variables use 1771 bytes (21%) of dynamic memory, leaving 6421 bytes for local variables. Maximum is 8192 bytes.
+-------------------------
+Back
+Sketch uses 48218 bytes (18%) of program storage space. Maximum is 253952 bytes.
+Global variables use 2025 bytes (24%) of dynamic memory, leaving 6167 bytes for local variables. Maximum is 8192 bytes.

@@ -27,8 +27,8 @@ public:
         return value;
     }
     // Overloading the assignment operator
-    RangeInt& operator=(int value) {
-        setValue(value);
+    RangeInt& operator=(int val) {
+        setValue(val);
         return *this;
     }
     // Overloading the addition assignment operator
