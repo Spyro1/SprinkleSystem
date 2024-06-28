@@ -40,30 +40,25 @@ classDiagram
     direction TB
     class menuStates{
         <<enumeration>>
-        mainMenu, 
-        sprinkleProfiles, 
-        sprinkleRelays, 
+        mainMenu,
+        sprinkleProfiles,
+        sprinkleRelays,
         sprinkleAuto,
         sprinkleSetter,
         chainSprinkler,
-        test,
-        humidity,
+        testSprinkler,
         settings,
-        clock
+        clockSetter,
+        developer
     }
-    class menuStyle{
-        <<enumeration>>
-        easy,
-        medium,
-        quality
-    }
-    class Point{
-        + x: int
-        + y: int
-        + Point(x, y)
-        + op==() bool
-        + op!=() bool
-        + op=() Point&
+    class Point {
+        +int x
+        +int y
+        +Point(int x = 0, int y = 0)
+        +Point(const Point &p)
+        +operator==(const Point &p) bool
+        +operator!=(const Point &p) bool
+        +operator=(const Point &p) Point &
     }
     class RangeInt~min; max~{
         + value: int
@@ -79,9 +74,6 @@ classDiagram
         + op-=(value) RangeInt&
         + op++() RangeInt&
         + op--() RangeInt&
-    }
-    class Range1024~0;1023~{
-        + Range1024(value)    
     }
     class Range60~0;59~{
         + Range60(value)

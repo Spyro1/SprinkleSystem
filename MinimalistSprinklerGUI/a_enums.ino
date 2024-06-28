@@ -1,5 +1,8 @@
 // ******** enums.ino ********
 
+/**
+ * The `menuStates` enumeration defines the different states of the menu system.
+ */
 enum menuStates {
   mainMenu, 
   sprinkleProfiles, 
@@ -11,9 +14,4 @@ enum menuStates {
   settings,
   clockSetter,
   developer
-};
-enum menuStyle {
-  easy,
-  medium,
-  quality
 };

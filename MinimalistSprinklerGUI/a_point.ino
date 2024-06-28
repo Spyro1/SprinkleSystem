@@ -1,11 +1,40 @@
 // ******** point.ino ********
 
-typedef struct Point {
-  int x, y;
+/**
+ * @brief Represents a point in 2D space.
+ */
+struct Point {
+  int x, y; /**< The x and y coordinates of the point. */
+  /**
+    * @brief Default constructor.
+    * Initializes the point to the given coordinates. If no coordinates are provided, initializes the point to (0, 0).
+    * @param x_ The x coordinate. Default is 0.
+    * @param y_ The y coordinate. Default is 0.
+    */
   Point(int x_ = 0, int y_ = 0) : x(x_), y(y_) {}
+  /**
+   * @brief Copy constructor.
+   * Initializes the point to the same coordinates as another point.
+   * @param p The point to copy.
+   */
   Point(const Point& p) : x(p.x), y(p.y) {}
+   /**
+   * @brief Equality operator. Compares two points for equality.
+   * @param p The point to compare with.
+   * @return True if the points have the same coordinates, false otherwise.
+   */
   bool operator==(const Point &p) const { return this->x == p.x && this->y == p.y; }
+  /**
+   * @brief Inequality operator. Compares two points for inequality.
+   * @param p The point to compare with.
+   * @return True if the points have different coordinates, false otherwise.
+   */
   bool operator!=(const Point &p) const { return this->x != p.x || this->y != p.y; }
+  /**
+   * @brief Assignment operator. Assigns the coordinates of one point to another.
+   * @param p The point to assign from.
+   * @return A reference to the assigned point.
+   */
   Point& operator=(const Point &p) {
     if (this != &p) {
       this->x = p.x;
@@ -13,11 +42,7 @@ typedef struct Point {
     }
     return *this;
   }
-
-  Point operator+(int pusher){
-    return Point(x+pusher, y+pusher);
-  }
-} Point;
+};
 
 
 // ================== DECLARATIONS ==============
