@@ -31,7 +31,7 @@ struct Relay
    */
   void SetRelayState(bool value) {
     state = value;
-    if (!state) digitalWrite(pin, HIGH);
+    if (state) digitalWrite(pin, HIGH);
     else digitalWrite(pin, LOW);
   }
   /**

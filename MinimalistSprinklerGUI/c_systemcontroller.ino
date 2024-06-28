@@ -1,52 +1,58 @@
 // ******** SystemController.ino ********
 
+/**
+ * @brief Represents the main system controller for the sprinkler system. 
+ * The SystemController struct manages the main configuration, profiles, and the current state of the system,
+ * including methods to handle menu interactions and update relay states.
+ */
 struct SystemController
 {
   // ==== Menu Variables ====
-  // -- Save config vars --
-  unsigned char relayCount;        // !EEPROM!
-  bool mainSwitch;                 // !EEPROM! If true, then timing is processed, if false, then no automatic sprinkling
-  uint humiditySensitivity;        // !EEPROM! Humidity sensitivity of the system
-  Profile profiles[PROFILE_COUNT]; // !EEPROM! Time profiles when automatic sprinkling can happen
+  unsigned char relayCount;        /**< Number of relays in use (saved in EEPROM). */
+  bool mainSwitch;                 /**< Main switch to control automatic sprinkling (saved in EEPROM). If true, automatic sprinkling is enabled. */
+  uint humiditySensitivity;        /**< Humidity sensitivity of the system (saved in EEPROM). */
+  Profile profiles[PROFILE_COUNT]; /**< Array of time profiles for automatic sprinkling (saved in EEPROM). */
 
-  // -- Running config vars --
-  DateTime now;        // Current real time
-  menuStates state;    // Current state of the menu
-  uint currentPage;    // Current page of submenu
-  uint currentProfile; // Which period is edited currently
-  uint currentRelay;   // Which really is edited currently
-  bool unsavedChanges; // Indicates if there is unsaved changes
+  // ==== Running Configuration Variables ====
+  DateTime now;        /**< Current real-time. */
+  menuStates state;    /**< Current state of the menu. */
+  uint currentPage;    /**< Current page of the submenu. */
+  uint currentProfile; /**< Index of the profile being edited. */
+  uint currentRelay;   /**< Index of the relay being edited. */
+  bool unsavedChanges; /**< Indicates if there are unsaved changes. */
 
-  // -- Temporal settings for chain sprinkle and testing --
-  Profile temporalProfile;
-  Relay temporalSetter;
-  uint temporalFromRelay;
-  uint temporalToRelay;
+  // ==== Temporal Settings for Chain Sprinkle and Testing ====
+  Profile temporalProfile; /**< Temporary profile for testing purposes. */
+  Relay temporalSetter;    /**< Temporary relay setter for testing. */
+  uint temporalFromRelay;  /**< Starting relay for the temporary profile. */
+  uint temporalToRelay;    /**< Ending relay for the temporary profile. */
 
-  // -- Constructor --
-  SystemController() : relayCount(MAX_RELAY_COUNT), mainSwitch(false), humiditySensitivity(0)
-  {
+  /**
+   * @brief Constructor to initialize the SystemController instance.
+   */
+  SystemController() : relayCount(MAX_RELAY_COUNT), mainSwitch(false), humiditySensitivity(0){
     // Load variables from EEPROM    
     LoadRelayCount(relayCount);
     LoadMainSwitch(mainSwitch);
     LoadHumidity(humiditySensitivity);
-    for (uint p = 0; p < PROFILE_COUNT; p++)
-    {
+    for (uint p = 0; p < PROFILE_COUNT; p++) {
       LoadProfileData(profiles[p], p);
     }
     // Reaset running config
     ResetMenu();
   }
-  // -- Functions --
-  void StartMenu()
-  {
+  /**
+   * @brief Starts the menu interface. Initializes the menu state and runs the menu.
+   */
+  void StartMenu() {
     state = menuStates::mainMenu;
     ResetMenu();
     RunMenu();
   }
-
-  void ResetMenu()
-  {
+  /**
+   * @brief Resets the menu state and temporary settings.
+   */
+  void ResetMenu() {
     currentPage = 0;
     currentProfile = 0;
     currentRelay = 0;
@@ -55,107 +61,93 @@ struct SystemController
     temporalFromRelay = 0;
     temporalToRelay = relayCount - 1;
   }
-  /// Updates all relays. If current time is start, then activates, if end, then deactivates those relays.
-  void UpdateRelays()
-  {
-    if (mainSwitch)
-    { // If the main switch is on
-      for (uint r = 0; r < relayCount; r++)
-      {
-        // === Update timed profiles ===
-        for (uint p = 0; p < PROFILE_COUNT && profiles[p].isActive; p++)
-        {
+   /**
+   * @brief Updates the states of all relays based on the current time.
+   * Activates or deactivates relays according to their profiles and the main switch state.
+   */
+  void UpdateRelays() {
+    // If the main switch is on then do anything
+    if (mainSwitch) { 
+      for (uint r = 0; r < relayCount; r++) {
+        // -- Update timed profiles --
+        for (uint p = 0; p < PROFILE_COUNT && profiles[p].isActive; p++) {
           // -- If the duration of the relay is greater than 0 --
-          if (profiles[p].relays[r].duration() > 0)
-          {
+          if (profiles[p].relays[r].duration() > 0) {
             // To activate
-            if (now.hour() == profiles[p].relays[r].start.hours() && now.minute() == profiles[p].relays[r].start.minutes())
-            {
-              profiles[p].relays[r].SetRelayState(true);
-              Serial.print(p);
-              Serial.print(F("/"));
-              Serial.print(r);
-              Serial.println(F(" Relay Activated"));
+            if (now.hour() == profiles[p].relays[r].start.hours() && now.minute() == profiles[p].relays[r].start.minutes()) {
+              profiles[p].relays[r].SetRelayState(true); // Turn on relay
+              Serial.print(p); Serial.print(F("/")); Serial.print(r); Serial.println(F(" Relay Activated")); 
             }
             // To deactivate
-            if (now.hour() == profiles[p].relays[r].end().hours() && now.minute() == profiles[p].relays[r].end().minutes())
-            {
-              profiles[p].relays[r].SetRelayState(false);
-              Serial.print(p);
-              Serial.print(F("/"));
-              Serial.print(r);
-              Serial.println(F(" Relay Deactivated"));
+            if (now.hour() == profiles[p].relays[r].end().hours() && now.minute() == profiles[p].relays[r].end().minutes()) {
+              profiles[p].relays[r].SetRelayState(false); // Turn off relay
+              Serial.print(p); Serial.print(F("/")); Serial.print(r); Serial.println(F(" Relay Deactivated"));
             }
           }
         }
         // === Update temporal profile ===
-        if (temporalProfile.isActive && temporalProfile.relays[r].duration() > 0)
-        {
+        if (temporalProfile.isActive && temporalProfile.relays[r].duration() > 0) {
           // To activate
-          if (now.hour() == temporalProfile.relays[r].start.hours() && now.minute() == temporalProfile.relays[r].start.minutes())
-          {
-            temporalProfile.relays[r].SetRelayState(true);
-            Serial.print(F("Temp/"));
-            Serial.print(r);
-            Serial.println(F(" Relay Activated"));
+          if (now.hour() == temporalProfile.relays[r].start.hours() && now.minute() == temporalProfile.relays[r].start.minutes()) {
+            temporalProfile.relays[r].SetRelayState(true); // Turn on temporal relay
+            Serial.print(F("Temp/")); Serial.print(r); Serial.println(F(" Relay Activated"));
           }
           // To deactivate
-          if (now.hour() == temporalProfile.relays[r].end().hours() && now.minute() == temporalProfile.relays[r].end().minutes())
-          {
-            temporalProfile.relays[r].SetRelayState(false);
-            Serial.print(F("Temp/"));
-            Serial.print(r);
-            Serial.println(F(" Relay Deactivated"));
-            temporalProfile.relays[r].duration = 0;
+          if (now.hour() == temporalProfile.relays[r].end().hours() && now.minute() == temporalProfile.relays[r].end().minutes()) {
+            temporalProfile.relays[r].SetRelayState(false); // Turn off temporal relay
+            Serial.print(F("Temp/")); Serial.print(r); Serial.println(F(" Relay Deactivated")); temporalProfile.relays[r].duration = 0;
           }
         }
       }
     }
   }
-  void Touched(int x, int y)
-  {
-    // If the state is mainMenu
-    if (state == mainMenu)
-    {
-      for (uint i = 0; i < mainScreenButtonCount; i++)
-      {
-        if (mainBtns[i].isPressed(x, y))
-        {
+  /**
+   * @brief Handles touch events. 
+   * @param x The x-coordinate of the touch.
+   * @param y The y-coordinate of the touch.
+   */
+  void Touched(int x, int y) {
+    // If the state is mainMenu then test mainmenu buttons
+    if (state == mainMenu) {
+      for (uint i = 0; i < mainScreenButtonCount; i++) {
+        if (mainBtns[i].isPressed(x, y)) {
           ExecuteMainMenuClickEvents(i);
           break;
         }
       }
     }
-    // If the state is a subMenu
-    else if (homeBtn.isPressed(x, y))
-    {
+    // If home button is pressed then reset menu to mainMenu
+    else if (homeBtn.isPressed(x, y)) {
       state = mainMenu; // Go back to main Menu
       ResetMenu();
       DrawMainMenu();
     }
-    else
-    {
-      for (uint i = 0; i < subMenuButtonCount; i++)
-      {
-        if (subMenuBtns[i].isPressed(x, y))
-        {
-          ExecuteSubMenuClickEvents({i % 4, i / 4}); // NOT COMMENT
+    // If the state is a subMenu then test submenu buttons in the grid
+    else {
+      for (uint i = 0; i < subMenuButtonCount; i++) {
+        if (subMenuBtns[i].isPressed(x, y)) {
+          ExecuteSubMenuClickEvents({i % 4, i / 4});
           break;
         }
       }
     }
   }
-  void SaveChanges()
-  {
+  /**
+   * @brief Saves the current configuration to EEPROM.
+   */
+  void SaveChanges() {
     SaveRelayCount(relayCount);
     SaveMainSwitch(mainSwitch);
     SaveHumidity(humiditySensitivity);
-    for (uint p = 0; p < PROFILE_COUNT; p++)
-    {
+    for (uint p = 0; p < PROFILE_COUNT; p++) {
       SaveProfileData(profiles[p], p);
     }
     unsavedChanges = false;
   }
+   /**
+   * @brief Gets the currently selected relay. 
+   * @return Reference to the current relay.
+   */
   Relay &CurrentRelay() { return profiles[currentProfile].relays[currentRelay]; }
 };
 
