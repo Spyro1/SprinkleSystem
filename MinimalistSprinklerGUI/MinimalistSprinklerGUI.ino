@@ -125,6 +125,7 @@ typedef unsigned char uint;
 typedef uint16_t ulong;
 
 // ---- Macros for functionality ----
+#define SELECTOR_SLOTS 8
 #define PROFILE_COUNT 3
 // #define RELAY_COUNT 16 // Relay Pins: 23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53
 #define MAX_RELAY_COUNT 16

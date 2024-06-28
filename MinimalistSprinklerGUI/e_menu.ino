@@ -84,10 +84,14 @@ void ExecuteSubMenuClickEvents(const struct Point &clickPos)
     }
     break;
   case sprinkleRelays:
-    // Navigating buttons < | >
-    if (clickPos == BTN_3_1 || clickPos == BTN_3_2)
-    {
-      Controller.currentPage = Controller.currentPage == 0 ? 1 : 0;
+    // Navigating buttons LEFT <
+    if (clickPos == BTN_3_1 && Controller.currentPage > 0) {
+      Controller.currentPage--;
+      UpdateSprinkleRelayChooser();
+    }
+    // Navigating buttons RIGHT >
+    else if (clickPos == BTN_3_2 && Controller.currentPage < (Controller.relayCount-1) / 8) {
+      Controller.currentPage++;
       UpdateSprinkleRelayChooser();
     }
     // Back to Profile chooser menu
@@ -97,12 +101,13 @@ void ExecuteSubMenuClickEvents(const struct Point &clickPos)
       DrawSprinkleProfilesMenu();
     }
     // Relay chooser buttons
-    else if (clickPos.y < 2)
-    {
+    else if (clickPos.y < 2) {
       Controller.state = sprinkleSetter;
-      Controller.currentRelay = ((Controller.currentPage) * 8) + (clickPos.y) * 4 + (clickPos.x);
-      Controller.temporalSetter = Controller.CurrentRelay(); // .profiles[Controller.currentProfile].relays[Controller.currentRelay];
-      DrawSprinkleSetter();
+      Controller.currentRelay = ((Controller.currentPage) * SELECTOR_SLOTS) + (clickPos.y) * 4 + (clickPos.x);
+      if (Controller.currentRelay < Controller.relayCount){
+        Controller.temporalSetter = Controller.CurrentRelay();
+        DrawSprinkleSetter();
+      }
     }
     break;
   case sprinkleSetter:
@@ -244,10 +249,14 @@ void ExecuteSubMenuClickEvents(const struct Point &clickPos)
     UpdateChainSprinkleMenu(); // Updates field numbers on screen (hour, minute, duration)
     break;
   case testSprinkler:
-    // Navigating buttons < | >
-    if (clickPos == BTN_3_1 || clickPos == BTN_3_2)
-    {
-      Controller.currentPage = Controller.currentPage == 0 ? 1 : 0;
+    // Navigating buttons LEFT <
+    if (clickPos == BTN_3_1 && Controller.currentPage > 0) {
+      Controller.currentPage--;
+      UpdateTestMenu(); // Updates numbers of test switches
+    }
+    // Navigating buttons RIGHT >
+    else if (clickPos == BTN_3_2 && Controller.currentPage < (Controller.relayCount-1) / SELECTOR_SLOTS) {
+      Controller.currentPage++;
       UpdateTestMenu(); // Updates numbers of test switches
     }
     // Reset all switches to off
@@ -262,9 +271,11 @@ void ExecuteSubMenuClickEvents(const struct Point &clickPos)
     // Test Relay chooser buttons
     else if (clickPos.y < 2)
     {
-      Controller.currentRelay = ((Controller.currentPage) * 8) + (clickPos.x) + (clickPos.y) * 4;
-      Controller.temporalProfile.relays[Controller.currentRelay].SetRelayState(!Controller.temporalProfile.relays[Controller.currentRelay].state); // Switch state
-      UpdateTestMenu();                                                                                                                            // Updates the on/off state of a switch
+      Controller.currentRelay = ((Controller.currentPage) * SELECTOR_SLOTS) + (clickPos.x) + (clickPos.y) * 4;
+      if (Controller.currentRelay < Controller.relayCount){
+        Controller.temporalProfile.relays[Controller.currentRelay].SetRelayState(!Controller.temporalProfile.relays[Controller.currentRelay].state); // Switch state
+        UpdateTestMenu(); // Updates the on/off state of a switch
+      }
     }
     break;
   case settings:

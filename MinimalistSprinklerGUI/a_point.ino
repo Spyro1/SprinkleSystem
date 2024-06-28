@@ -44,6 +44,7 @@ const Point SLOT_3_1(8, 172);
 const Point SLOT_3_2(88, 172);
 const Point SLOT_3_3(168, 172);
 const Point SLOT_3_4(248, 172);
+const Point SLOTS[] = {SLOT_1_1, SLOT_1_2, SLOT_1_3, SLOT_1_4, SLOT_2_1, SLOT_2_2, SLOT_2_3, SLOT_2_4, SLOT_3_1, SLOT_3_2, SLOT_3_3, SLOT_3_4 };
 // SubMenu button identifiers
 const Point BTN_1_1(0, 0);
 const Point BTN_1_2(1, 0);
