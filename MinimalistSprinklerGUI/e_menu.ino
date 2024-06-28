@@ -69,17 +69,6 @@ void ExecuteSubMenuClickEvents(const struct Point &clickPos)
     {
       Controller.state = sprinkleRelays;
       Controller.currentProfile = clickPos.y;
-#if DEBUG == 1
-      // --- Debug ---
-      for (int i = 0; i < Controller.relayCount; i++)
-      {
-        char temp[50];
-        sprintf(temp, "%d/%d:\tid: %d\tP: %d\tS: %02d:%02d\tD: %d\tState: %d", Controller.currentProfile, i, Controller.profiles[Controller.currentProfile].relays[i].id,
-                Controller.profiles[Controller.currentProfile].relays[i].pin, Controller.profiles[Controller.currentProfile].relays[i].start.hours(), Controller.profiles[Controller.currentProfile].relays[i].start.minutes(),
-                Controller.profiles[Controller.currentProfile].relays[i].duration(), Controller.profiles[Controller.currentProfile].relays[i].state);
-        debugvln(temp);
-      }
-#endif
       DrawSprinkleRelayChooser(); // Draw relay chooser screen
     }
     break;
@@ -219,17 +208,6 @@ void ExecuteSubMenuClickEvents(const struct Point &clickPos)
           Controller.temporalProfile.relays[r].duration = 0;
         }
       }
-#if DEBUG == 1
-      // --- Debug ---
-      debugln("Chain Temp:");
-      for (uint i = 0; i < Controller.relayCount; i++)
-      {
-        char temp[50];
-        sprintf(temp, "%d:\tid: %d\tP: %d\tS: %02d:%02d\tD: %d\tState: %d", i, Controller.temporalProfile.relays[i].id, Controller.temporalProfile.relays[i].pin,
-                Controller.temporalProfile.relays[i].start.hours(), Controller.temporalProfile.relays[i].start.minutes(), Controller.temporalProfile.relays[i].duration(), Controller.temporalProfile.relays[i].state);
-        debugvln(temp);
-      }
-#endif
       Controller.state = mainMenu;
       DrawMainMenu();
       break; // Exit
@@ -348,10 +326,10 @@ void ExecuteSubMenuClickEvents(const struct Point &clickPos)
     // -- List timed profiles button --
     if (clickPos == BTN_1_1)
     {
-      Serial.println(F("= Idozitett profilok listaztasa ="));
+      Serial.println(F("= Timed profile list ="));
       for (int p = 0; p < PROFILE_COUNT; p++)
       {
-        Serial.print(F("- Profil "));
+        Serial.print(F("- Profile "));
         Serial.print(p);
         Serial.print(F(" isActive: \t"));
         Serial.println(Controller.temporalProfile.isActive);
@@ -359,9 +337,9 @@ void ExecuteSubMenuClickEvents(const struct Point &clickPos)
         for (uint r = 0; r < Controller.relayCount; r++)
         {
           char temp[50];
-          sprintf(temp, " %d/%d:\tID: %d\tPin: %d \tS: %02d:%02d \tD: %d \tState: %d", p, r, Controller.profiles[p].relays[r].id,
-                  Controller.profiles[p].relays[r].pin, Controller.profiles[p].relays[r].start.hours(), Controller.profiles[p].relays[r].start.minutes(),
-                  Controller.profiles[p].relays[r].duration(), Controller.profiles[p].relays[r].state);
+          sprintf(temp, " %d:\tID: %d\tPin: %d \tS: %02d:%02d \tD: %d \tState: %d", r, Controller.profiles[p].relays[r].id,
+            Controller.profiles[p].relays[r].pin, Controller.profiles[p].relays[r].start.hours(), Controller.profiles[p].relays[r].start.minutes(),
+            Controller.profiles[p].relays[r].duration(), Controller.profiles[p].relays[r].state);
           Serial.println(temp);
         }
       }
@@ -369,21 +347,21 @@ void ExecuteSubMenuClickEvents(const struct Point &clickPos)
     // -- List temporal profiles button --
     else if (clickPos == BTN_1_2)
     {
-      Serial.println(F("= Temporal profil listazasa ="));
+      Serial.println(F("= Temporal profile list ="));
       Serial.print(F("isActive: \t"));
       Serial.println(Controller.temporalProfile.isActive);
       for (uint i = 0; i < Controller.relayCount; i++)
       {
         char temp[50];
         sprintf(temp, " %d:\tID: %d\tPin: %d \tS: %02d:%02d \tD: %d \tState: %d", i, Controller.temporalProfile.relays[i].id, Controller.temporalProfile.relays[i].pin,
-                Controller.temporalProfile.relays[i].start.hours(), Controller.temporalProfile.relays[i].start.minutes(), Controller.temporalProfile.relays[i].duration(), Controller.temporalProfile.relays[i].state);
-        debugvln(temp);
+          Controller.temporalProfile.relays[i].start.hours(), Controller.temporalProfile.relays[i].start.minutes(), Controller.temporalProfile.relays[i].duration(), Controller.temporalProfile.relays[i].state);
+        Serial.println(temp);
       }
     }
     // -- List Controller fields --
     else if (clickPos == BTN_1_3)
     {
-      Serial.println(F("= Controller mezoinek listazasa ="));
+      Serial.println(F("= Controller fields ="));
       Serial.print(F(" MainSwitch: \t\t"));
       Serial.println(Controller.mainSwitch);
       Serial.print(F(" HumiditySensitivity: \t"));
@@ -399,9 +377,10 @@ void ExecuteSubMenuClickEvents(const struct Point &clickPos)
       sprintf(temp, "ID: %d\tPin: %d \tS: %02d:%02d \tD: %d \tState: %d", Controller.temporalSetter.id, Controller.temporalSetter.pin, Controller.temporalSetter.start.hours(), Controller.temporalSetter.start.minutes(), Controller.temporalSetter.duration(), Controller.temporalSetter.state);
       Serial.println(temp);
     }
+    // -- Print relay states --
     else if (clickPos == BTN_1_4)
     {
-      Serial.println(F("= Relek állapota ="));
+      Serial.println(F("= Relay States ="));
       for (uint r = 0; r < Controller.relayCount; r++)
       {
         char temp[50];
@@ -420,6 +399,21 @@ void ExecuteSubMenuClickEvents(const struct Point &clickPos)
         Serial.println(temp);
       }
     }
+    // -- Factory reser --
+    else if (clickPos == BTN_3_1){
+      Controller.relayCount = MAX_RELAY_COUNT;
+      Controller.mainSwitch = false;
+      Controller.humiditySensitivity = 0;
+      for (uint p = 0; p < PROFILE_COUNT; p++){
+        Controller.profiles[p].isActive = false;
+        for(uint r = 0; r < Controller.relayCount; r++){
+          Controller.profiles[p].relays[r].reset();
+        }
+      }
+      Controller.unsavedChanges = true;
+      Serial.println(F("System factory reseted!"));
+    }
+    // -- Back button --
     else if (clickPos == BTN_3_4)
     {
       Controller.state = settings;

@@ -15,10 +15,12 @@ void DrawMainMenu() {
   PrintLabel(strMainTitle, CENTER_H, CENTER_V - x16, 3);
   // === Sprinkle Btn ===
   tft.fillRoundRect(MAIN_1.x, MAIN_1.y, x64, x64, RADIUS, CYAN);
-  PrintLabel(strSprinkle, MAIN_1.x + x32, MAIN_1.y + x32, 1, BLACK);
+  PrintLabel(strSprinkle, MAIN_1.x + x32, MAIN_1.y + x32 - 8, 1, BLACK);
+  PrintLabel(strTiming, MAIN_1.x + x32, MAIN_1.y + x32 + 8, 1, BLACK);
   // === Chain Btn ===
-  tft.fillRoundRect(MAIN_2.x, MAIN_2.y, x64, x64, RADIUS, MAGENTA);
-  PrintLabel(strChain, MAIN_2.x + x32, MAIN_2.y + x32, 1, WHITE);
+  tft.fillRoundRect(MAIN_2.x, MAIN_2.y, x64, x64, RADIUS, PURPLE);
+  PrintLabel(strChain, MAIN_2.x + x32, MAIN_2.y + x32 - 8, 1, WHITE);
+  PrintLabel(strSprinkle, MAIN_2.x + x32, MAIN_2.y + x32 + 8, 1, WHITE);
   // === Test Btn ===
   tft.fillRoundRect(MAIN_3.x, MAIN_3.y, x64, x64, RADIUS, BLUE);
   PrintLabel(strTest, MAIN_3.x + x32, MAIN_3.y + x32, 1, WHITE);
@@ -27,7 +29,8 @@ void DrawMainMenu() {
   PrintLabel(strSettings, MAIN_4.x + x32, MAIN_4.y + x32, 1, WHITE);
   // === Clock Btn ===
   tft.fillRoundRect(MAIN_6.x, MAIN_6.y, x64, x64, RADIUS, NAVY);
-  PrintLabel(strClock, MAIN_6.x + x32, MAIN_6.y + x32);
+  PrintLabel(strClock, MAIN_6.x + x32, MAIN_6.y + x32 - 8);
+  PrintLabel(strSetting, MAIN_6.x + x32, MAIN_6.y + x32 + 8);
   // === Update mainmenu state (real time and on/off btn state) ===
   UpdateMainMenu();
 }
@@ -114,7 +117,7 @@ void DrawSprinkleSetter() {
   // -- Separator columns --
   PrintChar(':', COL_1_2_SEPARATOR.x, COL_1_2_SEPARATOR.y, 4);
   // -- Minute short "p" label --
-  PrintLabel(strMinShort, COL_3_4_SEPARATOR.x, COL_3_4_SEPARATOR.y, 2);
+  PrintLabel(strMinShort, COL_3_4_SEPARATOR.x - 8, COL_3_4_SEPARATOR.y , 2);
   // -- Save Btn --
   tft.fillRoundRect(SLOT_1_4.x, SLOT_1_4.y, x64, x64, x16, GREEN);       // Save button
   PrintLabel(strSave, SLOT_1_4.x + x32, SLOT_1_4.y + x32, 1, DARKGREEN); // Save label
@@ -196,13 +199,13 @@ void DrawChainSprinkleMenu() {
   // -- Separator arrow --
   PrintChar(0x1A, COL_1_2_SEPARATOR.x, COL_1_2_SEPARATOR.y, 4);
   // -- Minute short "p" label --
-  PrintLabel(strMinShort, COL_3_4_SEPARATOR.x, COL_3_4_SEPARATOR.y, 2);
+  PrintLabel(strMinShort, COL_3_4_SEPARATOR.x - 8, COL_3_4_SEPARATOR.y, 2);
   // -- Start button --
   tft.fillRoundRect(SLOT_1_4.x, SLOT_1_4.y, x64, x64, x16, GREEN);
   PrintLabel(strStart, SLOT_1_4.x + x32, SLOT_1_4.y + x32, 1, DARKGREEN);
-  // -- Back Btn --
-  tft.fillRoundRect(SLOT_3_4.x, SLOT_3_4.y, x64, x64, x16, RED);     // Back button
-  PrintLabel(strStop, SLOT_3_4.x + x32, SLOT_3_4.y + x32, 1, WHITE); // Back label
+  // -- Stop Btn --
+  tft.fillRoundRect(SLOT_3_4.x, SLOT_3_4.y, x64, x64, x16, RED);     // Stop button
+  PrintLabel(strStop, SLOT_3_4.x + x32, SLOT_3_4.y + x32, 1, WHITE); // Stop label
   // -- Update chain screen --
   UpdateChainSprinkleMenu();
 }
@@ -223,7 +226,8 @@ void DrawTestMenu() {
   PrintChar(0x10, SLOT_3_2.x + x32, SLOT_3_2.y + x32, 3, WHITE);
   // -- Reset Btn --
   tft.fillRoundRect(SLOT_3_4.x, SLOT_3_4.y, x64, x64, x16, RED); // Reset button
-  PrintChar('X', SLOT_3_4.x + x32, SLOT_3_4.y + x32, 4, WHITE);  // Reset label
+  // PrintChar('X', SLOT_3_4.x + x32, SLOT_3_4.y + x32, 4, WHITE);  // Reset label
+  PrintLabel(strStop, SLOT_3_4.x + x32, SLOT_3_4.y + x32, 1, WHITE); // Stop label
   // Preset the currently active relays
   for (int r = 0; r < Controller.relayCount; r++)
   {
@@ -325,6 +329,10 @@ void DrawDeveloperMenu() {
   tft.drawRoundRect(SLOT_1_4.x, SLOT_1_4.y, x64, x64, RADIUS, WHITE);
   PrintLabel("Relay", SLOT_1_4.x + x32, SLOT_1_4.y + x16);
   PrintLabel("Stats", SLOT_1_4.x + x32, SLOT_1_4.y + x32);
+  // -- Dactory reset button --
+  tft.drawRoundRect(SLOT_3_1.x, SLOT_3_1.y, x64, x64, RADIUS, BLUE);
+  PrintLabel("Factory", SLOT_3_1.x + x32, SLOT_3_1.y + x16);
+  PrintLabel("Reset", SLOT_3_1.x + x32, SLOT_3_1.y + x32);
   // -- Back Btn --
   tft.drawRoundRect(SLOT_3_4.x, SLOT_3_4.y, x64, x64, x16, RED);     // Back button
   PrintLabel(strBack, SLOT_3_4.x + x32, SLOT_3_4.y + x32, 1, WHITE); // Back label
@@ -371,6 +379,10 @@ void UpdateSprinkleRelayChooser() {
     // === Numbers ===
     PrintLabel(r + 1, SLOTS[r % SELECTOR_SLOTS].x + x32, SLOTS[r % SELECTOR_SLOTS].y + x32, 2);
   }
+  // Page number label
+  char temp[10];
+  sprintf(temp, "%d. oldal", Controller.currentPage + 1);
+  PrintLabelBg(temp, SLOT_3_3.x + x32, SLOT_3_3.y + x32, 1);
 }
 
 void UpdateSprinkleSetter() {
@@ -426,6 +438,10 @@ void UpdateTestMenu() {
       PrintLabel(strOFF, SLOTS[r % SELECTOR_SLOTS].x + x32, SLOTS[r % SELECTOR_SLOTS].y + x48, 2, BLACK);             // OFF label
     }
   }
+  // Page number label
+  char temp[10];
+  sprintf(temp, "%d. oldal", Controller.currentPage + 1);
+  PrintLabelBg(temp, SLOT_3_3.x + x32, SLOT_3_3.y + x32, 1);
 }
 void UpdateSettingsMenu() {
   // === Main Switch ===

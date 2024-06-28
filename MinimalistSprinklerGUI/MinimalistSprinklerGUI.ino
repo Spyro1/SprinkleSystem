@@ -8,7 +8,7 @@
 // ======================== M A C R O S ========================
 
 // ---- Debugger ---
-#define DEBUG 1 // Set this to 1 to enable debug printers, 0 to disable
+#define DEBUG 0 // Set this to 1 to enable debug printers, 0 to disable
 #if DEBUG == 1
 #define debug(str) Serial.print(F(str))
 #define debugv(V) Serial.print(V)
@@ -85,15 +85,17 @@
 #define subMenuButtonCount 13
 #define mainScreenButtonCount 6
 // MainScreen string macros
-#define strMainTitle "Locsolorendszer" // Locsolórendszer
-#define strSprinkle "Locsolas"         // Locsolás
-#define strChain "Sorban"              // Sorban locsoolás
-#define strTest "Teszteles"            // Tesztelés
-#define strHumidity "Nedvesseg"        // Nedvesség
-#define strSettings "Beallitasok"      // Beállítások
-#define strON "Be"                     // Kikapcsolt állapot
-#define strOFF "Ki"                    // Bekapcsolt állapot
-#define strClock "Ido"                 // Idő beállítás
+#define strMainTitle "Locsolorendszer" 
+#define strSprinkle "Locsolas"         
+#define strTiming "Idozites"          
+#define strChain "Sorban"              
+#define strTest "Teszteles"            
+#define strHumidity "Nedvesseg"        
+#define strSettings "Beallitasok"      
+#define strON "Be"                     
+#define strOFF "Ki"                    
+#define strClock "Ido"
+#define strSetting "Beallitas"                 
 // Submenu string macros
 #define strRealTimeSettings "Ido beallitas" // Idő beállítás almenő cím
 #define strHour "Ora"
