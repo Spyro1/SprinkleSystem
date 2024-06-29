@@ -471,51 +471,119 @@ void UpdateClockMenu() {
 }
 
 // ---- Display helper functions ----
+/**
+ * @brief Displays the current RTC time on the main screen.
+ * This function retrieves the current time from the RTC (Real Time Clock) and formats it as a string in the format HH:MM:SS.
+ * It then clears the previous time display on the screen and prints the new time at the specified location.
+ */
 void PrintRTCToMainScreen() {
   char temp[9];
   sprintf(temp, "%02d:%02d:%02d", Controller.now.hour(), Controller.now.minute(), Controller.now.second());
   tft.fillRect(CENTER_H - GetTextWidth(temp, 2) / 2 - 1, CENTER_V + x16 - GetTextHeight(2) / 2 - 1, GetTextWidth(temp, 2) + 2, GetTextHeight(2) + 2, BLACK);
   PrintLabel(temp, CENTER_H, CENTER_V + x16, 2);
 }
+/**
+ * @brief Prints a text label on the screen.
+ * @param label The text to be displayed.
+ * @param x The x-coordinate for the text's center position.
+ * @param y The y-coordinate for the text's center position.
+ * @param fontSize The size of the font.
+ * @param color The color of the text.
+ */
 void PrintLabel(const char *label, const int x, const int y, const int fontSize, const uint16_t color) {
   tft.setCursor(x - GetTextWidth(label, fontSize) / 2, y - GetTextHeight(fontSize) / 2);
   tft.setTextColor(color);
   tft.setTextSize(fontSize);
   tft.print(label);
 }
+/**
+ * @brief Prints a text label with a background color on the screen.
+ * @param label The text to be displayed.
+ * @param x The x-coordinate for the text's center position.
+ * @param y The y-coordinate for the text's center position.
+ * @param fontSize The size of the font.
+ * @param color The color of the text.
+ * @param bgColor The background color of the text.
+ */
 void PrintLabelBg(const char *label, const int x, const int y, const int fontSize, const uint16_t color, const uint16_t bgColor) {
   tft.setCursor(x - GetTextWidth(label, fontSize) / 2, y - GetTextHeight(fontSize) / 2);
   tft.setTextColor(color, bgColor);
   tft.setTextSize(fontSize);
   tft.print(label);
 }
+/**
+ * @brief Prints an integer value as a text label on the screen. 
+ * @param labelValue The integer value to be displayed.
+ * @param x The x-coordinate for the text's center position.
+ * @param y The y-coordinate for the text's center position.
+ * @param fontSize The size of the font.
+ * @param color The color of the text.
+ */
 void PrintLabel(const int labelValue, const int x, const int y, const int fontSize, const uint16_t color) {
   char temp[7];
   sprintf(temp, "%d", labelValue);
   PrintLabel(temp, x, y, fontSize, color);
 }
+/**
+ * @brief Prints an integer value as a text label with a background color on the screen.
+ * @param labelValue The integer value to be displayed.
+ * @param x The x-coordinate for the text's center position.
+ * @param y The y-coordinate for the text's center position.
+ * @param fontSize The size of the font.
+ * @param color The color of the text.
+ * @param bgColor The background color of the text.
+ */
 void PrintLabelBg(const int labelValue, const int x, const int y, const int fontSize, const uint16_t color, const uint16_t bgColor) {
   char temp[7];
   sprintf(temp, "%d", labelValue);
   PrintLabelBg(temp, x, y, fontSize, color, bgColor);
 }
+/**
+ * @brief Prints a single character on the screen. 
+ * @param charValue The character to be displayed.
+ * @param x The x-coordinate for the character's center position.
+ * @param y The y-coordinate for the character's center position.
+ * @param fontSize The size of the font.
+ * @param color The color of the character.
+ */
 void PrintChar(const char charValue, const int x, const int y, const int fontSize, const uint16_t color) {
   tft.setCursor(x - FONT_1_H * fontSize / 2, y - GetTextHeight(fontSize) / 2);
   tft.setTextColor(color);
   tft.setTextSize(fontSize);
   tft.write(charValue);
 }
+/**
+ * @brief Draws a double horizontal line on the screen.
+ * @param y The y-coordinate for the lines.
+ * @param width The width of the lines.
+ * @param color The color of the lines.
+ */
 void PrintDoubleLine(const int y, const int width, const uint16_t color) {
   tft.drawFastHLine((WIDTH - width) / 2, y, width, color); // Dupla vonal
   // tft.drawFastHLine((WIDTH - width) / 2, y + 1, width, color); // Dupla vonal
 }
+/**
+ * @brief Draws a home icon on the screen.
+ * This function draws a simple home icon using a filled rectangle and a filled triangle.
+ */
 void PrintHomeIcon() {
   tft.fillRect(SUBMENU_HOME_POS.x + 6, SUBMENU_HOME_POS.y + x16, 20, 14, CYAN);
   tft.fillTriangle(SUBMENU_HOME_POS.x + 2, SUBMENU_HOME_POS.y + x16, SUBMENU_HOME_POS.x + x16, SUBMENU_HOME_POS.y + 2, SUBMENU_HOME_POS.x + x32 - 2, SUBMENU_HOME_POS.y + x16, CYAN);
 }
+/**
+ * @brief Calculates the width of the given text based on the font size.
+ * @param text The text whose width is to be calculated.
+ * @param fontSize The size of the font.
+ * @return The width of the text in pixels.
+ */
 int GetTextWidth(const char *text, const int fontSize) {
   return strlen(text) * FONT_1_H * fontSize + (strlen(text) - 1) * fontSize;
 }
+/**
+ * @brief Calculates the height of the text based on the font size.
+ * @param fontSize The size of the font.
+ * @return The height of the text in pixels.
+ */
 int GetTextHeight(const int fontSize) {
   return FONT_1_V * fontSize;
 }

@@ -8,86 +8,93 @@ bool refreshed = false;
 
 // ======================== SETUP AND LOOP FUNCTIONS ========================
 
+/**
+ * @brief Setup function for initializing the system.
+ */
 void setup() {
   // -- Start Serial Monitor --
   Serial.begin(9600);
   Serial.println(F("Paint!"));
 
-  // -- Setup tft panel --
-  tft.reset();
-  uint16_t identifier = tft.readID(); // Found ILI9341 LCD driver
-  tft.begin(identifier);
-  pinMode(13, OUTPUT);
-  tft.setRotation(1);
-  tft.fillScreen(BLACK);
+  // -- Setup TFT panel --
+  tft.reset();                          // Reset the TFT panel
+  uint16_t identifier = tft.readID();   // Read the TFT panel identifier (ILI9341 LCD driver)
+  tft.begin(identifier);                // Initialize the TFT panel
+  pinMode(13, OUTPUT);                  // Set pin 13 as an output pin
+  tft.setRotation(1);                   // Set TFT panel rotation
+  tft.fillScreen(BLACK);                // Fill the screen with black color
 
   // -- Setup RTC module --
-  if (!rtc.begin()) {
+  if (!rtc.begin()) {                   // Initialize the RTC module
     Serial.println(F("Couldn't find RTC"));
-  }
-  else if (rtc.lostPower()) {
+  } else if (rtc.lostPower()) {         // Check if RTC lost power and set the time
     Serial.println(F("RTC is NOT running, let's set the time!"));
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  } else {                              // The RTC module works correctly
+    Serial.println(F("RTC is running correctly!"));
   }
-  else Serial.println(F("RTC is running correctly!"));
-  
+
   // -- Setup Controller --
-  Controller.now = rtc.now();
-  Controller.StartMenu();
-  lastTouched = millis();
+  Controller.now = rtc.now();           // Set current time in the controller
+  Controller.StartMenu();               // Start the menu system in the controller
+  lastTouched = millis();               // Record the current time
 }
 
+/**
+ * @brief Main loop function to run the system continuously.
+ */
 void loop() {
-  // -- Update Real Time -- 
-  Controller.now = rtc.now();
+  // -- Update Real Time --
+  Controller.now = rtc.now();           // Update the current time in the controller
+  
   // -- Check touch --
-  digitalWrite(13, HIGH);
-  TSPoint p = ts.getPoint();
-  digitalWrite(13, LOW);
-  // if sharing pins, you'll need to fix the directions of the touchscreen pins
-  // pinMode(XP, OUTPUT);
-  // pinMode(YM, OUTPUT);
-  pinMode(XM, OUTPUT);
+  digitalWrite(13, HIGH);               // Activate touch panel
+  TSPoint p = ts.getPoint();            // Get touch point coordinates
+  digitalWrite(13, LOW);                // Deactivate touch panel
+  pinMode(XM, OUTPUT);                  // Set pin directions for touch panel
   pinMode(YP, OUTPUT);
 
   // -- Check pressed --
-  if (p.z > MINPRESSURE && p.z < MAXPRESSURE) {
-    // Scale from 0->1023 to tft.width
-    int y = map(p.x, TS_MINX, TS_MAXX, tft.height(), 0);
-    int x = map(p.y, TS_MAXY, TS_MINY, tft.width(), 0);
+  if (p.z > MINPRESSURE && p.z < MAXPRESSURE) {  // If the screen is pressed with valid pressure
+    // Scale from 0->1023 to TFT width/height
+    int y = map(p.x, TS_MINX, TS_MAXX, tft.height(), 0);  // Map x coordinate
+    int x = map(p.y, TS_MAXY, TS_MINY, tft.width(), 0);   // Map y coordinate
 
     if (!backlight && x > 0 && x < WIDTH && y > 0 && y < HEIGHT) {
-      Controller.state = mainMenu;
-      backlight = true;
+      Controller.state = mainMenu;       // Set controller state to main menu
+      backlight = true;                  // Turn on backlight
       debugln("Backlight ON");
-      DrawMainMenu();
-      // Call Menu Touch to evaluate touch
-    } 
-    else {
-      Controller.Touched(x, y); // Call touch evaluating fucntion
+      DrawMainMenu();                    // Draw the main menu
+    } else {
+      Controller.Touched(x, y);          // Call touch evaluation function
     }
-    lastTouched = millis();
-    delay(300); // Delay for touching
+    lastTouched = millis();              // Record the time of the touch
+    delay(300);                          // Delay for debouncing
   }
+
   if (backlight) {
-    // --- Update clock on main screen if backlight is on ---
-    if (Controller.state == mainMenu && millis() % 1000 == 0) PrintRTCToMainScreen();
+    // -- Update clock on main screen if backlight is on --
+    if (Controller.state == mainMenu && millis() % 1000 == 0) {
+      PrintRTCToMainScreen();            // Print the current time to the main screen
+    }
     // -- Check to turn off backlight --
     if ((millis() - lastTouched) > BACKLIGHT_COOLDOWN) {
-      backlight = false;
-      tft.fillScreen(BLACK);
+      backlight = false;                 // Turn off backlight
+      tft.fillScreen(BLACK);             // Fill the screen with black color
       debugln("Backlight OFF");
     }
   }
-  // --- Update relays every minute ---
+
+  // -- Update relays every minute --
   if (!refreshed && Controller.now.second() == 0) {
-    Controller.UpdateRelays();
-    refreshed = true; // Set refreshed to true, to only run this code once every minute
+    Controller.UpdateRelays();           // Update relay states
+    refreshed = true;                    // Set refreshed to true to only run this code once every minute
     debugln("Relays refreshed = true");
   }
-  // -- Set refreshed back to flase --
+
+  // -- Set refreshed back to false --
   if (refreshed && Controller.now.second() == 59){
-    refreshed = false;
+    refreshed = false;                   // Reset refreshed flag
     debugln("Refreshed set back to false");
   }
 }
