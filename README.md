@@ -1,131 +1,21 @@
-# Locsolórendszer 2024-es változat
+# SprinkleSystem v2024
 
-> Készítette: Szenes Márton
+> Made by: Marton Szenes
+
+This project was made to make sprinkling possible in the garden automatically.
+It features many modes, like separate relay timing setting, automatic setting, multiple profiles, test mode, chain sprinkling, and more.
 
 ---
 
-## Menürendszer
+# Menu system
 
-- MainScreen
-  - Locsolás (BTN)
-  - Sorban (BTN)
-  - Tesztelés (BTN)
-  - Nedvesség (BTN)
-  - Beállítások (BTN)
-  - Ki/Be (BTN)
-  - Idő (BTN)
-    - home
-    - óra ↑ (BTN)
-    - óra ↓ (BTN)
-    - perc ↑ (BTN)
-    - perc ↓ (BTN)
--
-
-## Gombok
-
-- Általánosak: [] : vissza, mentés
-- MainScreen: **[7]** : Locsolás, Sorban, Tesztelés, Nedvesség, Időzítés, Be/Ki, Idő
-- Idő beállítás: **[4]** : óra fel, óra le, perc fel, perc le
-- Időzítések: **[6]** : 1.időszak, 2.időszak, 3.időszak, 1.On/Off, 2.On/Off, 3.On/Off
-- Időszak beállítás: **[8]** : Relé fel, Relé le, óra fel, óra le, perc fel, perc le, időtartam fel, időtartam le
-- Sorban: **[7]** V: Indítás, relétől fel, relétől le, reléig fel, reléig le, időtartam fel, időtartam le
-- Tesztelés **[10]** : (1-8) (9-16) kapcsoló, lapozás előre, lapozás vissza
-
-### Gombok kiosztása
-
-## Osztályszerkezet
-
-```mermaid
-classDiagram
-
-    class menuStates{
-        <<enumeration>>
-        mainMenu, 
-        sprinkleProfiles, 
-        sprinkleRelays, 
-        sprinkleAuto,
-        sprinkleSetter,
-        chainSprinkler,
-        test,
-        humidity,
-        settings,
-        clock
-    }
-    class menuStyle{
-        <<enumeration>>
-        easy,
-        medium,
-        quality
-    }
-    class Relay{
-        - idCounter: uint$
-        + id: uint
-        + pin: uint
-        + duration: uint 
-        + start: TimeSpan
-        + Relay()
-        + Relay(ID, Start, Duration, Pin)
-        + end() TimeSpan
-    }
-    class Profile{
-        + isActive: bool
-        + relays: Relay[]
-    }
-    class display{
-      <<interface>>
-        + DrawMainMenu()
-        + DrawSprinkleProfilesMenu()
-        + DrawSprinkleRelayChoser()
-        + DrawSprinkleSetter()
-        + DrawChainSprinkleMenu()
-        + DrawTestMenu()
-        + DrawHumidityMenu()
-        + DrawSettingsMenu()
-        + DrawClockMenu()
-    }
-    class Point{
-      + x: int
-      + y: int
-      + Point(x, y)
-      + op==() bool
-      + op!=() bool
-      + op=() Point&
-    }
-    class Size{
-      + Size(width, height)
-    }
-    
-    class System{
-        + style: menuStyle
-        + state: menuStates
-        + mainswitch: bool
-        + humiditySensitivity: uint
-        + profiles: Profile
-        + currentPage: uint
-        + currentProfile: uint
-        + currentRelay: uint
-        + temporalProfile: Profile
-        + temporalStart: TimeSpan
-        + temporalDuration: uint
-        + System()
-        + Reset()
-        + UpdateRelays(currentTime)
-        + getSelectedRelay()
-        
-        
-    }
-    
-    
-    System --> menuStyle
-    System --> menuStates
-    System *-- Profile
-    System --> display
-    
-    Profile *-- Relay
-    
-    Point <|-- Size
-
-```
-
-
-
+- Main menu
+  - Profile setter
+    - Automatic profile setter
+    - Relay chooser
+    - Profile switch
+  - Chain sprinkling
+  - Test sprinkling
+  - Settings menu
+  - Save button
+  - Time setting
