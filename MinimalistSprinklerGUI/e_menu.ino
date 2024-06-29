@@ -4,14 +4,11 @@
 
 void (*resetFunc)(void) = 0; // declare reset function @ address 0
 
-void RunMenu()
-{
+void RunMenu() {
   DrawMainMenu();
 }
-void ExecuteMainMenuClickEvents(const int idx)
-{
-  switch (idx)
-  {
+void ExecuteMainMenuClickEvents(const int idx) {
+  switch (idx) {
   case 0: // Sprinkle btn
     Controller.state = sprinkleProfiles;
     DrawSprinkleProfilesMenu();
@@ -44,8 +41,7 @@ void ExecuteMainMenuClickEvents(const int idx)
   }
 }
 
-void ExecuteSubMenuClickEvents(const struct Point &clickPos)
-{
+void ExecuteSubMenuClickEvents(const struct Point &clickPos) {
   switch (Controller.state)
   {
   case sprinkleProfiles:

@@ -1,4 +1,4 @@
-# Locsolórendszer 2024-es változat
+# Locsolórendszer v2024
 
 > Készítette: Szenes Márton
 
@@ -6,30 +6,7 @@
 
 ## Menürendszer
 
-- MainScreen
-  - Locsolás (BTN)
-  - Sorban (BTN)
-  - Tesztelés (BTN)
-  - Nedvesség (BTN)
-  - Beállítások (BTN)
-  - Ki/Be (BTN)
-  - Idő (BTN)
-    - home
-    - óra ↑ (BTN)
-    - óra ↓ (BTN)
-    - perc ↑ (BTN)
-    - perc ↓ (BTN)
--
 
-## Gombok
-
-- Általánosak: [] : vissza, mentés
-- MainScreen: **[7]** : Locsolás, Sorban, Tesztelés, Nedvesség, Időzítés, Be/Ki, Idő
-- Idő beállítás: **[4]** : óra fel, óra le, perc fel, perc le
-- Időzítések: **[6]** : 1.időszak, 2.időszak, 3.időszak, 1.On/Off, 2.On/Off, 3.On/Off
-- Időszak beállítás: **[8]** : Relé fel, Relé le, óra fel, óra le, perc fel, perc le, időtartam fel, időtartam le
-- Sorban: **[7]** V: Indítás, relétől fel, relétől le, reléig fel, reléig le, időtartam fel, időtartam le
-- Tesztelés **[10]** : (1-8) (9-16) kapcsoló, lapozás előre, lapozás vissza
 
 ### Gombok kiosztása
 
@@ -37,10 +14,10 @@
 
 ```mermaid
 classDiagram
-    direction TB
+    direction LR
     class menuStates{
         <<enumeration>>
-        mainMenu,
+        mainMenu, 
         sprinkleProfiles,
         sprinkleRelays,
         sprinkleAuto,
@@ -54,11 +31,11 @@ classDiagram
     class Point {
         +int x
         +int y
-        +Point(int x = 0, int y = 0)
-        +Point(const Point &p)
-        +operator==(const Point &p) bool
-        +operator!=(const Point &p) bool
-        +operator=(const Point &p) Point &
+        +Point(x = 0, y = 0)
+        +Point(p: Point)
+        +operator==(p: Point) bool
+        +operator!=(p: Point) bool
+        +operator=(p: Point) Point &
     }
     class RangeInt~min; max~{
         + value: int
@@ -108,15 +85,17 @@ classDiagram
         + Relay(ID, Start, Duration, Pin)
         + end() Time
         + SetRelayState(state) void
+        + reset() void
     }
     class Profile{
         + isActive: bool
         + relays: Relay[]
+        + Profile()
     }
     class SystemController{
-        + style: menuStyle
+        + relayCount: uint
         + mainswitch: bool
-        + humiditySensitivity: Range1024
+        + humiditySensitivity: uint
         + profiles: Profile[]
         + now: DateTime
         + state: menuStates
@@ -133,30 +112,32 @@ classDiagram
         + DrawStateScreen() void
         + UpdateStatesScreen() void
         + Touched(x, y) void
+        + SaveChanges() void
     }
 
     RangeInt <|-- Range24
+    RangeInt <|-- Range60
     Time *-- Range24
     Time *-- Range60
-    RangeInt <|-- Range60
-    RangeInt <|-- Range1024
 
-    SystemController *-- Range1024
     SystemController *-- Profile
     SystemController *-- Relay
+    SystemController *-- menuStates
+    SystemController --> TouchButton
+    SystemController --> memory
+    SystemController --> menu
+    SystemController --> display
     
     Profile *-- Relay
+    Relay *-- Time
     
-    TouchButton *-- Point   
-    
-    SystemController *-- menuStyle
-    SystemController *-- menuStates
-    
-    SystemController --> display
-    SystemController --> menu
-    SystemController --> memory
+    TouchButton *-- Point
     
     menu --> memory
+    menu --> Point
+    menu --> display
+    
+    display --> Point
     
     class display{
         <<functions>>
@@ -167,19 +148,35 @@ classDiagram
         + DrawSprinkleSetter()
         + DrawChainSprinkleMenu()
         + DrawTestMenu()
-        + DrawHumidityMenu()
         + DrawSettingsMenu()
         + DrawClockMenu()
+        + DrawDeveloperMenu()
+        + UpdateMainMenu()
+        + UpdateSprinkleProfilesMenu()
+        + UpdateSprinkleRelayChoser()
+        + UpdateSprinkleAutomatic()
+        + UpdateSprinkleSetter()
+        + UpdateChainSprinkleMenu()
+        + UpdateTestMenu()
+        + UpdateSettingsMenu()
+        + UpdateClockMenu()
+        + PrintRTCToMainScreen()
+        + PrintLabel(...)
+        + PrintLabelBg(...)
+        + PrintChar()
+        + PrintDoubleLine()
+        + PrintHomeIcon()
     }
     class menu{
         <<functions>>
         + RunMenu()
-        + ExecuteClickEvent(clickPos)
+        + ExecuteMainMenuClickEvents(idx: uint)
+        + ExecuteSubMenuClickEvents(clickPos: Point)
     }
     class memory{
         <<functions>>
-        + SaveStyle(style)
-        + LoadStyle(style&) 
+        + SaveRelayCount(relayCount&)
+        + LoadRelayCount(relayCount&) 
         + SaveMainSwitch(mainSwitch) 
         + LoadMainSwitch(mainSwitch&)
         + SaveHumidity(humidity)
@@ -239,5 +236,3 @@ stateDiagram
     }
     
 ```
-
-
