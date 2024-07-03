@@ -8,7 +8,7 @@
 // ======================== M A C R O S ========================
 
 // ---- Debugger ---
-#define DEBUG 0 // Set this to 1 to enable debug printers, 0 to disable
+#define DEBUG 1 // Set this to 1 to enable debug printers, 0 to disable
 #if DEBUG == 1
 #define debug(str) Serial.print(F(str))
 #define debugv(V) Serial.print(V)

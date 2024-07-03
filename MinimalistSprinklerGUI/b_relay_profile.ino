@@ -61,7 +61,7 @@ struct Profile
   Profile() : isActive(false) {
     for (uint i = 0; i < MAX_RELAY_COUNT; i++) {
       relays[i].pin = RELAY_PINS[i];            // Set pins to relays
-      relays[i].SetRelayState(relays[i].state); // Set default state
+      relays[i].SetRelayState(false); // Set default state
     }
   }
 };
