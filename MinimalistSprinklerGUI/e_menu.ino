@@ -327,8 +327,8 @@ void ExecuteSubMenuClickEvents(const struct Point &clickPos) {
       {
         Serial.print(F("- Profile "));
         Serial.print(p);
-        Serial.print(F(" isActive: \t"));
-        Serial.println(Controller.temporalProfile.isActive);
+        Serial.print(F(". isActive: \t"));
+        Serial.print(Controller.temporalProfile.isActive);
         Serial.println(F(". -"));
         for (uint r = 0; r < Controller.relayCount; r++)
         {
