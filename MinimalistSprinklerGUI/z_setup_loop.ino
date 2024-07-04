@@ -15,15 +15,19 @@ void setup() {
   // -- Start Serial Monitor --
   Serial.begin(9600);
   Serial.println(F("Paint!"));
-
-  // -- Setup TFT panel --
-  tft.reset();                          // Reset the TFT panel
+  
+// -- Setup TFT panel --
+  // tft.reset();                          // Reset the TFT panel
+  debugvln(1);
   uint16_t identifier = tft.readID();   // Read the TFT panel identifier (ILI9341 LCD driver)
+  debugvln(2);
   tft.begin(identifier);                // Initialize the TFT panel
-  pinMode(13, OUTPUT);                  // Set pin 13 as an output pin
+  debugvln(3);
+  // pinMode(13, OUTPUT);                  // Set pin 13 as an output pin
   tft.setRotation(1);                   // Set TFT panel rotation
-  tft.fillScreen(BLACK);                // Fill the screen with black color
-
+  debugvln(4);
+  // tft.fillScreen(BLACK);                // Fill the screen with black color
+  debugvln(5);
   // -- Setup RTC module --
   if (!rtc.begin()) {                   // Initialize the RTC module
     Serial.println(F("Couldn't find RTC"));
@@ -33,11 +37,12 @@ void setup() {
   } else {                              // The RTC module works correctly
     Serial.println(F("RTC is running correctly!"));
   }
-
+  debugvln(6);
   // -- Setup Controller --
   Controller.now = rtc.now();           // Set current time in the controller
   Controller.StartMenu();               // Start the menu system in the controller
   lastTouched = millis();               // Record the current time
+  debugvln(7);
 }
 
 /**
@@ -48,9 +53,9 @@ void loop() {
   Controller.now = rtc.now();           // Update the current time in the controller
   
   // -- Check touch --
-  digitalWrite(13, HIGH);               // Activate touch panel
+  // digitalWrite(13, HIGH);               // Activate touch panel
   TSPoint p = ts.getPoint();            // Get touch point coordinates
-  digitalWrite(13, LOW);                // Deactivate touch panel
+  // digitalWrite(13, LOW);                // Deactivate touch panel
   pinMode(XM, OUTPUT);                  // Set pin directions for touch panel
   pinMode(YP, OUTPUT);
 
@@ -63,7 +68,7 @@ void loop() {
     if (!backlight && x > 0 && x < WIDTH && y > 0 && y < HEIGHT) {
       Controller.state = mainMenu;       // Set controller state to main menu
       backlight = true;                  // Turn on backlight
-      debugln("Backlight ON");
+      debugln("GBacklight ON");
       DrawMainMenu();                    // Draw the main menu
     } else {
       Controller.Touched(x, y);          // Call touch evaluation function
