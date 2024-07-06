@@ -73,29 +73,29 @@ struct SystemController
         for (uint p = 0; p < PROFILE_COUNT && profiles[p].isActive; p++) {
           // -- If the duration of the relay is greater than 0 --
           if (profiles[p].relays[r].duration() > 0) {
-            // To activate
-            if (now.hour() == profiles[p].relays[r].start.hours() && now.minute() == profiles[p].relays[r].start.minutes()) {
-              profiles[p].relays[r].SetRelayState(true); // Turn on relay
-              Serial.print(p); Serial.print(F("/")); Serial.print(r); Serial.println(F(" Relay Activated")); 
-            }
             // To deactivate
             if (now.hour() == profiles[p].relays[r].end().hours() && now.minute() == profiles[p].relays[r].end().minutes()) {
               profiles[p].relays[r].SetRelayState(false); // Turn off relay
               Serial.print(p); Serial.print(F("/")); Serial.print(r); Serial.println(F(" Relay Deactivated"));
             }
+            // To activate
+            if (now.hour() == profiles[p].relays[r].start.hours() && now.minute() == profiles[p].relays[r].start.minutes()) {
+              profiles[p].relays[r].SetRelayState(true); // Turn on relay
+              Serial.print(p); Serial.print(F("/")); Serial.print(r); Serial.println(F(" Relay Activated")); 
+            }
           }
         }
         // === Update temporal profile ===
         if (temporalProfile.isActive && temporalProfile.relays[r].duration() > 0) {
-          // To activate
-          if (now.hour() == temporalProfile.relays[r].start.hours() && now.minute() == temporalProfile.relays[r].start.minutes()) {
-            temporalProfile.relays[r].SetRelayState(true); // Turn on temporal relay
-            Serial.print(F("Temp/")); Serial.print(r); Serial.println(F(" Relay Activated"));
-          }
           // To deactivate
           if (now.hour() == temporalProfile.relays[r].end().hours() && now.minute() == temporalProfile.relays[r].end().minutes()) {
             temporalProfile.relays[r].SetRelayState(false); // Turn off temporal relay
             Serial.print(F("Temp/")); Serial.print(r); Serial.println(F(" Relay Deactivated")); temporalProfile.relays[r].duration = 0;
+          }
+          // To activate
+          if (now.hour() == temporalProfile.relays[r].start.hours() && now.minute() == temporalProfile.relays[r].start.minutes()) {
+            temporalProfile.relays[r].SetRelayState(true); // Turn on temporal relay
+            Serial.print(F("Temp/")); Serial.print(r); Serial.println(F(" Relay Activated"));
           }
         }
       }

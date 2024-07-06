@@ -38,6 +38,10 @@ void setup() {
     Serial.println(F("RTC is running correctly!"));
   }
   debugvln(6);
+  // -- Set pinmodes to output relays --
+  for (uint i = 0; i < MAX_RELAY_COUNT; i++){
+    pinMode(RELAY_PINS[i], OUTPUT);
+  }
   // -- Setup Controller --
   Controller.now = rtc.now();           // Set current time in the controller
   Controller.StartMenu();               // Start the menu system in the controller
