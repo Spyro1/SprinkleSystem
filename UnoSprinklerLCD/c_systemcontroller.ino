@@ -26,7 +26,6 @@ struct SystemController
   Relay temporalSetter;    /**< Temporary relay setter for testing. */
   uint temporalFromRelay;  /**< Starting relay for the temporary profile. */
   uint temporalToRelay;    /**< Ending relay for the temporary profile. */
-  char activeRelay;        /**< 0: No relay is active, 1-16 numbered relay is active */
 
   /**
    * @brief Constructor to initialize the SystemController instance.
@@ -57,7 +56,6 @@ struct SystemController
     currentPage = 0;
     currentProfile = 0;
     currentRelay = 0;
-    activeRelay = 0;
     temporalSetter.start = Time(0, 0);
     temporalSetter.duration = 0;
     temporalFromRelay = 0;
@@ -75,36 +73,33 @@ struct SystemController
         for (uint p = 0; p < PROFILE_COUNT && profiles[p].isActive; p++) {
           // -- If the duration of the relay is greater than 0 --
           if (profiles[p].relays[r].duration() > 0) {
-            // To deactivate
-            if (now.hour() == profiles[p].relays[r].end().hours() && now.minute() == profiles[p].relays[r].end().minutes()) {
-              profiles[p].relays[r].SetRelayState(false); // Turn off relay
-              Serial.print(p); Serial.print(F("/")); Serial.print(r); Serial.println(F(" Relay Deactivated"));
-            }
             // To activate
             if (now.hour() == profiles[p].relays[r].start.hours() && now.minute() == profiles[p].relays[r].start.minutes()) {
               profiles[p].relays[r].SetRelayState(true); // Turn on relay
               Serial.print(p); Serial.print(F("/")); Serial.print(r); Serial.println(F(" Relay Activated")); 
             }
+            // To deactivate
+            if (now.hour() == profiles[p].relays[r].end().hours() && now.minute() == profiles[p].relays[r].end().minutes()) {
+              profiles[p].relays[r].SetRelayState(false); // Turn off relay
+              Serial.print(p); Serial.print(F("/")); Serial.print(r); Serial.println(F(" Relay Deactivated"));
+            }
           }
         }
         // === Update temporal profile ===
         if (temporalProfile.isActive && temporalProfile.relays[r].duration() > 0) {
-          // To deactivate
-          if (now.hour() == temporalProfile.relays[r].end().hours() && now.minute() == temporalProfile.relays[r].end().minutes()) {
-            temporalProfile.relays[r].SetRelayState(false); // Turn off temporal relay
-            Serial.print(F("Temp/")); Serial.print(r); Serial.println(F(" Relay Deactivated")); temporalProfile.relays[r].duration = 0;
-          }
           // To activate
           if (now.hour() == temporalProfile.relays[r].start.hours() && now.minute() == temporalProfile.relays[r].start.minutes()) {
             temporalProfile.relays[r].SetRelayState(true); // Turn on temporal relay
             Serial.print(F("Temp/")); Serial.print(r); Serial.println(F(" Relay Activated"));
           }
+          // To deactivate
+          if (now.hour() == temporalProfile.relays[r].end().hours() && now.minute() == temporalProfile.relays[r].end().minutes()) {
+            temporalProfile.relays[r].SetRelayState(false); // Turn off temporal relay
+            Serial.print(F("Temp/")); Serial.print(r); Serial.println(F(" Relay Deactivated")); temporalProfile.relays[r].duration = 0;
+          }
         }
       }
     }
-  }
-  void SetMultiplexer(){
-    
   }
   /**
    * @brief Handles touch events. 

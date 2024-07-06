@@ -43,8 +43,6 @@ void setup() {
   Controller.StartMenu();               // Start the menu system in the controller
   lastTouched = millis();               // Record the current time
   debugvln(7);
-  // // Multiplexer outputs
-  // pinMode(A10, OUTPUT);
 }
 
 /**
