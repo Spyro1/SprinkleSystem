@@ -236,8 +236,8 @@ void ExecuteSubMenuClickEvents(const struct Point &clickPos) {
     // Reset all switches to off
     else if (clickPos == BTN_3_4)
     {
-      Controller.activeRelay = 0;
-      for (uint r = 0; r < Controller.relayCount; r++){
+      for (uint r = 0; r < Controller.relayCount; r++)
+      {
         Controller.temporalProfile.relays[r].SetRelayState(false);
       }
       UpdateTestMenu(); // Updates numbers of test switches
@@ -247,14 +247,7 @@ void ExecuteSubMenuClickEvents(const struct Point &clickPos) {
     {
       Controller.currentRelay = ((Controller.currentPage) * SELECTOR_SLOTS) + (clickPos.x) + (clickPos.y) * 4;
       if (Controller.currentRelay < Controller.relayCount){
-        bool nextState = !Controller.temporalProfile.relays[Controller.currentRelay].state;
-        if (nextState) Controller.activeRelay = Controller.currentRelay + 1;
-        else Controller.activeRelay = 0;
-
-        for(int r = 0; r < Controller.relayCount; r++){
-          Controller.temporalProfile.relays[r].SetRelayState(false); // Switch all other relays to off state
-        }
-        Controller.temporalProfile.relays[Controller.currentRelay].state = nextState; // Set changes relay state
+        Controller.temporalProfile.relays[Controller.currentRelay].SetRelayState(!Controller.temporalProfile.relays[Controller.currentRelay].state); // Switch state
         UpdateTestMenu(); // Updates the on/off state of a switch
       }
     }
