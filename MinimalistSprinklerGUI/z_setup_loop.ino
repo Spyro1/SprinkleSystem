@@ -18,16 +18,11 @@ void setup() {
   
 // -- Setup TFT panel --
   // tft.reset();                          // Reset the TFT panel
-  debugvln(1);
   uint16_t identifier = tft.readID();   // Read the TFT panel identifier (ILI9341 LCD driver)
-  debugvln(2);
   tft.begin(identifier);                // Initialize the TFT panel
-  debugvln(3);
   // pinMode(13, OUTPUT);                  // Set pin 13 as an output pin
   tft.setRotation(1);                   // Set TFT panel rotation
-  debugvln(4);
   // tft.fillScreen(BLACK);                // Fill the screen with black color
-  debugvln(5);
   // -- Setup RTC module --
   if (!rtc.begin()) {                   // Initialize the RTC module
     Serial.println(F("Couldn't find RTC"));
@@ -37,14 +32,14 @@ void setup() {
   } else {                              // The RTC module works correctly
     Serial.println(F("RTC is running correctly!"));
   }
-  debugvln(6);
+  // -- Set pinmodes to output relays --
+  for (uint i = 0; i < MAX_RELAY_COUNT; i++){
+    pinMode(RELAY_PINS[i], OUTPUT);
+  }
   // -- Setup Controller --
   Controller.now = rtc.now();           // Set current time in the controller
   Controller.StartMenu();               // Start the menu system in the controller
   lastTouched = millis();               // Record the current time
-  debugvln(7);
-  // // Multiplexer outputs
-  // pinMode(A10, OUTPUT);
 }
 
 /**
@@ -63,6 +58,8 @@ void loop() {
 
   // -- Check pressed --
   if (p.z > MINPRESSURE && p.z < MAXPRESSURE) {  // If the screen is pressed with valid pressure
+    debugv(Controller.now.hour()); debug(":"); debugv(Controller.now.minute()); debug(":"); debugv(Controller.now.second()); 
+    debug("\tX = "); debugv(p.x); debug("\tY = "); debugv(p.y); debug("\tPressure = "); debugvln(p.z);
     // Scale from 0->1023 to TFT width/height
     int y = map(p.x, TS_MINX, TS_MAXX, tft.height(), 0);  // Map x coordinate
     int x = map(p.y, TS_MAXY, TS_MINY, tft.width(), 0);   // Map y coordinate
@@ -70,7 +67,7 @@ void loop() {
     if (!backlight && x > 0 && x < WIDTH && y > 0 && y < HEIGHT) {
       Controller.state = mainMenu;       // Set controller state to main menu
       backlight = true;                  // Turn on backlight
-      debugln("GBacklight ON");
+      debugln("Backlight ON");
       DrawMainMenu();                    // Draw the main menu
     } else {
       Controller.Touched(x, y);          // Call touch evaluation function

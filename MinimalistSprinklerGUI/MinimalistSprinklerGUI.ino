@@ -31,7 +31,7 @@
 #define TS_MAXX 135
 #define TS_MAXY 915
 // ---- Touch Screen Pressure macros ----
-#define MINPRESSURE 10
+#define MINPRESSURE 155 //10 
 #define MAXPRESSURE 1000
 // ---- TFT Display macros ----
 #define LCD_CS A3
