@@ -1,6 +1,7 @@
 # Locsolórendszer - MinimalistGUI_v2024
 
-> Készítette: Szenes Márton
+> Írta: Szenes Márton
+> 2024.08.04.
 
 ---
 
@@ -8,7 +9,7 @@
 
 - [Locsolórendszer - MinimalistGUI\_v2024](#locsolórendszer---minimalistgui_v2024)
 - [Tartalom](#tartalom)
-- [Rendszer felépítése](#rendszer-felépítése)
+- [Rendszer struktúrális felépítése](#rendszer-struktúrális-felépítése)
   - [Állapotok - `menuStates`](#állapotok---menustates)
   - [Koordináta struktúra - `Point`](#koordináta-struktúra---point)
     - [Attribútumok](#attribútumok)
@@ -33,23 +34,32 @@
     - [Attribútumok](#attribútumok-3)
     - [Konstruktorok](#konstruktorok-5)
     - [Metódusok](#metódusok-2)
-- [Menürendszer](#menürendszer)
-  - [Főképernyő](#főképernyő)
-    - [Időzítés mentése](#időzítés-mentése)
-  - [Locsolás időzítés](#locsolás-időzítés)
-    - [Profil választó](#profil-választó)
-    - [Automatizált időzítés](#automatizált-időzítés)
-    - [Relé választás](#relé-választás)
-    - [Relé időzítése manuálisan](#relé-időzítése-manuálisan)
-  - [Sorban locsolás](#sorban-locsolás)
-  - [Tesztelés](#tesztelés)
-  - [Beállítások](#beállítások)
-  - [Fejlesztői beállítások](#fejlesztői-beállítások)
-  - [Idő beállítása](#idő-beállítása)
-  - [Osztályszerkezet](#osztályszerkezet)
+  - [Szektor kapcsoló struktúra - `Relay`](#szektor-kapcsoló-struktúra---relay)
+    - [Attribútumok](#attribútumok-4)
+    - [Konstruktorok](#konstruktorok-6)
+    - [Metódusok](#metódusok-3)
+  - [Profil struktúra - `Profile`](#profil-struktúra---profile)
+    - [Attribútumok](#attribútumok-5)
+    - [Konstruktorok](#konstruktorok-7)
+  - [Vezérlő struktúra - `SystemController`](#vezérlő-struktúra---systemcontroller)
+    - [Attribútumok](#attribútumok-6)
+      - [Mentett konfigurációs tulajdonásgok](#mentett-konfigurációs-tulajdonásgok)
+      - [Futó konfigurációs tulajdonságok](#futó-konfigurációs-tulajdonságok)
+      - [Ideiglenes tulajdonságok a felkonfiguráláshoz](#ideiglenes-tulajdonságok-a-felkonfiguráláshoz)
+    - [Konstruktorok](#konstruktorok-8)
+    - [Metódusok](#metódusok-4)
+- [Memóriakezelés](#memóriakezelés)
+  - [EEPROM elosztása](#eeprom-elosztása)
+  - [Függvények](#függvények)
+    - [Relék számának mentése és betöltése](#relék-számának-mentése-és-betöltése)
+    - [Főkapcsoló állapotának mentése és betöltése](#főkapcsoló-állapotának-mentése-és-betöltése)
+    - [Páratartalom érzékenység mentése és betöltése](#páratartalom-érzékenység-mentése-és-betöltése)
+    - [Profil adatok mentése és betöltése](#profil-adatok-mentése-és-betöltése)
+    - [Relé adatok mentése és betöltése](#relé-adatok-mentése-és-betöltése)
+- [Osztálydiagramm](#osztálydiagramm)
 
 
-# Rendszer felépítése
+# Rendszer struktúrális felépítése
 
 ## Állapotok - `menuStates`
 
@@ -221,58 +231,56 @@ A `SystemController` struktúra a locsolórendszer fő vezérlőjét képviseli.
 `UpdateRelays()`: Frissíti az összes relé állapotát az aktuális idő alapján. Bekapcsolja vagy kikapcsolja a reléket a profilok időzítései és a főkapcsoló állapota alapján.
 `Touched(int x, int y)`: Kezeli az érintési eseményeket. Teszteli a főmenü és almenü gombjait az érintés koordinátái alapján.
 `SaveChanges()`: Elmenti a jelenlegi konfigurációt az EEPROM-ba.
-`Relay &CurrentRelay()`: Visszaadja a jelenleg kiválasztott relét referenciaként.
+`Relay& CurrentRelay()`: Visszaadja a jelenleg kiválasztott relét referenciaként.
 
-# Menürendszer
+# Memóriakezelés
 
-![](Menugraph.png)
+Az elmentett konfigurációs tulajdonságokat az arduino az EEPROM-jában tárolja el. Ennek használata biztosítja, hogy az adatok újraindítás után is megmaradjanak. 
 
-## Főképernyő
+## EEPROM elosztása
 
-![Főképernyő](screenshots\mainMenuScreen.png)
-
-### Időzítés mentése
-
-## Locsolás időzítés
-
-### Profil választó
-
-![Profil választó](screenshots\profileChoserScreen.png)
-
-### Automatizált időzítés
-
-![Auto időzítés](screenshots\autoSetterScreen.png)
-
-### Relé választás
-
-![Reléválasztó](screenshots\relayChoserScreen.png)
-
-### Relé időzítése manuálisan
-
-![Relé időzítés](screenshots\relaySetterScreen.png)
-
-## Sorban locsolás
-
-![Sorban locsolás](screenshots\chainSprinklerScreen.png)
-
-## Tesztelés
-
-![Tesztelés](screenshots\testSprinklerScreen.png)
-
-## Beállítások
-
-![Beállítások](screenshots\settingsScreen.png)
-
-## Fejlesztői beállítások
-
-![Fejlesztő](screenshots\developerSettingsScreen.png)
-
-## Idő beállítása
-
-![Mentés](screenshots\timeSettingScreen.png)
+| Index |             Tartalom             |
+|:-----:|:--------------------------------:|
+|   0   |                -                 |
+|   1   |        mainSwitchAddress         |
+|   2   |         humidityAddress          |
+|   3   | profileStartAddress: P1/isActive |
+|   ⋮   |            P1/R1/hour            |
+|   ⋮   |           P1/R1/minute           |
+|   ⋮   |          P1/R1/duration          |
+|   ⋮   |            P1/R2/hour            |
+|   ⋮   |                ⋮                 |
+|  52   |           P2/isActive            |
+|   ⋮   |                ⋮                 |
+|  101  |           P3/isActive            |
+|   ⋮   |                ⋮                 |
 
 
-## Osztályszerkezet
+## Függvények
+Az EEPROM kezelésésre az alábbi függvények szolgálnak, melyek a  `q_memory.ino` fájlban.
+
+### Relék számának mentése és betöltése
+`SaveRelayCount(uint relayCount)`: Relé szám mentése az EEPROM-ba. A mentendő relék számát a függvény paraméterében kell megadni.
+`LoadRelayCount(uint& relayCount)`: Relé szám betöltése az EEPROM-ból. A betöltött értéket a függvény paraméterében megadott változó tárolja.
+
+### Főkapcsoló állapotának mentése és betöltése
+`SaveMainSwitch(bool mainSwitch)`: Főkapcsoló állapotának mentése az EEPROM-ba. A mentendő állapotot a függvény paraméterében kell megadni.
+`LoadMainSwitch(bool& mainSwitch)`: Főkapcsoló állapotának betöltése az EEPROM-ból. A betöltött értéket a függvény paraméterében megadott változó tárolja.
+
+### Páratartalom érzékenység mentése és betöltése
+`SaveHumidity(uint humidity)`: Páratartalom érzékenység mentése az EEPROM-ba. A mentendő értéket a függvény paraméterében kell megadni.
+`LoadHumidity(uint& humidity)`: Páratartalom érzékenység betöltése az EEPROM-ból. A betöltött értéket a függvény paraméterében megadott változó tárolja.
+
+### Profil adatok mentése és betöltése
+`SaveProfileData(Profile profile, int profileNumber)`: Profil mentése az EEPROM-ba. A profil adatait és indexét a függvény paramétereiben kell megadni.
+`LoadProfileData(Profile &profile, int profileNumber)`: Profil betöltése az EEPROM-ból. A betöltött adatokat a függvény paraméterében megadott változó tárolja, a profil indexét szintén paraméterként kell megadni.
+
+### Relé adatok mentése és betöltése
+`SaveRelayData(Relay rel, int profileNumber, int relayNumber)`: Relé adatok mentése az EEPROM-ba. A relé adatait, a profil és a relé indexét a függvény paramétereiben kell megadni.
+`LoadRelayData(Relay &rel, int profileNumber, int relayNumber)`: Relé adatok betöltése az EEPROM-ból. A betöltött adatokat a függvény paraméterében megadott változó tárolja, a profil és a relé indexét szintén paraméterként kell megadni.
+
+
+# Osztálydiagramm
 
 ```mermaid
 classDiagram
