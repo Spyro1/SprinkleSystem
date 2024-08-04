@@ -279,6 +279,26 @@ Az EEPROM kezelésésre az alábbi függvények szolgálnak, melyek a  `q_memory
 `SaveRelayData(Relay rel, int profileNumber, int relayNumber)`: Relé adatok mentése az EEPROM-ba. A relé adatait, a profil és a relé indexét a függvény paramétereiben kell megadni.
 `LoadRelayData(Relay &rel, int profileNumber, int relayNumber)`: Relé adatok betöltése az EEPROM-ból. A betöltött adatokat a függvény paraméterében megadott változó tárolja, a profil és a relé indexét szintén paraméterként kell megadni.
 
+# Kijelző
+
+A locsolórendszer ***MinimalisSprinkleGUI_2024*** verziója egy 2,8" colos TFT érintőképeernyős kijelzővel kommunikál a felhasználóval.
+A kijelző mérete 320×240 pixel. (A shield típusa: ILI9341)
+
+A kijelzőre való rajzolásért és a képernyőn lévő adatok frissítéséért a `d_display.ino` fájlban lévő eljárások felelősek.
+Minden menü állapotnak van egy `Draw...` és egy `Update...` függvénye. Ezekből értelemszerűen például a `DrawMainMenu()` függvény letörli a képernyőt és kirajzolja a főmenüt, az `UpdateMainMenu()` függvény pedig a főmenüben történő vizuális változásokat éri el.
+
+## Metódusok
+
+DrawMainMenu()
+DrawSprinkleProfilesMenu()
+DrawSprinkleRelayChooser
+DrawSprinkleSetter
+DrawSprinkleAutomatic
+DrawChainSprinkleMenu
+DrawTestMenu
+DrawSettingsMenu
+DrawClockMenu
+DrawDeveloperMenu
 
 # Osztálydiagramm
 
