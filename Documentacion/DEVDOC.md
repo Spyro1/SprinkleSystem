@@ -53,7 +53,7 @@
 
 ## Állapotok - `menuStates`
 
-A menü állapotait kódoló enum:
+A menü állapotait kódoló enumerátor:
 * **mainMenu** → _Főképernyő_:  A 5 fő almenü választó gomb található itt, illetve a mentés gomb.
 * **sprinkleProfiles** → _Profil választó_: Itt lehet kiválasztani a 3 profil közül, hogy melyik időzítését módosítsuk, illetve ki/be kapcsoljuk.
 * **sprinkleRelays** → _Relé választó_: Itt lehet kiválasztani, melyik relé időzítését módosítjuk.
@@ -146,7 +146,7 @@ A `Time` struktúra egy időt reprezentál, amely órákból és percekből áll
 `Time operator-(int subMin)`: Kivon egy adott számú percet az aktuális időből, szükség esetén módosítva az órát is, és visszaad egy új Time objektumot a frissített idővel.
 
 ## Nyomógomb osztály- `TouchButton`
-A TouchButton struktúra egy érintőképernyős gombot reprezentál a felhasználói felületen. Meghatározza a gomb pozícióját és méretét, valamint biztosít metódusokat annak megállapítására, hogy a gomb meg van-e nyomva.
+A TouchButton struktúra egy érintőképernyős gombot reprezentál a felhasználói felületen. Tartalmazza a gomb pozícióját és méretét, valamint biztosít metódusokat annak megállapítására, hogy a gomb meg van-e nyomva.
 
 ### Attribútumok
 `Point pos` - A gomb bal felső sarkának pozíciója.
@@ -159,6 +159,69 @@ A TouchButton struktúra egy érintőképernyős gombot reprezentál a felhaszn�
 ### Metódusok
 `bool isPressed(const int x, const int y) const`: Ellenőrzi, hogy a megadott koordináta a gombon belül van-e. Visszatérési érték: true, ha a koordináta a gombon belül van, egyébként false.
 `bool isPressed(const Point& p) const`: Ellenőrzi, hogy a megadott pont a gombon belül van-e. Visszatérési érték: true, ha a pont a gombon belül van, egyébként false.
+
+## Szektor kapcsoló struktúra - `Relay`
+A `Relay` struktúra egy relét reprezentál, amely locsolórendszer egy szektorának vezérlésére szolgál.
+
+### Attribútumok
+`static uint idCounter` - Egyedi reléazonosítók generálásához használt számláló. Legfeljebb 256 relé használható.
+`uint id` - A relé egyedi azonosítója.
+`uint pin` - Arduino kártyán a pin száma, amelyhez a relé csatlakozik.
+`bool state` - Relé állapota.
+`Time start` - A locsolás kezdési ideje.
+`Range60 duration` - A locsolás időtartama percekben.
+
+### Konstruktorok
+`Relay(uint8_t pin = 0, struct Time start = 0, uint duration = 0)`: Inicializál egy relé példányt a megadott pin-számmal, kezdési idővel és időtartammal. Az alapértelmezett értékek 0.
+
+### Metódusok
+`Time end()`: Kiszámítja a locsolás befejezési idejét. Visszatérési érték: A locsolás befejezési ideje.
+`void SetRelayState(bool value)`: Beállítja a relé állapotát.
+`void reset()`: Visszaállítja a relé kezdési idejét és időtartamát 0-ra.
+
+## Profil struktúra - `Profile`
+A `Profile` struktúra egy profilt reprezentál, amely több relét tartalmaz. Tartalmazza a profil aktív állapotát és a relék tömbjét.
+
+### Attribútumok
+`bool isActive` - Jelzi, hogy a profil aktív-e.
+`Relay relays[MAX_RELAY_COUNT]` - A profilhoz tartozó relék tömbje. (Maximális számár a `MAX_RELAY_COUNT` makróval van deifiniálva)
+
+### Konstruktorok
+`Profile()`: Inicializál egy Profile példányt. A konstruktor beállítja a relék pin-számát és alapértelmezett állapotát. Az összes relé pin-számát beállítja a `RELAY_PINS` tömb értékeivel. Az összes relé alapértelmezett állapotát kikapcsolt állapotra (`false`) állítja.
+
+## Vezérlő struktúra - `SystemController`
+A `SystemController` struktúra a locsolórendszer fő vezérlőjét képviseli. Kezeli a futó- és elmentett konfigurációt, profilokat és a rendszer aktuális állapotát, beleértve a menü interakciók kezelésére és a relé állapotok frissítésére szolgáló metódusokat is.
+
+### Attribútumok
+#### Mentett konfigurációs tulajdonásgok
+`unsigned char relayCount` - Használt relék száma (EEPROM-ban tárolva).
+`bool mainSwitch` - Főkapcsoló az időzített locsolás vezérlésére (EEPROM-ban tárolva).
+`uint humiditySensitivity` - A rendszer páratartalom-érzékenysége (EEPROM-ban tárolva).
+`Profile profiles[PROFILE_COUNT]` - Automatikus locsolás időprofiljainak tömbje (EEPROM-ban tárolva).
+#### Futó konfigurációs tulajdonságok
+`DateTime now` - Jelenlegi valós idő.
+`menuStates state` - A menü aktuális állapota.
+`uint currentPage` - A menü jelenlegi oldala.
+`uint currentProfile` - A szerkesztett profil indexe.
+`uint currentRelay` - A szerkesztett relé indexe.
+`bool unsavedChanges` - Jelzi, ha vannak nem mentett változások.
+#### Ideiglenes tulajdonságok a felkonfiguráláshoz
+`Profile temporalProfile` - Ideiglenes profil tesztelési célokra.
+`Relay temporalSetter` - Ideiglenes relé beállító tesztelési célokra.
+`uint temporalFromRelay` - Az ideiglenes profil kezdő reléje.
+`uint temporalToRelay` - Az ideiglenes profil befejező reléje.
+`char activeRelay` - 0: Nincs aktív relé, 1-16: számozott relé aktív.
+
+### Konstruktorok
+`SystemController()`: Inicializál egy SystemController példányt. Betölti a változókat az EEPROM-ból. Inicializálja a reléket és beállítja a menüt alapállapotba.
+
+### Metódusok
+`StartMenu()`: Elindítja a menü felületet, inicializálja a menü állapotát és futtatja a menüt.
+`ResetMenu()`: Visszaállítja a menü állapotát és az ideiglenes beállításokat.
+`UpdateRelays()`: Frissíti az összes relé állapotát az aktuális idő alapján. Bekapcsolja vagy kikapcsolja a reléket a profilok időzítései és a főkapcsoló állapota alapján.
+`Touched(int x, int y)`: Kezeli az érintési eseményeket. Teszteli a főmenü és almenü gombjait az érintés koordinátái alapján.
+`SaveChanges()`: Elmenti a jelenlegi konfigurációt az EEPROM-ba.
+`Relay &CurrentRelay()`: Visszaadja a jelenleg kiválasztott relét referenciaként.
 
 # Menürendszer
 

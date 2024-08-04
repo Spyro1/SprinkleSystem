@@ -103,9 +103,6 @@ struct SystemController
       }
     }
   }
-  void SetMultiplexer(){
-    
-  }
   /**
    * @brief Handles touch events. 
    * @param x The x-coordinate of the touch.
