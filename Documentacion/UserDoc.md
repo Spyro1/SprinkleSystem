@@ -14,7 +14,7 @@
 
 ## Főképernyő
 
-![Főképernyő](screenshots\mainMenuScreen.png)
+![Főképernyő](screenshots/mainMenuScreen.png)
 
 ### Időzítés mentése
 
@@ -22,36 +22,36 @@
 
 ### Profil választó
 
-![Profil választó](screenshots\profileChoserScreen.png)
+![Profil választó](screenshots/profileChoserScreen.png)
 
 ### Automatizált időzítés
 
-![Auto időzítés](screenshots\autoSetterScreen.png)
+![Auto időzítés](screenshots/autoSetterScreen.png)
 
 ### Relé választás
 
-![Reléválasztó](screenshots\relayChoserScreen.png)
+![Reléválasztó](screenshots/relayChoserScreen.png)
 
 ### Relé időzítése manuálisan
 
-![Relé időzítés](screenshots\relaySetterScreen.png)
+![Relé időzítés](screenshots/relaySetterScreen.png)
 
 ## Sorban locsolás
 
-![Sorban locsolás](screenshots\chainSprinklerScreen.png)
+![Sorban locsolás](screenshots/chainSprinklerScreen.png)
 
 ## Tesztelés
 
-![Tesztelés](screenshots\testSprinklerScreen.png)
+![Tesztelés](screenshots/testSprinklerScreen.png)
 
 ## Beállítások
 
-![Beállítások](screenshots\settingsScreen.png)
+![Beállítások](screenshots/settingsScreen.png)
 
 ## Fejlesztői beállítások
 
-![Fejlesztő](screenshots\developerSettingsScreen.png)
+![Fejlesztő](screenshots/developerSettingsScreen.png)
 
 ## Idő beállítása
 
-![Mentés](screenshots\timeSettingScreen.png)
+![Mentés](screenshots/timeSettingScreen.png)

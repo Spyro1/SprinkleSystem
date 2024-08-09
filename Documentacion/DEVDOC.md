@@ -526,3 +526,20 @@ stateDiagram
     }
     
 ```
+### Touch event
+```mermaid
+sequenceDiagram
+    actor User
+    participant SystemController
+    participant Menu
+    
+
+    User->>+SystemController: Touches screen
+    alt state is mainMenu
+        SystemController->>Menu: Execute MainMenu ClickEvent
+    else state is not mainMenu
+        SystemController->>Menu: Execute SubMenu ClickEvent
+    end    
+    SystemController->>-User: Displays changes
+
+```
