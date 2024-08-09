@@ -112,16 +112,16 @@ A `RangeInt` sablon osztály lehetővé teszi olyan egész számok létrehozás�
 `RangeInt(int value = 0)`: Inicializálja a tartományt és az értéket. Az alapértelmezett érték 0.
 
 ### Metódusok
-`void setValue(int val)`: Beállítja az értéket a tartomány határain belül, szükség esetén körbeérve.
-`int getValue() const`: Visszaadja az aktuális értéket a tartományon belül.
-`int operator()() const`: Visszaadja az aktuális értéket a tartományon belül.
-`RangeInt &operator=(int val)`: Új értéket rendel a tartományhoz, a tartomány határainak figyelembevételével.
-`RangeInt &operator+=(int increment)`: Növeli az aktuális értéket egy adott értékkel, a tartomány határainak figyelembevételével.
-`RangeInt &operator-=(int decrement)`: Csökkenti az aktuális értéket egy adott értékkel, a tartomány határainak figyelembevételével.
-`RangeInt &operator++()`: Növeli az aktuális értéket 1-el, a tartomány határainak figyelembevételével.
-`RangeInt operator++(int)`: Növeli az aktuális értéket 1-el, a tartomány határainak figyelembevételével, és visszaadja a korábbi értéket.
-`RangeInt &operator--()`: Csökkenti az aktuális értéket 1-el, a tartomány határainak figyelembevételével.
-`RangeInt operator--(int)`: Csökkenti az aktuális értéket 1-el, a tartomány határainak figyelembevételével, és visszaadja a korábbi értéket.
+`void setValue(int val)`: Beállítja az értéket a tartomány határain belül, szükség esetén körbeérve.  
+`int getValue() const`: Visszaadja az aktuális értéket a tartományon belül.  
+`int operator()() const`: Visszaadja az aktuális értéket a tartományon belül.  
+`RangeInt &operator=(int val)`: Új értéket rendel a tartományhoz, a tartomány határainak figyelembevételével.  
+`RangeInt &operator+=(int increment)`: Növeli az aktuális értéket egy adott értékkel, a tartomány határainak figyelembevételével.  
+`RangeInt &operator-=(int decrement)`: Csökkenti az aktuális értéket egy adott értékkel, a tartomány határainak figyelembevételével.  
+`RangeInt &operator++()`: Növeli az aktuális értéket 1-el, a tartomány határainak figyelembevételével.  
+`RangeInt operator++(int)`: Növeli az aktuális értéket 1-el, a tartomány határainak figyelembevételével, és visszaadja a korábbi értéket.  
+`RangeInt &operator--()`: Csökkenti az aktuális értéket 1-el, a tartomány határainak figyelembevételével.  
+`RangeInt operator--(int)`: Csökkenti az aktuális értéket 1-el, a tartomány határainak figyelembevételével, és visszaadja a korábbi értéket.  
 
 ## 60-as intervallum - `Range60`
 A `RangeInt` egy specializációja, amely értékeket tartalmaz a **0** és **59** közötti tartományban.
@@ -139,61 +139,61 @@ A `RangeInt` egy specializációja, amely értékeket tartalmaz a **0** és **23
 A `Time` struktúra egy időt reprezentál, amely órákból és percekből áll.
 
 ### Attribútumok
-`Range24 hour` - Az idő óra komponense.
+`Range24 hour` - Az idő óra komponense.  
 `Range60 minute` - Az idő perc komponense.
 
 ### Konstruktorok
 `Time(int h = 0, int m = 0)`: Inicializálja az időt a megadott órával és perccel. Az alapértelmezett értékek 0.
 
 ### Metódusok
-`int hours() const`: Visszaadja az aktuális óra értékét.
+`int hours() const`: Visszaadja az aktuális óra értékét.  
 `int minutes() const`: Visszaadja az aktuális perc értékét.
 
 ### Operátorok
-`Time& operator+=(int plusMin)`: Hozzáad egy adott számú percet az aktuális időhöz, szükség esetén módosítva az órát is.
-`Time& operator-=(int subMin)`: Kivon egy adott számú percet az aktuális időből, szükség esetén módosítva az órát is.
-`Time operator+(int plusMin)`: Hozzáad egy adott számú percet az aktuális időhöz, szükség esetén módosítva az órát is, és visszaad egy új Time objektumot a frissített idővel.
-`Time operator-(int subMin)`: Kivon egy adott számú percet az aktuális időből, szükség esetén módosítva az órát is, és visszaad egy új Time objektumot a frissített idővel.
+`Time& operator+=(int plusMin)`: Hozzáad egy adott számú percet az aktuális időhöz, szükség esetén módosítva az órát is.  
+`Time& operator-=(int subMin)`: Kivon egy adott számú percet az aktuális időből, szükség esetén módosítva az órát is.  
+`Time operator+(int plusMin)`: Hozzáad egy adott számú percet az aktuális időhöz, szükség esetén módosítva az órát is, és visszaad egy új Time objektumot a frissített idővel.  
+`Time operator-(int subMin)`: Kivon egy adott számú percet az aktuális időből, szükség esetén módosítva az órát is, és visszaad egy új Time objektumot a frissített idővel.  
 
 ## Nyomógomb osztály- `TouchButton`
 A TouchButton struktúra egy érintőképernyős gombot reprezentál a felhasználói felületen. Tartalmazza a gomb pozícióját és méretét, valamint biztosít metódusokat annak megállapítására, hogy a gomb meg van-e nyomva.
 
 ### Attribútumok
-`Point pos` - A gomb bal felső sarkának pozíciója.
+`Point pos` - A gomb bal felső sarkának pozíciója.  
 `Point size` - A gomb mérete.
 ### Konstruktorok
-`TouchButton()`: Alapértelmezett konstruktor, amely a gomb pozícióját és méretét (0, 0) értékre inicializálja. Főként gomb tömbök létrehozására használatos.
-`TouchButton(const int x, const int y, const int width, const int height)`: Konstruktor alapvető paraméterekkel, amely a gombot a megadott pozícióval és mérettel inicializálja.
+`TouchButton()`: Alapértelmezett konstruktor, amely a gomb pozícióját és méretét (0, 0) értékre inicializálja. Főként gomb tömbök létrehozására használatos.  
+`TouchButton(const int x, const int y, const int width, const int height)`: Konstruktor alapvető paraméterekkel, amely a gombot a megadott pozícióval és mérettel inicializálja.  
 `TouchButton(const Point& position, const Point& size)`: Konstruktor haladó paraméterekkel, amely a gombot a megadott pozícióval és mérettel inicializálja.
 
 ### Metódusok
-`bool isPressed(const int x, const int y) const`: Ellenőrzi, hogy a megadott koordináta a gombon belül van-e. Visszatérési érték: true, ha a koordináta a gombon belül van, egyébként false.
+`bool isPressed(const int x, const int y) const`: Ellenőrzi, hogy a megadott koordináta a gombon belül van-e. Visszatérési érték: true, ha a koordináta a gombon belül van, egyébként false.  
 `bool isPressed(const Point& p) const`: Ellenőrzi, hogy a megadott pont a gombon belül van-e. Visszatérési érték: true, ha a pont a gombon belül van, egyébként false.
 
 ## Szektor kapcsoló struktúra - `Relay`
 A `Relay` struktúra egy relét reprezentál, amely locsolórendszer egy szektorának vezérlésére szolgál.
 
 ### Attribútumok
-`static uint idCounter` - Egyedi reléazonosítók generálásához használt számláló. Legfeljebb 256 relé használható.
-`uint id` - A relé egyedi azonosítója.
-`uint pin` - Arduino kártyán a pin száma, amelyhez a relé csatlakozik.
-`bool state` - Relé állapota.
-`Time start` - A locsolás kezdési ideje.
+`static uint idCounter` - Egyedi reléazonosítók generálásához használt számláló. Legfeljebb 256 relé használható.  
+`uint id` - A relé egyedi azonosítója.  
+`uint pin` - Arduino kártyán a pin száma, amelyhez a relé csatlakozik.  
+`bool state` - Relé állapota.  
+`Time start` - A locsolás kezdési ideje.  
 `Range60 duration` - A locsolás időtartama percekben.
 
 ### Konstruktorok
 `Relay(uint8_t pin = 0, struct Time start = 0, uint duration = 0)`: Inicializál egy relé példányt a megadott pin-számmal, kezdési idővel és időtartammal. Az alapértelmezett értékek 0.
 
 ### Metódusok
-`Time end()`: Kiszámítja a locsolás befejezési idejét. Visszatérési érték: A locsolás befejezési ideje.
-`void SetRelayState(bool value)`: Beállítja a relé állapotát.
+`Time end()`: Kiszámítja a locsolás befejezési idejét. Visszatérési érték: A locsolás befejezési ideje.  
+`void SetRelayState(bool value)`: Beállítja a relé állapotát.  
 `void reset()`: Visszaállítja a relé kezdési idejét és időtartamát 0-ra.
 
 ## Profil struktúra - `Profile`
 A `Profile` struktúra egy profilt reprezentál, amely több relét tartalmaz. Tartalmazza a profil aktív állapotát és a relék tömbjét.
 
 ### Attribútumok
-`bool isActive` - Jelzi, hogy a profil aktív-e.
+`bool isActive` - Jelzi, hogy a profil aktív-e.  
 `Relay relays[MAX_RELAY_COUNT]` - A profilhoz tartozó relék tömbje. (Maximális számár a `MAX_RELAY_COUNT` makróval van deifiniálva)
 
 ### Konstruktorok
@@ -204,33 +204,35 @@ A `SystemController` struktúra a locsolórendszer fő vezérlőjét képviseli.
 
 ### Attribútumok
 #### Mentett konfigurációs tulajdonásgok
-`unsigned char relayCount` - Használt relék száma (EEPROM-ban tárolva).
-`bool mainSwitch` - Főkapcsoló az időzített locsolás vezérlésére (EEPROM-ban tárolva).
-`uint humiditySensitivity` - A rendszer páratartalom-érzékenysége (EEPROM-ban tárolva).
+`unsigned char relayCount` - Használt relék száma (EEPROM-ban tárolva).  
+`bool mainSwitch` - Főkapcsoló az időzített locsolás vezérlésére (EEPROM-ban tárolva).  
+`uint humiditySensitivity` - A rendszer páratartalom-érzékenysége (EEPROM-ban tárolva).  
 `Profile profiles[PROFILE_COUNT]` - Automatikus locsolás időprofiljainak tömbje (EEPROM-ban tárolva).
+
 #### Futó konfigurációs tulajdonságok
-`DateTime now` - Jelenlegi valós idő.
-`menuStates state` - A menü aktuális állapota.
-`uint currentPage` - A menü jelenlegi oldala.
-`uint currentProfile` - A szerkesztett profil indexe.
-`uint currentRelay` - A szerkesztett relé indexe.
+`DateTime now` - Jelenlegi valós idő.  
+`menuStates state` - A menü aktuális állapota.  
+`uint currentPage` - A menü jelenlegi oldala.  
+`uint currentProfile` - A szerkesztett profil indexe.  
+`uint currentRelay` - A szerkesztett relé indexe.  
 `bool unsavedChanges` - Jelzi, ha vannak nem mentett változások.
+
 #### Ideiglenes tulajdonságok a felkonfiguráláshoz
-`Profile temporalProfile` - Ideiglenes profil tesztelési célokra.
-`Relay temporalSetter` - Ideiglenes relé beállító tesztelési célokra.
-`uint temporalFromRelay` - Az ideiglenes profil kezdő reléje.
-`uint temporalToRelay` - Az ideiglenes profil befejező reléje.
+`Profile temporalProfile` - Ideiglenes profil tesztelési célokra.  
+`Relay temporalSetter` - Ideiglenes relé beállító tesztelési célokra.  
+`uint temporalFromRelay` - Az ideiglenes profil kezdő reléje.  
+`uint temporalToRelay` - Az ideiglenes profil befejező reléje.  
 `char activeRelay` - 0: Nincs aktív relé, 1-16: számozott relé aktív.
 
 ### Konstruktorok
 `SystemController()`: Inicializál egy SystemController példányt. Betölti a változókat az EEPROM-ból. Inicializálja a reléket és beállítja a menüt alapállapotba.
 
 ### Metódusok
-`StartMenu()`: Elindítja a menü felületet, inicializálja a menü állapotát és futtatja a menüt.
-`ResetMenu()`: Visszaállítja a menü állapotát és az ideiglenes beállításokat.
-`UpdateRelays()`: Frissíti az összes relé állapotát az aktuális idő alapján. Bekapcsolja vagy kikapcsolja a reléket a profilok időzítései és a főkapcsoló állapota alapján.
-`Touched(int x, int y)`: Kezeli az érintési eseményeket. Teszteli a főmenü és almenü gombjait az érintés koordinátái alapján.
-`SaveChanges()`: Elmenti a jelenlegi konfigurációt az EEPROM-ba.
+`StartMenu()`: Elindítja a menü felületet, inicializálja a menü állapotát és futtatja a menüt.  
+`ResetMenu()`: Visszaállítja a menü állapotát és az ideiglenes beállításokat.  
+`UpdateRelays()`: Frissíti az összes relé állapotát az aktuális idő alapján. Bekapcsolja vagy kikapcsolja a reléket a profilok időzítései és a főkapcsoló állapota alapján.  
+`Touched(int x, int y)`: Kezeli az érintési eseményeket. Teszteli a főmenü és almenü gombjait az érintés koordinátái alapján.  
+`SaveChanges()`: Elmenti a jelenlegi konfigurációt az EEPROM-ba.  
 `Relay& CurrentRelay()`: Visszaadja a jelenleg kiválasztott relét referenciaként.
 
 # Memóriakezelés
@@ -260,23 +262,23 @@ Az elmentett konfigurációs tulajdonságokat az arduino az EEPROM-jában tárol
 Az EEPROM kezelésésre az alábbi függvények szolgálnak, melyek a  `q_memory.ino` fájlban.
 
 ### Relék számának mentése és betöltése
-`SaveRelayCount(uint relayCount)`: Relé szám mentése az EEPROM-ba. A mentendő relék számát a függvény paraméterében kell megadni.
+`SaveRelayCount(uint relayCount)`: Relé szám mentése az EEPROM-ba. A mentendő relék számát a függvény paraméterében kell megadni.  
 `LoadRelayCount(uint& relayCount)`: Relé szám betöltése az EEPROM-ból. A betöltött értéket a függvény paraméterében megadott változó tárolja.
 
 ### Főkapcsoló állapotának mentése és betöltése
-`SaveMainSwitch(bool mainSwitch)`: Főkapcsoló állapotának mentése az EEPROM-ba. A mentendő állapotot a függvény paraméterében kell megadni.
+`SaveMainSwitch(bool mainSwitch)`: Főkapcsoló állapotának mentése az EEPROM-ba. A mentendő állapotot a függvény paraméterében kell megadni.  
 `LoadMainSwitch(bool& mainSwitch)`: Főkapcsoló állapotának betöltése az EEPROM-ból. A betöltött értéket a függvény paraméterében megadott változó tárolja.
 
 ### Páratartalom érzékenység mentése és betöltése
-`SaveHumidity(uint humidity)`: Páratartalom érzékenység mentése az EEPROM-ba. A mentendő értéket a függvény paraméterében kell megadni.
+`SaveHumidity(uint humidity)`: Páratartalom érzékenység mentése az EEPROM-ba. A mentendő értéket a függvény paraméterében kell megadni.  
 `LoadHumidity(uint& humidity)`: Páratartalom érzékenység betöltése az EEPROM-ból. A betöltött értéket a függvény paraméterében megadott változó tárolja.
 
 ### Profil adatok mentése és betöltése
-`SaveProfileData(Profile profile, int profileNumber)`: Profil mentése az EEPROM-ba. A profil adatait és indexét a függvény paramétereiben kell megadni.
+`SaveProfileData(Profile profile, int profileNumber)`: Profil mentése az EEPROM-ba. A profil adatait és indexét a függvény paramétereiben kell megadni.  
 `LoadProfileData(Profile &profile, int profileNumber)`: Profil betöltése az EEPROM-ból. A betöltött adatokat a függvény paraméterében megadott változó tárolja, a profil indexét szintén paraméterként kell megadni.
 
 ### Relé adatok mentése és betöltése
-`SaveRelayData(Relay rel, int profileNumber, int relayNumber)`: Relé adatok mentése az EEPROM-ba. A relé adatait, a profil és a relé indexét a függvény paramétereiben kell megadni.
+`SaveRelayData(Relay rel, int profileNumber, int relayNumber)`: Relé adatok mentése az EEPROM-ba. A relé adatait, a profil és a relé indexét a függvény paramétereiben kell megadni.  
 `LoadRelayData(Relay &rel, int profileNumber, int relayNumber)`: Relé adatok betöltése az EEPROM-ból. A betöltött adatokat a függvény paraméterében megadott változó tárolja, a profil és a relé indexét szintén paraméterként kell megadni.
 
 # Kijelző
@@ -289,16 +291,16 @@ Minden menü állapotnak van egy `Draw...` és egy `Update...` függvénye. Ezek
 
 ## Metódusok
 
-DrawMainMenu()
-DrawSprinkleProfilesMenu()
-DrawSprinkleRelayChooser
-DrawSprinkleSetter
-DrawSprinkleAutomatic
-DrawChainSprinkleMenu
-DrawTestMenu
-DrawSettingsMenu
-DrawClockMenu
-DrawDeveloperMenu
+`DrawMainMenu()`: Megrajzolja a főmenüt a képernyőre: "Öntözési időzítés", "Lánc locsolás", "Teszt", "Beállítások" és "Óra beállítások". Végül frissíti az aktuális időt és a mentés gomb állapotát.  
+`DrawSprinkleProfilesMenu()`: Megrajzolja az öntözési profilok menüjét a képernyőre: Három különböző profilhoz tartozó gombokat jelenít meg, amelyek között van egy nagyobb gomb a profil kiválasztásához, és két kisebb gomb az automatikus beállításokhoz, illetve a profil ki/be állapotának jelzésére.  
+`DrawSprinkleRelayChooser()`: Megrajzolja az öntöző relék kiválasztó menüjét a képernyőre: Két nyílgombot (< és >) rajzol, amelyekkel a relék között lehet navigálni és egy "Vissza" gombot, amely visszavisz az előző menübe. Ezután frissíti a relé gombokat és a hozzájuk tartozó számokat.
+`DrawSprinkleSetter()`: Megrajzolja az öntöző relé beállító felületét a képernyőre: A felület tartalmaz gombokat az óra, a perc és az időtartam növelésére vagy csökkentésére a kiválasztott öntöző profilban lévő relé számára. Illetve található még egy "Mentés" gomb és egy "Vissza" gomb, ami visszavisz az előző képernyőre.
+`DrawSprinkleAutomatic()`:  
+`DrawChainSprinkleMenu()`:  
+`DrawTestMenu()`:  
+`DrawSettingsMenu()`:  
+`DrawClockMenu()`:   
+`DrawDeveloperMenu()`:   
 
 # Osztálydiagramm
 
@@ -532,14 +534,20 @@ sequenceDiagram
     actor User
     participant SystemController
     participant Menu
-    
+    participant Display
+        
 
-    User->>+SystemController: Touches screen
+    User->>SystemController: Touches screen
     alt state is mainMenu
-        SystemController->>Menu: Execute MainMenu ClickEvent
+        SystemController->>+Menu: Execute MainMenu ClickEvent
+      Menu-->SystemController: Set menu state<br>according to input
+        Menu->>-Display: Call Draw function of state
+      Display->>User: Display changed
     else state is not mainMenu
-        SystemController->>Menu: Execute SubMenu ClickEvent
-    end    
-    SystemController->>-User: Displays changes
+        SystemController->>+Menu: Execute SubMenu ClickEvent
+        Menu-->SystemController: Update Controller<br>fields according to input 
+        Menu->>-Display: Call Draw or Update function of state
+        Display->>User: Display changed
+    end
 
 ```

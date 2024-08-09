@@ -8,7 +8,14 @@ void PrintLabelBg(const int labelValue, const int x, const int y, const int font
 void PrintChar(const char charValue, const int x, const int y, const int fontSize = 1, const uint16_t color = WHITE);
 
 // ======================== DRAW FUNCTIONS ========================
-
+/**
+ * @brief Draws the main menu on the screen.
+ *
+ * This function clears the screen and then draws the main menu interface,
+ * including buttons for various functionalities such as "Sprinkle Timing", "Chain Sprinkle",
+ * "Test", "Settings", and "Clock Settings". After drawing the buttons, it updates the main menu state
+ * by calling `UpdateMainMenu()` to reflect the current time and the state of the on/off button.
+ */
 void DrawMainMenu() {
   tft.fillScreen(BLACK);
   // === Main title ===
@@ -34,6 +41,14 @@ void DrawMainMenu() {
   // === Update mainmenu state (real time and on/off btn state) ===
   UpdateMainMenu();
 }
+/**
+ * @brief Draws the Sprinkle Profiles Menu on the screen.
+ *
+ * This function clears the screen and then draws the interface for the Sprinkle Profiles Menu.
+ * It includes buttons for three different profiles, each with a large button for selecting relays and a smaller button for automatic settings.
+ * The menu also includes a home icon and a subtitle. Each profile is displayed with its respective labels and color-coded buttons.
+ * At the end, the function updates the profile states (on/off) by calling `UpdateSprinkleProfilesMenu()`.
+ */
 void DrawSprinkleProfilesMenu() {
   tft.fillScreen(BLACK);
   // == Home Icon ==
@@ -60,6 +75,14 @@ void DrawSprinkleProfilesMenu() {
   // === Update profile setter (profile states on/off btn) ===
   UpdateSprinkleProfilesMenu(); // Update on off switches
 }
+/**
+ * @brief Draws the Sprinkle Relay Chooser Menu on the screen.
+ *
+ * This function clears the screen and then draws the interface for selecting relays in the current sprinkle profile.
+ * It displays  two arrow buttons (< and >) for navigating through relays, a "Back" button is also displayed to allow
+ * returning to the previous menu. Finally, the function calls `UpdateSprinkleRelayChooser()` to update the relay
+ * buttons and their corresponding numbers.
+ */
 void DrawSprinkleRelayChooser() {
   tft.fillScreen(BLACK);
   // == Home Icon ==
@@ -86,6 +109,15 @@ void DrawSprinkleRelayChooser() {
   // == Draws relay buttons and numbers to them ==
   UpdateSprinkleRelayChooser();
 }
+/**
+ * @brief Draws the Sprinkle Relay Settings interface on the screen.
+ *
+ * This function clears the screen and displays the interface for setting the time and duration for a specific relay in a selected sprinkle profile.
+ * The interface includes buttons to increase or decrease the hour, minute, and duration for the relay.
+ * A subtitle at the top shows the current profile and relay being edited.
+ * Additionally, a "Save" button allows the user to save the changes, and a "Back" button enables returning to the previous screen.
+ * Finally, the function calls `UpdateSprinkleSetter()` to refresh and update the interface.
+ */
 void DrawSprinkleSetter() {
   tft.fillScreen(BLACK);
   // == Home Icon ==
@@ -127,6 +159,7 @@ void DrawSprinkleSetter() {
   // -- Update Setter screen --
   UpdateSprinkleSetter();
 }
+
 void DrawSprinkleAutomatic() {
   tft.fillScreen(BLACK);
   // == Home Icon ==
