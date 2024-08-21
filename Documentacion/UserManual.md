@@ -1,7 +1,6 @@
-# Locsolórendszer - MinimalistGUI_v2024
+# Felhasználói kézikönyv - MinimalistSprinklerGUI v2024
 
-> Írta: Szenes Márton
-> 2024.08.04.
+> Írta: Szenes Márton - 2024.08.04.
 
 ---
 

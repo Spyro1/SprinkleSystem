@@ -159,7 +159,15 @@ void DrawSprinkleSetter() {
   // -- Update Setter screen --
   UpdateSprinkleSetter();
 }
-
+/**
+ * @brief Draws the Sprinkle Automatic Settings interface on the screen.
+ *
+ * This function clears the screen and displays the interface for configuring the automatic settings for a selected sprinkle profile.
+ * It allows the user to set the start time (hour and minute) and the duration for the automatic operation of the sprinklers.
+ * The interface includes buttons for increasing or decreasing the hour, minute, and duration.
+ * A "Save" button is provided to store the configured settings, and a "Back" button to return to the previous screen.
+ * Finally, `UpdateSprinkleAutomatic()` is called to refresh the screen with the updated values.
+ */
 void DrawSprinkleAutomatic() {
   tft.fillScreen(BLACK);
   // == Home Icon ==
@@ -203,6 +211,14 @@ void DrawSprinkleAutomatic() {
   // -- Update Setter screen --
   UpdateSprinkleAutomatic();
 }
+/**
+ * @brief Draws the Chain Sprinkle Menu interface on the screen.
+ *
+ * This function initializes and displays the user interface for setting up a chain sprinkle sequence.
+ * The user can define the range of relays (from one relay to another) and set the duration for each relay in the sequence.
+ * The interface includes buttons to increase or decrease the start and end relay numbers, adjust the duration, and start or
+ * stop the chain sprinkle operation. The screen is updated with the current settings via the `UpdateChainSprinkleMenu()` function.
+ */
 void DrawChainSprinkleMenu() {
   tft.fillScreen(BLACK);
   // == Home Icon ==
@@ -242,6 +258,14 @@ void DrawChainSprinkleMenu() {
   // -- Update chain screen --
   UpdateChainSprinkleMenu();
 }
+/**
+ * @brief Draws the Test Menu interface on the screen.
+ *
+ * This function initializes and displays the user interface for the Test Menu, allowing the user to manually control and test relay states.
+ * The interface includes navigation arrows to switch between pages and a reset button to stop all active relays.
+ * The function also pre-sets the currently active relay switches on the screen based on the existing profiles.
+ * After setting up the interface, the `UpdateTestMenu()` function is called to draw relay switches, numbers, and labels according to the current state.
+ */
 void DrawTestMenu() {
   tft.fillScreen(BLACK);
   // == Home Icon ==
@@ -276,6 +300,14 @@ void DrawTestMenu() {
   // == Draws relay switches and numbers and labels to them ==
   UpdateTestMenu();
 }
+/**
+ * @brief Draws the Settings Menu interface on the screen.
+ *
+ * This function initializes and displays the user interface for the Settings Menu, allowing the user to adjust various system settings.
+ * The menu includes options for adjusting relay count, humidity sensitivity, and access to developer settings.
+ * The interface also includes a main switch and a reset button for restoring settings. After setting up the interface, the
+ * `UpdateSettingsMenu()` function is called to apply any updates or changes to the settings based on user input.
+ */
 void DrawSettingsMenu() {
   tft.fillScreen(BLACK);
   // == Home Icon ==
@@ -310,6 +342,13 @@ void DrawSettingsMenu() {
   // -- Update changes settings --
   UpdateSettingsMenu();
 }
+/**
+ * @brief Draws the Clock Menu interface on the screen.
+ *
+ * This function initializes and displays the user interface for the Clock Menu, allowing the user to adjust the real-time clock settings.
+ * The menu includes options to increase or decrease the hour and minute settings. A save button is provided for confirming the changes.
+ * After setting up the interface, the `UpdateClockMenu()` function is called to update the clock settings based on user input.
+ */
 void DrawClockMenu() {
   tft.fillScreen(BLACK);
   // == Home Icon ==
@@ -336,6 +375,14 @@ void DrawClockMenu() {
   // Update number feilds
   UpdateClockMenu();
 }
+/**
+ * @brief Draws the Developer Menu interface on the screen.
+ *
+ * This function displays the Developer Menu, providing various options for advanced settings and diagnostics.
+ * The menu includes buttons for listing timed profiles, temporal profiles, and controller statistics, as well as checking
+ * relay statistics. A factory reset button is also included for restoring default settings.
+ * A back button allows the user to return to the previous menu.
+ */
 void DrawDeveloperMenu() {
   tft.fillScreen(BLACK);
   // == Home Icon ==

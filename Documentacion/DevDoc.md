@@ -1,13 +1,12 @@
-# Locsolórendszer - MinimalistGUI_v2024
+# Fejlesztői dokumentáció - MinimalistSprinklerGUI v2024
 
-> Írta: Szenes Márton
-> 2024.08.04.
+> Írta: Szenes Márton - 2024.08.21.
 
 ---
 
 # Tartalom
 
-- [Locsolórendszer - MinimalistGUI\_v2024](#locsolórendszer---minimalistgui_v2024)
+- [Fejlesztői dokumentáció - MinimalistSprinklerGUI v2024](#fejlesztői-dokumentáció---minimalistsprinklergui-v2024)
 - [Tartalom](#tartalom)
 - [Rendszer struktúrális felépítése](#rendszer-struktúrális-felépítése)
   - [Állapotok - `menuStates`](#állapotok---menustates)
@@ -56,12 +55,18 @@
     - [Páratartalom érzékenység mentése és betöltése](#páratartalom-érzékenység-mentése-és-betöltése)
     - [Profil adatok mentése és betöltése](#profil-adatok-mentése-és-betöltése)
     - [Relé adatok mentése és betöltése](#relé-adatok-mentése-és-betöltése)
-- [Osztálydiagramm](#osztálydiagramm)
+- [Kijelző](#kijelző)
+  - [Metódusok](#metódusok-5)
+- [Diagrammok](#diagrammok)
+  - [Osztálydiagramm](#osztálydiagramm)
+  - [Touch event](#touch-event)
 
 
 # Rendszer struktúrális felépítése
 
 ## Állapotok - `menuStates`
+
+> [a_enums.ino](../MinimalistSprinklerGUI/a_enums.ino)
 
 A menü állapotait kódoló enumerátor:
 * **mainMenu** → _Főképernyő_:  A 5 fő almenü választó gomb található itt, illetve a mentés gomb.
@@ -77,10 +82,12 @@ A menü állapotait kódoló enumerátor:
     
 ## Koordináta struktúra - `Point`
 
+> [a_point.ino](../MinimalistSprinklerGUI/a_point.ino)
+
 Ez az osztály egy pontot reprezentál a kétdimenziós térben.
 
 ### Attribútumok
-`int x` - A pont x koordinátája.
+`int x` - A pont x koordinátája.  
 `int y` - A pont y koordinátája.
 
 ### Konstruktorok
@@ -94,18 +101,20 @@ Alapértelmezett konstruktor: Inicializálja a pontot a megadott koordinátákra
 
 ## Intervallum osztály - `RangeInt`
 
+> [a_range.ino](../MinimalistSprinklerGUI/a_range.ino)
+
 A `RangeInt` sablon osztály lehetővé teszi olyan egész számok létrehozását, amelyek egy megadott tartományon belül vannak korlátozva. Az értékek beállításakor vagy módosításakor automatikusan a tartomány határain belül maradnak.
 
 ### Template paraméterek
-`lowerLimit` - A tartomány alsó határa.
+`lowerLimit` - A tartomány alsó határa.  
 `upperLimit` - A tartomány felső határa.  
 
 ### Attribútumok
 `int value` - Az aktuális érték a megadott tartományon belül.  
 
 ### Statikus konstansok
-`static const int minLimit` - A tartomány minimum határa.
-`static const int maxLimit` - A tartomány maximum határa.
+`static const int minLimit` - A tartomány minimum határa.  
+`static const int maxLimit` - A tartomány maximum határa.  
 `static const int range` - A tartomány mérete.  
 
 ### Konstruktorok
@@ -136,6 +145,8 @@ A `RangeInt` egy specializációja, amely értékeket tartalmaz a **0** és **23
 `Range24(int value = 0)`: Inicializálja a tartományt egy opcionális kezdőértékkel. Az alapértelmezett érték 0.
 
 ## Idő osztály - `Time`
+> [a_time.ino](../MinimalistSprinklerGUI/a_time.ino)
+
 A `Time` struktúra egy időt reprezentál, amely órákból és percekből áll.
 
 ### Attribútumok
@@ -156,6 +167,8 @@ A `Time` struktúra egy időt reprezentál, amely órákból és percekből áll
 `Time operator-(int subMin)`: Kivon egy adott számú percet az aktuális időből, szükség esetén módosítva az órát is, és visszaad egy új Time objektumot a frissített idővel.  
 
 ## Nyomógomb osztály- `TouchButton`
+> [b_button.ino](../MinimalistSprinklerGUI/b_button.ino)
+
 A TouchButton struktúra egy érintőképernyős gombot reprezentál a felhasználói felületen. Tartalmazza a gomb pozícióját és méretét, valamint biztosít metódusokat annak megállapítására, hogy a gomb meg van-e nyomva.
 
 ### Attribútumok
@@ -171,6 +184,8 @@ A TouchButton struktúra egy érintőképernyős gombot reprezentál a felhaszn�
 `bool isPressed(const Point& p) const`: Ellenőrzi, hogy a megadott pont a gombon belül van-e. Visszatérési érték: true, ha a pont a gombon belül van, egyébként false.
 
 ## Szektor kapcsoló struktúra - `Relay`
+> [b_relay_profile.ino](../MinimalistSprinklerGUI/b_relay_profile.ino)
+
 A `Relay` struktúra egy relét reprezentál, amely locsolórendszer egy szektorának vezérlésére szolgál.
 
 ### Attribútumok
@@ -190,6 +205,8 @@ A `Relay` struktúra egy relét reprezentál, amely locsolórendszer egy szektor
 `void reset()`: Visszaállítja a relé kezdési idejét és időtartamát 0-ra.
 
 ## Profil struktúra - `Profile`
+> [b_relay_profile.ino](../MinimalistSprinklerGUI/b_relay_profile.ino)
+
 A `Profile` struktúra egy profilt reprezentál, amely több relét tartalmaz. Tartalmazza a profil aktív állapotát és a relék tömbjét.
 
 ### Attribútumok
@@ -200,6 +217,8 @@ A `Profile` struktúra egy profilt reprezentál, amely több relét tartalmaz. T
 `Profile()`: Inicializál egy Profile példányt. A konstruktor beállítja a relék pin-számát és alapértelmezett állapotát. Az összes relé pin-számát beállítja a `RELAY_PINS` tömb értékeivel. Az összes relé alapértelmezett állapotát kikapcsolt állapotra (`false`) állítja.
 
 ## Vezérlő struktúra - `SystemController`
+> [c_systemcontroller.ino](../MinimalistSprinklerGUI/c_systemcontroller.ino)
+
 A `SystemController` struktúra a locsolórendszer fő vezérlőjét képviseli. Kezeli a futó- és elmentett konfigurációt, profilokat és a rendszer aktuális állapotát, beleértve a menü interakciók kezelésére és a relé állapotok frissítésére szolgáló metódusokat is.
 
 ### Attribútumok
@@ -241,21 +260,21 @@ Az elmentett konfigurációs tulajdonságokat az arduino az EEPROM-jában tárol
 
 ## EEPROM elosztása
 
-| Index |             Tartalom             |
-|:-----:|:--------------------------------:|
-|   0   |                -                 |
-|   1   |        mainSwitchAddress         |
-|   2   |         humidityAddress          |
-|   3   | profileStartAddress: P1/isActive |
-|   ⋮   |            P1/R1/hour            |
-|   ⋮   |           P1/R1/minute           |
-|   ⋮   |          P1/R1/duration          |
-|   ⋮   |            P1/R2/hour            |
-|   ⋮   |                ⋮                 |
-|  52   |           P2/isActive            |
-|   ⋮   |                ⋮                 |
-|  101  |           P3/isActive            |
-|   ⋮   |                ⋮                 |
+| Index  |             Tartalom             |
+|:------:|:--------------------------------:|
+|   0    |                -                 |
+|   1    |        mainSwitchAddress         |
+|   2    |         humidityAddress          |
+|   3    | profileStartAddress: P1/isActive |
+|   ⋮    |            P1/R1/hour            |
+|   ⋮    |           P1/R1/minute           |
+|   ⋮    |          P1/R1/duration          |
+|   ⋮    |            P1/R2/hour            |
+|   ⋮    |                ⋮                 |
+|   52   |           P2/isActive            |
+|   ⋮    |                ⋮                 |
+|  101   |           P3/isActive            |
+|   ⋮    |                ⋮                 |
 
 
 ## Függvények
@@ -291,18 +310,26 @@ Minden menü állapotnak van egy `Draw...` és egy `Update...` függvénye. Ezek
 
 ## Metódusok
 
-`DrawMainMenu()`: Megrajzolja a főmenüt a képernyőre: "Öntözési időzítés", "Lánc locsolás", "Teszt", "Beállítások" és "Óra beállítások". Végül frissíti az aktuális időt és a mentés gomb állapotát.  
-`DrawSprinkleProfilesMenu()`: Megrajzolja az öntözési profilok menüjét a képernyőre: Három különböző profilhoz tartozó gombokat jelenít meg, amelyek között van egy nagyobb gomb a profil kiválasztásához, és két kisebb gomb az automatikus beállításokhoz, illetve a profil ki/be állapotának jelzésére.  
-`DrawSprinkleRelayChooser()`: Megrajzolja az öntöző relék kiválasztó menüjét a képernyőre: Két nyílgombot (< és >) rajzol, amelyekkel a relék között lehet navigálni és egy "Vissza" gombot, amely visszavisz az előző menübe. Ezután frissíti a relé gombokat és a hozzájuk tartozó számokat.
-`DrawSprinkleSetter()`: Megrajzolja az öntöző relé beállító felületét a képernyőre: A felület tartalmaz gombokat az óra, a perc és az időtartam növelésére vagy csökkentésére a kiválasztott öntöző profilban lévő relé számára. Illetve található még egy "Mentés" gomb és egy "Vissza" gomb, ami visszavisz az előző képernyőre.
-`DrawSprinkleAutomatic()`:  
-`DrawChainSprinkleMenu()`:  
-`DrawTestMenu()`:  
-`DrawSettingsMenu()`:  
-`DrawClockMenu()`:   
-`DrawDeveloperMenu()`:   
+### Rajzoló eljárások
 
-# Osztálydiagramm
+`DrawMainMenu()`: Megrajzolja a főmenüt a képernyőre: "Öntözési időzítés", "Lánc locsolás", "Teszt", "Beállítások" és "Óra beállítások". Végül frissíti az aktuális időt és a mentés gomb állapotát.  
+`DrawSprinkleProfilesMenu()`: Megrajzolja az öntözési profilok menüjét a képernyőre: Három különböző profilhoz tartozó gombokat jelenít meg, amelyek között van egy nagyobb gomb a profil kiválasztásához, és két kisebb gomb az automatikus beállításokhoz, illetve a profil ki/be állapotának jelzésére.    
+`DrawSprinkleRelayChooser()`: Megrajzolja az öntöző relék kiválasztó menüjét a képernyőre: Két nyílgombot (< és >) rajzol, amelyekkel a relék között lehet navigálni és egy "Vissza" gombot, amely visszavisz az előző menübe. Ezután frissíti a relé gombokat és a hozzájuk tartozó számokat.  
+`DrawSprinkleSetter()`: Megrajzolja az öntöző relé beállító felületét a képernyőre: A felület tartalmaz gombokat az óra, a perc és az időtartam növelésére vagy csökkentésére a kiválasztott öntöző profilban lévő relé számára. Illetve található még egy "Mentés" gomb és egy "Vissza" gomb, ami visszavisz az előző képernyőre.    
+`DrawSprinkleAutomatic()`: Megrajzolja az öntözőrendszer automatikus beállítási felületét: A felületen be lehet állítani a választott profil automatikus időzítő kezdési időpontját (óra és perc) és az időtartamát, ami minden relére vonatkozni fog.  
+`DrawChainSprinkleMenu()`: Megrajzolja a lánclocsolás beállítási felületét: A felhasználó megadhatja, hogy melyik relétől melyik reléig történjen az öntözés, valamint beállíthatja az egyes relék működési időtartamát.  
+`DrawTestMenu()`: Megrajzolja a tesztmenü felületét: Lehetővé teszi a felhasználó számára, hogy manuálisan vezérelje és tesztelje a relék állapotait. A felületen találhatók nyilak az oldalak közötti váltáshoz, relék kapcsolói, valamint egy visszaállítási gomb az összes aktív relé leállításához.  
+`DrawSettingsMenu()`: Megrajzolja a beállítások menü felületét, amely lehetővé teszi a felhasználó számára különféle rendszerbeállítások módosítását. A menü tartalmazza a relé számának beállítását, a páratartalom érzékenységét, valamint hozzáférést a fejlesztői beállításokhoz. A felületen egy főkapcsoló és egy visszaállítási gomb is található, amely a beállítások alaphelyzetbe állítására szolgál.  
+`DrawClockMenu()`: Megrajzolja az óra beállításainak felületét, amely lehetővé teszi a felhasználó számára a valós idejű óra beállításainak módosítását. A menüben lehetőség van az órák és percek növelésére vagy csökkentésére, valamint egy mentés gomb biztosítja a változtatások megerősítését.      
+`DrawDeveloperMenu()`: Megrajzolja  a Fejlesztői menü felületét, amely különféle opciókat biztosít a haladó beállításokhoz és diagnosztikához.   
+
+### Képernyő frissítő eljárások
+
+_Írás altt_
+
+# Diagrammok
+
+## Osztálydiagramm
 
 ```mermaid
 classDiagram
@@ -483,52 +510,7 @@ classDiagram
 ```
 
 
-```mermaid
-stateDiagram
-%%    direction LR
-    state mainMenu{
-        sprinkle
-        chain
-        test
-        humidity
-        settings
-        mainSwitch
-        clock
-    }
-    sprinkle --> sprinkleProfiles
-    state sprinkleProfiles{
-        automatic_1_3
-        profile_1_3
-        profileSwitch_1_3
-    }
-    automatic_1_3 --> sprinkleAuto
-    state sprinkleAuto{
-        setHourAuto
-        setMinuteAuto
-        setDurationAuto
-        saveAutomatic
-    }
-    profile_1_3 --> sprinkleRelays
-    state sprinkleRelays{
-        relays_1_8
-        left
-        right
-    }
-    relays_1_8 --> sprinkleSetter
-    state sprinkleSetter{
-        setHour
-        setMinute
-        setDuration
-    }
-    chain --> chainSprinkle
-    state chainSprinkle{
-        setStartChain
-        setEndChain
-        setChainDuration
-    }
-    
-```
-### Touch event
+## Touch event
 ```mermaid
 sequenceDiagram
     actor User
