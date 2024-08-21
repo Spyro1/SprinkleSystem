@@ -10,7 +10,7 @@ _Main screen_
 
 ## For users
 
-If the electronic system has been installed, you can check out the [User Manual](Documentacion/UserDoc.md) on how to use the system.
+If the electronic system has been installed, you can check out the [User Manual](Documentacion/UserManual.md) on how to use the system.
 Hope it helps. For any questions make an issue.
 
 ## For developer
@@ -28,7 +28,7 @@ After the electronics has been installed correctly, follow the next steps for up
 4. Select the connected serial port and Arduino model in the dropdown menu at the top of the screen.
 5. Upload the project to the board. If everything is working properly, you should see the screen flash a few times, than make a black screen clear and the show the main screen shown above.
 
-For deaper understaning of the project you can check out the [Developer Documentation](Documentacion/DEVDOC.md).
+For deaper understaning of the project you can check out the [Developer Documentation](Documentacion/DevDoc.md).
 
 ## For electricians
 

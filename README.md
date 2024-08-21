@@ -10,7 +10,7 @@ _Főképernyő_
 
 ## Felhasználóknak
 
-Ha az elektronikai rendszer telepítve van, akkor a [User Manual](Documentacion/UserDoc.md)-ban tekintheti meg a locsolórendszer használatát.
+Ha az elektronikai rendszer telepítve van, akkor a [Felhasználói kézikönyvben](Documentacion/UserManual.md) tekintheti meg a locsolórendszer használatát.
 Bármilyen kérdés esetén írjon issue-t.
 
 ## Fejlesztőknek
@@ -28,9 +28,9 @@ Az elektronikai rendszer megfelelő telepítése után kövesse a következő l�
 4. Válassza ki a csatlakoztatott soros portot és az Arduino modellt a képernyő tetején található legördülő menüből.
 5. Töltse fel a projektet az Arduinora. Ha minden megfelelően működik, látnia kell, hogy a képernyő néhányszor felvillan, majd egy fekete képernyőt, ezután pedig a fent látható főképernyő jelenik meg.
 
-A projekt alaposabb megértéséhez tekintse meg a [Fejlesztői dokumentációt](Documentacion/DEVDOC.md).
+A projekt alaposabb megértéséhez tekintse meg a [Fejlesztői dokumentációt](Documentacion/DevDoc.md).
 
-## Elektroműszerészeknek
+## Villanyszerelőkenk
 
 Ez a projekt jelenleg legfeljebb 16 kapcsolórelét tud támogatni. Ehhez a projekthez a következő összetevőkre lesz szüksége:
 
