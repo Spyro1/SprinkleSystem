@@ -91,12 +91,13 @@ Ez az osztály egy pontot reprezentál a kétdimenziós térben.
 `int y` - A pont y koordinátája.
 
 ### Konstruktorok
-Alapértelmezett konstruktor: Inicializálja a pontot a megadott koordinátákra. Ha nem adunk meg koordinátákat, akkor a pontot (0, 0) koordinátára állítja.
+
+`Point(int x_ = 0, int y_ = 0):` Alapértelmezett konstruktor: Inicializálja a pontot a megadott koordinátákra. Ha nem adunk meg koordinátákat, akkor a pontot (0, 0) koordinátára állítja.
 
 ### Operátorok
-- Egyenlőség operátor: Összehasonlít két pontot egyenlőség szempontjából. (Az == operátor akkor ad vissza true értéket, ha a két pont koordinátái megegyeznek.)
-- Egyenlőtlenség operátor: Összehasonlít két pontot egyenlőtlenség szempontjából. (A != operátor akkor ad vissza true értéket, ha a két pont koordinátái eltérnek.)
-- Értékadás operátor: Hozzárendeli egy pont koordinátáit egy másik ponthoz. (Az értékadás operátor (==) az ön-hozzárendelés ellenőrzését is végrehajtja, hogy elkerülje az önhozzárendelést. Ha a pont önmagához van rendelve, akkor nem történik változás.)
+- `bool operator==(const Point &p)`: Összehasonlít két pontot egyenlőség szempontjából. (Az == operátor akkor ad vissza true értéket, ha a két pont koordinátái megegyeznek.)
+- `bool operator!=(const Point &p)`: Összehasonlít két pontot egyenlőtlenség szempontjából. (A != operátor akkor ad vissza true értéket, ha a két pont koordinátái eltérnek.)
+- `Point& operator=(const Point &p)`: Hozzárendeli egy pont koordinátáit egy másik ponthoz. (Az értékadás operátor (==) az ön-hozzárendelés ellenőrzését is végrehajtja, hogy elkerülje az önhozzárendelést. Ha a pont önmagához van rendelve, akkor nem történik változás.)
 
 
 ## Intervallum osztály - `RangeInt`
