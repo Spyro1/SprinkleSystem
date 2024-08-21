@@ -1,46 +1,46 @@
-# SprinkleSystem v2024
+# Locsolórendszer v2024
 
-> Made by: Marton Szenes
+> Készítette: Szenes Marton
 
-This project was made to make sprinkling possible in the garden automatically.
-It features many modes, like separate relay timing setting, automatic setting, multiple profiles, test mode, chain sprinkling, and more.
+Ez a projekt azért készült el, hogy lehetővé tegye automatikusan, az időzített permetezést (locsolást) telepített locsolófejekkel a kertben.
+Számos üzemmóddal rendelkezik, mint például külön relé időzítés, automatikus időzítés, több profil, teszt üzemmód, sorban locsolás és még sok más.
 
 ![SprinkleSystemMainScreen](Documentacion/screenshots/mainMenuScreen.png)
+_Főképernyő_
 
+## Felhasználóknak
 
-## For users
+Ha az elektronikai rendszer telepítve van, akkor a [User Manual](Documentacion/UserDoc.md)-ban tekintheti meg a locsolórendszer használatát.
+Bármilyen kérdés esetén írjon issue-t.
 
-If the electronic system has been installed, you can check out the [User Manual](Documentacion/UserDoc.md) on how to use the system.
-Hope it helps. For any questions make an issue.
+## Fejlesztőknek
 
-## For developer
+Az elektronikai rendszer megfelelő telepítése után kövesse a következő lépéseket a projekt **Arduino Mega 2560**-ra való feltöltéséhez:
+1. Nyissa meg a [MinimalistSprinklerGUI.ino](MinimalistSprinklerGUI/MinimalistSprinklerGUI.ino) fájlt az **Arduino IDE**-ban, és várja meg, amíg az egész projekt betöltődik.
+2. Győződjön meg arról, hogy minden szükséges könyvtár telepítve van az eszközén:
+   - `Adafruit_GFX.h` - Alap grafikus könyvtár alakzatok megjelenítéséhez
+   - `MCUFRIEND_kbv.h` - 2,8"-os TFT-kijelző könyvtára a képernyőn való megjelenítéshez
+   - `TouchScreen.h` - 2,8" érintőképernyő könyvtár a felhasználói bevitelhez
+   - `SPI.h` - egy buszkönyvtár az óramodullal való kommunikációhoz
+   - `SdFat.h` - könyvtár a kijelzőpanelen lévő SD-kártyanyílással való kommunikációhoz
+   - `RTClib.h` - valós idejű óra modul könyvtára az SCL-SDA kommunikációhoz
+3. Fordítsa le a projektet. Ha bármilyen hibát ír ki a könyvtárakkal kapcsolatban, próbálja meg telepíteni a fennmaradó könyvtárakat, vagy forduljon hozzám további utasításokért.
+4. Válassza ki a csatlakoztatott soros portot és az Arduino modellt a képernyő tetején található legördülő menüből.
+5. Töltse fel a projektet az Arduinora. Ha minden megfelelően működik, látnia kell, hogy a képernyő néhányszor felvillan, majd egy fekete képernyőt, ezután pedig a fent látható főképernyő jelenik meg.
 
-After the electronics has been installed correctly, follow the next steps for uploading the project to the **Arduino Mega 2560**:
-1. Open the [MinimalistSprinklerGUI.ino](MinimalistSprinklerGUI/MinimalistSprinklerGUI.ino) file in the **Arduino IDE**, and wait for the whole project to load.
-2. Make sure every necessary library is installed to your device:
-   - `Adafruit_GFX.h` - Core graphics library for displaying shapes
-   - `MCUFRIEND_kbv.h` - 2,8" TFT display's library to display to the screen
-   - `TouchScreen.h` - 2,8" touch screen library for user input
-   - `SPI.h ` - a bus library for communication to clock module
-   - `SdFat.h` - library for communication to the SD card slot on the display shield
-   - `RTClib.h` - real time clock module's library for SCL-SDA communication
-3. Compile the project and expect no errors. If any error occur, try to install the remaining libraries or contact me for further instructions.
-4. Select the connected serial port and Arduino model in the dropdown menu at the top of the screen.
-5. Upload the project to the board. If everything is working properly, you should see the screen flash a few times, than make a black screen clear and the show the main screen shown above.
+A projekt alaposabb megértéséhez tekintse meg a [Fejlesztői dokumentációt](Documentacion/DEVDOC.md).
 
-For deaper understaning of the project you can check out the [Developer Documentation](Documentacion/DEVDOC.md).
+## Elektroműszerészeknek
 
-## For electricians
+Ez a projekt jelenleg legfeljebb 16 kapcsolórelét tud támogatni. Ehhez a projekthez a következő összetevőkre lesz szüksége:
 
-This project can support up to 16 switch relays at this point. For this project, you'll need the folowing components:
+- 2,8"-os TFT-kijelző shield (ILI9341 LDC meghajtóval)
+- RTC modul (DS3231)
+- max 16 relé kapcsoló (lehet kevesebb is)
+- Jumper kábelek
+- 5-7V tápegység Arduinohoz
+- 7-12V-os tápellátás a relékhez
 
-- 2,8" TFT display shield (with ILI9341 LDC driver)
-- RTC Module (DS3231)
-- max 16 Relay switches (can be less)
-- Jumper cables
-- 5-7V power supply for Arduino
-- 7-12V power supply for relays
+### Kapcsolási rajz
 
-### Schematic
-
-![](assets/Schematics/Locsolorendszer-mega-kapcsolas.png)
+![Schematic](assets/Schematics/Locsolorendszer-mega-kapcsolas.png)
