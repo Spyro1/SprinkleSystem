@@ -254,7 +254,7 @@ void ExecuteSubMenuClickEvents(const struct Point &clickPos) {
         for(int r = 0; r < Controller.relayCount; r++){
           Controller.temporalProfile.relays[r].SetRelayState(false); // Switch all other relays to off state
         }
-        Controller.temporalProfile.relays[Controller.currentRelay].state = nextState; // Set changes relay state
+        Controller.temporalProfile.relays[Controller.currentRelay].SetRelayState(nextState); // Set changes relay state
         UpdateTestMenu(); // Updates the on/off state of a switch
       }
     }
